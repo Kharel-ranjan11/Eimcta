@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import getUserPages from '../utilities/FBAPI'; // Make sure this is the default export
+import getUserPages from '../fb/FBAPI'; // Make sure this is the default export
 
 const Page = () => {
     const [pages, setPages] = useState([]);
