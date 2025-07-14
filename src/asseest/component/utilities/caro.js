@@ -137,11 +137,11 @@ const ImageCarousel = ({ scrollTargetRef }) => {
             className="text-2xl md:text-4xl font-extrabold tracking-wide"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
+            transition={{ delay: 0.2 }}
           >
             I am a{" "}
-            <span className="text-transparent  bg-clip-text stroke-text ">
-              {text}
+            <span className="text-[#FFBF00] font-mono  bg-clip-text  ">
+              {text}{"|"}
             </span>
           </motion.div>
         </div>

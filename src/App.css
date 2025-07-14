@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+html, body, #root {
+
+  /* Apply the dark navy background directly to html/body */
+  background-color: #ffffff;
+}
+
+.will-change-transform {
+  will-change: transform;
+}

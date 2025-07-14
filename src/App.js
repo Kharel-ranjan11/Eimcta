@@ -1,44 +1,34 @@
 import './App.css';
 import './index.css';
-import Navbar from './asseest/component/sections/navbar';
-import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from './asseest/component/pages/home';
-import Overview from './asseest/component/pages/overview';
-import Stats from './asseest/component/pages/strats';
-import Services from './asseest/component/pages/service';
-import Consulting from './asseest/component/pages/consulting';
-import Strategy from './asseest/component/pages/strategy';
 import Footer from './asseest/component/sections/footer';
-import { AnimatePresence } from 'framer-motion';
-
+import Navbar from './asseest/component/sections/navbar';
 import PageTransitionWrapper from './asseest/component/utilities/transition_framer';
 import ScrollToTopButton from './asseest/component/utilities/ScrolllTop';
+import TopHeader from './asseest/component/utilities/topheader';
+import TopContactBar from './asseest/component/utilities/TopContactBar';
+import NotFound from './asseest/component/pages/pagenofound';
+import Blog from './asseest/component/pages/blog';
+
 function App() {
   // const location=useLocation()
   return (
     <div>
-      <AnimatePresence mode='wait'>
-
-      
-<Router>
-      <Navbar />
+      <Router>
+        <TopHeader />
+        <TopContactBar />
+        <Navbar />
         <Routes>
-          <Route path="/home" element={
-           <PageTransitionWrapper > <Home />
-           </PageTransitionWrapper>} />
-          <Route path="/home/overview" element={<Overview />} />
-          <Route path="/home/overview/stats" element={<Stats />} />
-          <Route path="/services" element={  <PageTransitionWrapper >
- <Services />
-          </PageTransitionWrapper>
-            } />
-          <Route path="/services/consulting" element={<Consulting />} />
-          <Route path="/services/consulting/strategy" element={<Strategy />} />
+          <Route path="/" element={
+            <PageTransitionWrapper> <Home /></PageTransitionWrapper>} />
+          <Route path="/Blog-Offers/FB-Titktok-Linkedin-youtube" element={
+            <PageTransitionWrapper>  <Blog /></PageTransitionWrapper>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
-        <ScrollToTopButton/>
-    </Router>
-    </AnimatePresence>
-<Footer/>
+      </Router>
+      <ScrollToTopButton />
+      <Footer />
     </div>
 
   )

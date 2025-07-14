@@ -85,8 +85,8 @@ const Footer = () => {
     path: svgPaths[index % svgPaths.length],
     size: 20 + Math.random() * 30,
     color: colors[index % colors.length],
-    floatX: 3 + Math.random() * 8,
-    floatY: 3 + Math.random() * 8,
+    floatX: 3 + Math.random() * 44,
+    floatY: 3 + Math.random() * 44,
   });
 
   const svgIconProps = Array.from({ length: 50 }).map((_, i) =>
@@ -94,20 +94,20 @@ const Footer = () => {
   );
 
   return (
-    <footer className="relative text-gray-200 py-12 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-br from-[#0f172a] via-[#1e3a8a] to-[#0f172a]">
+    <footer className="relative text-gray-200 py-12 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-br from-[#0f172a] via-[#0f172a] to-[#0f172a]">
       <style>{`
         @keyframes float-glow {
           0% {
             transform: translate(0, 0) rotate(0deg);
-            opacity: 0.3;
+            opacity: 0.2;
           }
           50% {
             transform: translate(var(--float-x), var(--float-y)) rotate(180deg);
-            opacity: 0.5;
+            opacity: 0.3;
           }
           100% {
             transform: translate(0, 0) rotate(360deg);
-            opacity: 0.3;
+            opacity: 0.2;
           }
         }
       `}</style>
@@ -123,7 +123,7 @@ const Footer = () => {
             width: `${props.size}px`,
             height: `${props.size}px`,
             fill: props.color,
-            filter: `drop-shadow(0 0 6px ${props.color})`,
+            filter: `drop-shadow(0 0 2px ${props.color})`,
             animation: `float-glow ${props.animationDuration} ease-in-out ${props.animationDelay} infinite`,
             pointerEvents: "none",
             userSelect: "none",
