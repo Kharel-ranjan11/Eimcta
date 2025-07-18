@@ -10,3 +10,6 @@ html, body, #root {
 .will-change-transform {
   will-change: transform;
 }
+.scroll-smooth {
+  scroll-behavior: smooth;
+}

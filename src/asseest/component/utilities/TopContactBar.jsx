@@ -26,7 +26,7 @@ const TopContactBar = () => {
 
         {/* Get in Touch → internal page */}
         <Link
-          to="/contact-form"
+          to="/form"
           className="group relative flex flex-col items-center cursor-pointer"
         >
           <div className="bg-blue-100 p-3 rounded-full hover:bg-blue-200 transition-all duration-300">

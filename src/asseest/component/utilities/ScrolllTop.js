@@ -12,9 +12,8 @@ const ScrollToTopButton = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-window.addEventListener("scroll",()=>{
-  console.log(window.scrollY > 200,window.scrollY)
-})
+  window.addEventListener("scroll", () => {
+  })
   const scrollToTop = () => {
     setLaunch(true);
     setTimeout(() => {
@@ -40,10 +39,9 @@ window.addEventListener("scroll",()=>{
           bg-gradient-to-br from-blue-800 via-indigo-900 to-blue-950
           hover:scale-110 hover:shadow-2xl focus:outline-none
           ring-1 ring-blue-500 shadow-blue-500/30
-          ${
-            visible
-              ? "opacity-100 pointer-events-auto"
-              : "opacity-0 pointer-events-none"
+          ${visible
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
           }
           ${launch ? "animate-rocket-launch" : ""}
         `}
