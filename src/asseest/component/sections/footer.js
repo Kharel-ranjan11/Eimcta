@@ -1,160 +1,195 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {
-  Mail,
   Phone,
-  MapPin,
+  Mail,
   Facebook,
   Twitter,
   Instagram,
   Linkedin,
-  Github,
+  Send,
+  ChevronRight,
+  HelpCircle,
+  Link as LinkIcon,
+  FileText,
+  MessageSquare,
 } from "lucide-react";
 
 const Footer = () => {
-  const companyInfo = {
-    name: "Innovate Solutions Inc.",
-    description:
-      "Your partner in digital transformation. We build cutting-edge solutions that empower businesses to thrive in the modern era.",
-    details: [
-      "123 Tech Avenue, Silicon Valley, CA 90001",
-      "info@innovatesolutions.com",
-      "+1 (555) 123-4567",
-    ],
-  };
-
-  const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Services", path: "/services" },
-    { name: "About Us", path: "/about" },
-    { name: "Portfolio", path: "/portfolio" },
-    { name: "Blog", path: "/blog" },
-    { name: "Privacy Policy", path: "/privacy-policy" },
-  ];
-
-  const socialLinks = [
-    { name: "Facebook", icon: Facebook, path: "/facebook", color: "hover:text-blue-600" },
-    { name: "Twitter", icon: Twitter, path: "/twitter", color: "hover:text-sky-400" },
-    { name: "Instagram", icon: Instagram, path: "/instagram", color: "hover:text-pink-500" },
-    { name: "LinkedIn", icon: Linkedin, path: "/linkedin", color: "hover:text-blue-700" },
-    { name: "GitHub", icon: Github, path: "/github", color: "hover:text-gray-400" },
-  ];
-
-  const svgPaths = [
-    "M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z",
-    "M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Z",
-    "M2 2H22V22H2V2Z",
-    "M12 2L2 22H22L12 2Z",
-    "M12 2L2 12L12 22L22 12L12 2Z",
-  ];
-
-  const colors = [
-    "#38bdf8", "#7dd3fc", "#bae6fd", "#0ea5e9", "#0284c7",
-    "#f0abfc", "#c084fc", "#a78bfa", "#818cf8", "#60a5fa",
-  ];
-
-  const getRandomSvgProps = (index) => ({
-    top: `${Math.random() * 90}%`,
-    left: `${Math.random() * 90}%`,
-    animationDuration: `${10 + Math.random() * 10}s`,
-    animationDelay: `${Math.random() * 2}s`,
-    path: svgPaths[index % svgPaths.length],
-    size: 16 + Math.random() * 40,
-    color: colors[index % colors.length],
-    floatX: 3 + Math.random() * 40,
-    floatY: 3 + Math.random() * 40,
-  });
-
-  const svgIconProps = Array.from({ length: 40 }).map((_, i) => getRandomSvgProps(i));
-
   return (
-    <footer className="relative text-gray-200 py-14 px-6 overflow-hidden bg-[#0f172a]">
-      <style>{`
-        @keyframes float-glow {
-          0% { transform: translate(0, 0) rotate(0deg); opacity: 0.2; }
-          50% { transform: translate(var(--float-x), var(--float-y)) rotate(180deg); opacity: 0.4; }
-          100% { transform: translate(0, 0) rotate(360deg); opacity: 0.2; }
-        }
-      `}</style>
+    <footer className="relative text-gray-200 overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800">
+      {/* Background elements */}
+      <div className="absolute inset-0 overflow-hidden opacity-20">
+        <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-30"></div>
+        <div className="absolute -top-1/2 -left-1/4 w-[150%] h-[150%] bg-radial-gradient from-blue-500/10 via-transparent to-transparent"></div>
+        <div className="absolute -bottom-1/2 -right-1/4 w-[150%] h-[150%] bg-radial-gradient from-purple-500/10 via-transparent to-transparent"></div>
+      </div>
 
-      {/* Floating SVG Icons */}
-      {svgIconProps.map((props, index) => (
-        <svg
-          key={index}
-          className="absolute"
-          style={{
-            top: props.top,
-            left: props.left,
-            width: `${props.size}px`,
-            height: `${props.size}px`,
-            fill: props.color,
-            filter: `drop-shadow(0 0 2px ${props.color})`,
-            animation: `float-glow ${props.animationDuration} ease-in-out ${props.animationDelay} infinite`,
-            pointerEvents: "none",
-            transformOrigin: "center",
-            "--float-x": `${props.floatX}px`,
-            "--float-y": `${props.floatY}px`,
-          }}
-          viewBox="0 0 24 24"
-        >
-          <path d={props.path} />
-        </svg>
-      ))}
+      {/* Main content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-12 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center md:text-left">
+          {/* Company Logo/Name */}
+          <div className="space-y-6">
+            <div className="flex flex-col items-center md:items-start">
+              <div className="text-3xl font-bold mb-2">
+                <span className="text-blue-400">E</span>
+                <span className="text-green-400">I</span>
+                <span className="text-yellow-400">M</span>
+                <span className="text-red-400">C</span>
+                <span className="text-purple-400">T</span>
+                <span className="text-cyan-400">A</span>
+              </div>
+              <p className="text-gray-400 text-sm max-w-xs">
+                Everest International Management Consultancy & Training Agency Pvt. Ltd.
+              </p>
+            </div>
 
-      {/* Footer Content */}
-      <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
-        {/* Company Info */}
-        <div>
-          <h2 className="text-3xl font-bold mb-4 text-white">{companyInfo.name}</h2>
-          <p className="text-gray-400 mb-4">{companyInfo.description}</p>
-          <div className="text-sm text-gray-300 space-y-2">
-            <div className="flex items-center"><MapPin size={16} className="mr-2 text-blue-400" /> {companyInfo.details[0]}</div>
-            <div className="flex items-center"><Mail size={16} className="mr-2 text-blue-400" /> {companyInfo.details[1]}</div>
-            <div className="flex items-center"><Phone size={16} className="mr-2 text-blue-400" /> {companyInfo.details[2]}</div>
+            {/* Contact Info */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-center md:justify-start">
+                <Phone className="text-blue-400 mr-3" size={18} />
+                <div>
+                  <p className="text-gray-400 text-sm">Call us</p>
+                  <a href="tel:+97715903211" className="text-gray-300 hover:text-blue-400 transition-colors">
+                    +977 1 5903211
+                  </a>
+                </div>
+              </div>
+              <div className="flex items-center justify-center md:justify-start">
+                <Mail className="text-blue-400 mr-3" size={18} />
+                <div>
+                  <p className="text-gray-400 text-sm">Email Us</p>
+                  <a href="mailto:info@everestconsultrain.com" className="text-gray-300 hover:text-blue-400 transition-colors">
+                    info@everestconsultrain.com
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* FAQ Section */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-center md:justify-start">
+              <HelpCircle className="text-blue-400 mr-2" size={20} />
+              <h3 className="text-lg font-semibold text-white">FAQ's</h3>
+            </div>
+            <p className="text-gray-400 font-medium mb-3">Frequently Asked Questions</p>
+            <ul className="space-y-2">
+              {[
+                "Which ISO Standard is suitable for our business?",
+                "Why should we go for an ISO Certification?",
+                "What are the benefits of going for ISO Certification to my business?"
+              ].map((question, idx) => (
+                <li key={idx} className="group">
+                  <div className="flex items-center justify-center md:justify-start">
+                    <ChevronRight className="text-blue-400 mr-2 group-hover:translate-x-1 transition-transform" size={16} />
+                    <span className="text-gray-300 hover:text-blue-400 transition-colors">{question}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Links Section */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-center md:justify-start">
+              <LinkIcon className="text-blue-400 mr-2" size={20} />
+              <h3 className="text-lg font-semibold text-white">Links</h3>
+            </div>
+            <ul className="space-y-2">
+              {[
+                "ISO Related Links",
+                "Occupational Health & Safety : Links",
+                "Environmental Links",
+                "OHS Injury cost calculator",
+                "CO2 Emission Calculator",
+                "Labour Law Nepal"
+              ].map((link, idx) => (
+                <li key={idx} className="group">
+                  <div className="flex items-center justify-center md:justify-start">
+                    <ChevronRight className="text-blue-400 mr-2 group-hover:translate-x-1 transition-transform" size={16} />
+                    <span className="text-gray-300 hover:text-blue-400 transition-colors">{link}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Resources & Suggestions */}
+          <div className="space-y-6">
+            <div className="space-y-4">
+              <div className="flex items-center justify-center md:justify-start">
+                <FileText className="text-blue-400 mr-2" size={20} />
+                <h3 className="text-lg font-semibold text-white">Resources</h3>
+              </div>
+              <ul className="space-y-2">
+                {[
+                  "EIMCTA KYC",
+                  "EIMCTA Profile",
+                  "PPE Broachers",
+                  "Safety Sign Broachers",
+                  "Fire Safety & Rescue Equipment Broachers",
+                  "Certification & Benefit of ISO 9001 : 2015 QMS"
+                ].map((resource, idx) => (
+                  <li key={idx} className="group">
+                    <div className="flex items-center justify-center md:justify-start">
+                      <ChevronRight className="text-blue-400 mr-2 group-hover:translate-x-1 transition-transform" size={16} />
+                      <span className="text-gray-300 hover:text-blue-400 transition-colors">{resource}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex items-center justify-center md:justify-start">
+                <MessageSquare className="text-blue-400 mr-2" size={20} />
+                <h3 className="text-lg font-semibold text-white">Suggestions</h3>
+              </div>
+              <form className="space-y-3">
+                <div className="relative">
+                  <input
+                    type="email"
+                    placeholder="Enter Email Address"
+                    className="w-full px-4 py-3 rounded-lg bg-gray-800/50 border border-gray-700 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-300 backdrop-blur-sm"
+                  />
+                  <button
+                    type="submit"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 text-gray-300 hover:text-blue-400 transition-colors"
+                  >
+                    <Send size={18} />
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
 
-        {/* Navigation Links */}
-        <div>
-          <h3 className="text-xl font-semibold mb-4 text-white">Quick Links</h3>
-          <ul className="space-y-2 text-gray-300 text-base">
-            {navLinks.map((link, idx) => (
-              <li key={idx}>
-                <Link to={link.path} className="hover:text-sky-400 transition-colors duration-300">{link.name}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Contact Form */}
-        <div>
-          <h3 className="text-xl font-semibold mb-4 text-white">Contact Us</h3>
-          <form className="space-y-4">
-            <input type="text" placeholder="Your Name" className="w-full p-3 rounded-lg bg-slate-800 border border-slate-600 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400" />
-            <input type="email" placeholder="Your Email" className="w-full p-3 rounded-lg bg-slate-800 border border-slate-600 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400" />
-            <textarea placeholder="Your Message" rows="4" className="w-full p-3 rounded-lg bg-slate-800 border border-slate-600 text-gray-100 placeholder-gray-400 resize-y focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
-            <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300">
-              Send Message
-            </button>
-          </form>
-        </div>
-      </div>
-
-      {/* Social Media */}
-      <div className="relative z-10 flex justify-center mt-12 pt-8 border-t border-blue-900">
-        <div className="flex space-x-6">
-          {socialLinks.map((social, idx) => (
-            <Link
-              key={idx}
-              to={social.path}
-              className={`relative group text-gray-300 ${social.color} hover:scale-110 transition-transform duration-300`}
-            >
-              <social.icon size={28} />
-              <span className="absolute bottom-full mb-2 hidden group-hover:block px-3 py-1 bg-gray-700 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                {social.name}
-              </span>
-            </Link>
-          ))}
+        {/* Bottom section */}
+        <div className="mt-12 pt-8 border-t border-gray-800">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="text-gray-500 text-sm">
+              © {new Date().getFullYear()} EIMCTA. All rights reserved.
+            </div>
+            
+            <div className="flex items-center space-x-4">
+              {[
+                { icon: Facebook, color: "hover:text-blue-600" },
+                { icon: Twitter, color: "hover:text-sky-400" },
+                { icon: Instagram, color: "hover:text-pink-500" },
+                { icon: Linkedin, color: "hover:text-blue-700" },
+              ].map((social, idx) => (
+                <button
+                  key={idx}
+                  className={`text-gray-400 ${social.color} transition-colors`}
+                >
+                  <div className="p-2 rounded-full bg-gray-800/50 hover:bg-gray-700/50 backdrop-blur-sm transition-all duration-300">
+                    <social.icon size={18} />
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </footer>

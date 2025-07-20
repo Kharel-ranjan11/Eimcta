@@ -15,7 +15,7 @@ import Quote from './asseest/component/pages/form.js';
 import Services from './asseest/component/pages/service.js';
 import About from './asseest/component/pages/about.js';
 import Contact from './asseest/component/pages/contactus.jsx';
-import { AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from "framer-motion";
 import CoreExpertise from './asseest/component/pages/iso_consultancy.jsx';
 
 function App() {
