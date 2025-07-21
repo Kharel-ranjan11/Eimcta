@@ -7,9 +7,9 @@ const carouselItems = [
     title: 'ISO Certification Solutions',
     quote: 'Achieve global recognition with our seamless ISO certification consultancy.',
     items: [
-      'ISO 9001 – Quality Management',
-      'ISO 14001 – Environmental Management',
-      'ISO 45001 – Occupational Health & Safety',
+      'ISO 9001  Quality Management',
+      'ISO 14001  Environmental Management',
+      'ISO 45001 Occupational Health & Safety',
       'ISO Documentation & Pre-Audit Support',
       'End-to-End Certification Guidance',
     ],
@@ -109,10 +109,16 @@ const ImageCarousel = ({ scrollTargetRef }) => {
   };
 
   const handleScrollDown = () => {
-    window.scrollTo({
-      top: scrollTargetRef.current?.offsetTop || 700,
-      behavior: 'smooth',
-    });
+    if (scrollTargetRef?.current) {
+      scrollTargetRef.current.scrollIntoView({
+        behavior: 'smooth'
+      });
+    } else {
+      window.scrollBy({
+        top: window.innerHeight,
+        behavior: 'smooth'
+      });
+    }
   };
 
   // Animation variants
@@ -143,7 +149,7 @@ const ImageCarousel = ({ scrollTargetRef }) => {
   };
 
   return (
-    <div 
+    <div
       className="relative w-full h-screen overflow-hidden"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
@@ -160,74 +166,76 @@ const ImageCarousel = ({ scrollTargetRef }) => {
           animate="center"
           exit="exit"
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className="absolute inset-0 flex flex-col md:flex-row items-center justify-center px-6 md:px-16 lg:px-24 py-20"
+          className="absolute inset-0 flex flex-col items-center justify-center px-6 md:px-16 lg:px-24 py-20"
         >
-          {/* Content */}
-          <div className="w-full md:w-1/2 text-white z-10 mb-10 md:mb-0">
-            <motion.h2
-              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight"
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
+          {/* Content container - now full width for mobile */}
+          <div className="w-full h-full flex flex-col md:flex-row items-center justify-center max-w-7xl mx-auto">
+            {/* Content */}
+            <div className="w-full md:w-1/2 text-white z-10 mb-8 md:mb-0 md:pr-8">
+              <motion.h2
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight"
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+              >
+                {currentItem.title}
+              </motion.h2>
+
+              <motion.p
+                className="text-lg sm:text-xl md:text-2xl mb-6 text-white/90 italic"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+              >
+                "{currentItem.quote}"
+              </motion.p>
+
+              <motion.ul className="space-y-2 mb-6">
+                {currentItem.items.map((item, i) => (
+                  <motion.li
+                    key={i}
+                    custom={i}
+                    initial="hidden"
+                    animate="visible"
+                    variants={itemVariants}
+                    className="flex items-start"
+                  >
+                    <span className="inline-block w-2 h-2 bg-white rounded-full mt-2 mr-3" />
+                    <span className="text-base sm:text-lg md:text-xl">{item}</span>
+                  </motion.li>
+                ))}
+              </motion.ul>
+
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`px-6 py-2 sm:px-8 sm:py-3 rounded-full font-semibold text-base sm:text-lg bg-white ${currentItem.bgColor.includes('purple') ? 'text-purple-600' :
+                    currentItem.bgColor.includes('amber') ? 'text-amber-600' :
+                      currentItem.bgColor.includes('emerald') ? 'text-emerald-600' :
+                        'text-blue-600'
+                  } shadow-lg hover:shadow-xl transition-all`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+              >
+                {currentItem.cta}
+              </motion.button>
+            </div>
+
+            {/* Illustration - now full width for mobile but appears below content */}
+            <motion.div
+              className="w-full md:w-1/2 flex items-center justify-center mt-8 md:mt-0"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.6 }}
             >
-              {currentItem.title}
-            </motion.h2>
-            
-            <motion.p
-              className="text-xl md:text-2xl mb-8 text-white/90 italic"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-            >
-              "{currentItem.quote}"
-            </motion.p>
-            
-            <motion.ul className="space-y-2 mb-8">
-              {currentItem.items.map((item, i) => (
-                <motion.li
-                  key={i}
-                  custom={i}
-                  initial="hidden"
-                  animate="visible"
-                  variants={itemVariants}
-                  className="flex items-start"
-                >
-                  <span className="inline-block w-2 h-2 bg-white rounded-full mt-2 mr-3" />
-                  <span className="text-lg md:text-xl">{item}</span>
-                </motion.li>
-              ))}
-            </motion.ul>
-            
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-8 py-3 rounded-full font-semibold text-lg bg-white ${
-                currentItem.bgColor.includes('purple') ? 'text-purple-600' :
-                currentItem.bgColor.includes('amber') ? 'text-amber-600' :
-                currentItem.bgColor.includes('emerald') ? 'text-emerald-600' :
-                'text-blue-600'
-              } shadow-lg hover:shadow-xl transition-all`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-            >
-              {currentItem.cta}
-            </motion.button>
+              <img
+                src={currentItem.illustration}
+                alt={currentItem.title}
+                className="max-w-full h-auto max-h-[300px] sm:max-h-[350px] md:max-h-[400px] lg:max-h-[500px] object-contain"
+              />
+            </motion.div>
           </div>
-          
-          {/* Illustration */}
-          <motion.div 
-            className="w-full md:w-1/2 flex items-center justify-center"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.6 }}
-          >
-            <img 
-              src={currentItem.illustration} 
-              alt={currentItem.title} 
-              className="max-w-full h-auto max-h-[400px] md:max-h-[500px] object-contain"
-            />
-          </motion.div>
         </motion.div>
       </AnimatePresence>
 
@@ -246,22 +254,22 @@ const ImageCarousel = ({ scrollTargetRef }) => {
       {/* Prev/Next Buttons */}
       <motion.button
         onClick={goToPrev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all"
+        className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         aria-label="Previous slide"
       >
-        <ChevronLeft size={28} className="text-white" />
+        <ChevronLeft size={24} className="text-white" />
       </motion.button>
-      
+
       <motion.button
         onClick={goToNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all"
+        className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         aria-label="Next slide"
       >
-        <ChevronRight size={28} className="text-white" />
+        <ChevronRight size={24} className="text-white" />
       </motion.button>
 
       {/* Scroll Down Button */}
@@ -279,5 +287,4 @@ const ImageCarousel = ({ scrollTargetRef }) => {
     </div>
   );
 };
-
 export default ImageCarousel;

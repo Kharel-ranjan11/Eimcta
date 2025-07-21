@@ -23,7 +23,6 @@ function App() {
   return (
     <div>
       <AnimatePresence mode="wait">
-
         <TopHeader />
         <TopContactBar />
         <Navbar />

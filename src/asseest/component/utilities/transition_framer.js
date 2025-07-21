@@ -21,7 +21,7 @@ const PageTransitionWrapper = ({ children, pageKey }) => {
       exit="exit"
       transition={pageTransition}
       variants={pageVariants} // Use the defined variants
-      className="min-h-screen p-8" // Important for fullscreen transitions
+      className="min-h-screen " // Important for fullscreen transitions
     // `absolute` allows pages to overlap during transition
     >
       {children} {/* Render the actual content of the page */}
