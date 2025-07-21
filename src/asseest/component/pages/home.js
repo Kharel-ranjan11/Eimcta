@@ -7,11 +7,8 @@ export default function Home() {
   const parallaxImage4 = 'https://images.unsplash.com/photo-1542281286-9e0a16bb7366?q=80&w=2070&auto=format&fit=crop';
 
   return (
-
     <section className="p-0 ">
-
       <ImageCarousel />
-
       <ParallaxBanner image={parallaxImage2}>
         <div className="h-[500px] flex items-center justify-center">
           <div className="text-center bg-black/50 p-8 rounded-lg">
@@ -19,7 +16,6 @@ export default function Home() {
           </div>
         </div>
       </ParallaxBanner>
-
       <div
         style={{
           position: "relative",
@@ -28,8 +24,6 @@ export default function Home() {
           backgroundColor: "black",
         }}
       >
-
-
         <div
           style={{
             position: "relative",

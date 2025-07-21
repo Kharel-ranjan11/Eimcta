@@ -113,7 +113,7 @@ export default function Quote() {
         {/* Hero Section */}
         <div className="text-center mb-12 md:mb-16 max-w-4xl mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Get a <span className="text-primary">Custom Quote</span>
+            Get a <span className="text-blue-600">Custom Quote</span>
           </h1>
           <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
             Request a customized quote for our ISO certification, training, or consultancy services. 
@@ -122,12 +122,12 @@ export default function Quote() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8 md:gap-12">
-          {/* Quote Form - Now with fixed height */}
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl h-fit">
+          {/* Quote Form */}
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
             <div className="p-6 sm:p-8">
               <div className="flex items-center mb-6">
-                <div className="bg-primary/10 p-3 rounded-lg mr-4">
-                  <FaEnvelope className="text-primary text-xl" />
+                <div className="bg-blue-100 p-3 rounded-lg mr-4">
+                  <FaEnvelope className="text-blue-600 text-xl" />
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900">Request Your Quote</h2>
               </div>
@@ -151,7 +151,7 @@ export default function Quote() {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className={`pl-10 w-full border ${errors.name ? 'border-red-300' : 'border-gray-300'} rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition`}
+                      className={`pl-10 w-full border ${errors.name ? 'border-red-300' : 'border-gray-300'} rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition`}
                       placeholder="Your full name"
                     />
                   </div>
@@ -174,7 +174,7 @@ export default function Quote() {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className={`pl-10 w-full border ${errors.email ? 'border-red-300' : 'border-gray-300'} rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition`}
+                      className={`pl-10 w-full border ${errors.email ? 'border-red-300' : 'border-gray-300'} rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition`}
                       placeholder="your.email@example.com"
                     />
                   </div>
@@ -189,14 +189,12 @@ export default function Quote() {
                     name="service"
                     value={formData.service}
                     onChange={handleChange}
-                    className={`w-full border ${errors.service ? 'border-red-300' : 'border-gray-300'} rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition appearance-none bg-white`}
+                    className={`w-full border ${errors.service ? 'border-red-300' : 'border-gray-300'} rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition appearance-none bg-white`}
                   >
                     <option value="">Select a service</option>
-                    <option value="ISO 9001">ISO 9001</option>
-                    <option value="ISO 45001">ISO 45001</option>
-                    <option value="ISO 14001">ISO 14001</option>
-                    <option value="Training">Training</option>
-                    <option value="Consultancy">Consultancy</option>
+                    {services.map((service, index) => (
+                      <option key={index} value={service}>{service}</option>
+                    ))}
                   </select>
                   {errors.service && <p className="mt-1 text-sm text-red-600">{errors.service}</p>}
                 </div>
@@ -213,7 +211,7 @@ export default function Quote() {
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
-                      className={`pl-10 w-full border ${errors.message ? 'border-red-300' : 'border-gray-300'} rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition`}
+                      className={`pl-10 w-full border ${errors.message ? 'border-red-300' : 'border-gray-300'} rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition`}
                       rows={4}
                       placeholder="Tell us about your requirements..."
                     ></textarea>
@@ -224,15 +222,7 @@ export default function Quote() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full bg-slate-600 bg-gradient-to-r
-                     from-primary to-primary-dark 
-                     hover:from-primary-dark hover:to-primary
-                      text-white font-medium 
-                      py-3 px-6 rounded-lg shadow-md 
-                      -all duration-300 
-                      transform hover:scale-[1.02]
-                      focus:outline-none focus:ring-2 
-                      :ring-primary focus:ring-opacity-50 ${
+                  className={`w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 ${
                     isSubmitting ? 'opacity-90 cursor-not-allowed' : ''
                   }`}
                 >
@@ -262,8 +252,8 @@ export default function Quote() {
             </div>
           </div>
 
-          {/* Right Column - Adjusted to match form height */}
-          <div className="flex flex-col gap-8 h-fit">
+          {/* Right Column */}
+          <div className="flex flex-col gap-8">
             {/* What's Included Section */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
               <div className="p-6 sm:p-8">
@@ -274,11 +264,11 @@ export default function Quote() {
                       key={idx} 
                       className="flex items-start p-4 rounded-lg hover:bg-gray-50 transition cursor-pointer group"
                     >
-                      <div className="bg-primary/10 p-3 rounded-lg mr-4 group-hover:bg-primary/20 transition">
+                      <div className="bg-blue-100 p-3 rounded-lg mr-4 group-hover:bg-blue-200 transition text-blue-600">
                         {item.icon}
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-900 group-hover:text-primary transition">{item.title}</h3>
+                        <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition">{item.title}</h3>
                         <p className="text-gray-600">{item.description}</p>
                       </div>
                     </div>
@@ -291,8 +281,8 @@ export default function Quote() {
             <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
               <div className="p-6 sm:p-8">
                 <div className="flex items-center mb-4">
-                  <div className="bg-primary/10 p-3 rounded-lg mr-4">
-                    <MdOutlineEngineering className="text-primary text-xl" />
+                  <div className="bg-blue-100 p-3 rounded-lg mr-4 text-blue-600">
+                    <MdOutlineEngineering className="text-xl" />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900">Our Services</h3>
                 </div>
@@ -310,7 +300,7 @@ export default function Quote() {
               </div>
             </div>
 
-            {/* Quick Response Card - Updated with new design */}
+            {/* Quick Response Card */}
             <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl border border-blue-100">
               <div className="p-6 sm:p-8">
                 <div className="flex items-start mb-4">
@@ -335,7 +325,7 @@ export default function Quote() {
         {/* Benefits Section */}
         <div className="mt-16 md:mt-20">
           <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">
-            Why Choose <span className="text-primary">EIMCTA</span>?
+            Why Choose <span className="text-blue-600">Our Services</span>?
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {benefits.map((benefit, idx) => (
@@ -343,10 +333,10 @@ export default function Quote() {
                 key={idx} 
                 className="bg-white rounded-xl shadow-md overflow-hidden p-6 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer group"
               >
-                <div className="bg-primary/10 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition">
+                <div className="bg-blue-100 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 transition text-blue-600">
                   {benefit.icon}
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 group-hover:text-primary transition">{benefit.title}</h3>
+                <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition">{benefit.title}</h3>
                 <p className="text-gray-600 mt-2">{benefit.description}</p>
               </div>
             ))}

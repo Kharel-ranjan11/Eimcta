@@ -108,7 +108,7 @@ export default function About() {
 
   const openPdfModal = (url) => {
     console.log("Opening PDF:", url);
-    setCurrentPdf("");
+    setCurrentPdf(url);
     setModalIsOpen(true);
   };
 
@@ -117,7 +117,7 @@ export default function About() {
   };
 
   return (
-    <div className="py-20 bg-slate-50 relative overflow-hidden">
+    <div className="py-12 md:py-20 bg-slate-50 relative overflow-hidden">
       {/* Particles Background - Positioned at bottom */}
       <div className="absolute inset-0 z-0 h-full">
         <Particles
@@ -195,16 +195,16 @@ export default function About() {
         />
       </div>
 
-      <div className="container mx-auto px-4 max-w-7xl relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-12 md:mb-16"
         >
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">About EIMCTA</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">About EIMCTA</h1>
+          <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
             EIMCTA (Everestconsultrain) is a leading Management Consultancy
             providing comprehensive solutions for ISO certification, training,
             and safety management.
@@ -212,62 +212,66 @@ export default function About() {
         </motion.div>
 
         {/* Main Content with Enhanced Parallax Effect */}
-        <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
-          <Parallax y={[-10, 10]} className="w-full">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <img
-                src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=600"
-                alt="EIMCTA team working on ISO certification"
-                className="rounded-xl shadow-[0_20px_50px_rgba(8,_112,_184,_0.2)] w-full h-auto"
-              />
-            </motion.div>
-          </Parallax>
+        <div className="flex flex-col lg:flex-row gap-8 md:gap-12 items-center mb-16 md:mb-20">
+          <div className="w-full lg:w-1/2">
+            <Parallax y={[-10, 10]} className="w-full">
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=600"
+                  alt="EIMCTA team working on ISO certification"
+                  className="rounded-xl shadow-[0_20px_50px_rgba(8,_112,_184,_0.2)] w-full h-auto"
+                />
+              </motion.div>
+            </Parallax>
+          </div>
 
-          <Parallax y={[-30, 30]} className="w-full">
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="space-y-6"
-            >
-              <h2 className="text-3xl font-bold text-gray-900">Our Mission</h2>
-              <p className="text-gray-700">
-                EIMCTA is dedicated to providing comprehensive Management
-                Consultancy services including Documentation, Training,
-                Implementation, and Audit Services for various ISO Standards and
-                certifications. We specialize in helping organizations achieve
-                excellence through systematic approaches to quality, safety, and
-                environmental management.
-              </p>
-              <p className="text-gray-700">
-                Our services encompass ISO 9001:2015 QMS, ISO 45001:2018 OHSMS, ISO
-                14001:2015 EMS, ISO 39001:2012 RTSMS, ISO 27001:2022 ISMS, and many
-                other international standards. We also provide specialized services
-                like CE Marking, RBA CoC, SMETA Sedex, and comprehensive training
-                programs.
-              </p>
-            </motion.div>
-          </Parallax>
+          <div className="w-full lg:w-1/2">
+            <Parallax y={[-30, 30]} className="w-full">
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="space-y-4 md:space-y-6"
+              >
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Our Mission</h2>
+                <p className="text-gray-700 text-base md:text-lg">
+                  EIMCTA is dedicated to providing comprehensive Management
+                  Consultancy services including Documentation, Training,
+                  Implementation, and Audit Services for various ISO Standards and
+                  certifications. We specialize in helping organizations achieve
+                  excellence through systematic approaches to quality, safety, and
+                  environmental management.
+                </p>
+                <p className="text-gray-700 text-base md:text-lg">
+                  Our services encompass ISO 9001:2015 QMS, ISO 45001:2018 OHSMS, ISO
+                  14001:2015 EMS, ISO 39001:2012 RTSMS, ISO 27001:2022 ISMS, and many
+                  other international standards. We also provide specialized services
+                  like CE Marking, RBA CoC, SMETA Sedex, and comprehensive training
+                  programs.
+                </p>
+              </motion.div>
+            </Parallax>
+          </div>
         </div>
 
         {/* Services Grid with Rotating Gradient Border */}
-        <div className="mb-20">
+        <div className="mb-16 md:mb-20">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold text-gray-900 mb-12 text-center"
+            className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 md:mb-12 text-center"
           >
             Our Core Services
           </motion.h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {services.map((service, index) => (
               <motion.div
                 key={index}
@@ -276,18 +280,18 @@ export default function About() {
                 whileHover={{ y: -5, backgroundColor: 'rgba(239, 246, 255, 1)' }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="relative p-6 bg-white rounded-xl group overflow-hidden hover:bg-blue-50 transition-colors duration-300"
+                className="relative p-4 sm:p-6 bg-white rounded-xl group overflow-hidden hover:bg-blue-50 transition-colors duration-300"
               >
                 <div className="relative z-10 h-full flex flex-col">
-                  <div className="pb-4 flex items-center gap-4">
-                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-xl group-hover:text-white group-hover:bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300">
+                  <div className="pb-3 sm:pb-4 flex items-center gap-3 sm:gap-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-lg flex items-center justify-center text-xl group-hover:text-white group-hover:bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300">
                       {service.icon}
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-gray-800 transition-colors">
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-900 group-hover:text-gray-800 transition-colors">
                       {service.title}
                     </h3>
                   </div>
-                  <p className="text-gray-600 group-hover:text-gray-700 transition-colors">
+                  <p className="text-sm sm:text-base text-gray-600 group-hover:text-gray-700 transition-colors">
                     {service.description}
                   </p>
                 </div>
@@ -297,17 +301,17 @@ export default function About() {
         </div>
 
         {/* Policies Section with Modal PDF Viewer */}
-        <div className="mb-20">
+        <div className="mb-16 md:mb-20">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold text-gray-900 mb-12 text-center"
+            className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 md:mb-12 text-center"
           >
             Our Policies
           </motion.h2>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {policies.map((policy, index) => (
               <motion.div
                 key={index}
@@ -316,33 +320,33 @@ export default function About() {
                 whileHover={{ y: -5, backgroundColor: 'rgba(239, 246, 255, 1)' }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="relative p-6 bg-white rounded-xl group overflow-hidden hover:bg-blue-50 transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_15px_40px_rgba(59,130,246,0.15)]"
+                className="relative p-4 sm:p-6 bg-white rounded-xl group overflow-hidden hover:bg-blue-50 transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_15px_40px_rgba(59,130,246,0.15)]"
               >
                 <div className="relative z-10 flex flex-col h-full">
-                  <div className="pb-4 flex items-center gap-3">
-                    <FaFileAlt size={24} className="text-blue-600 group-hover:text-purple-600 transition-colors" />
-                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-gray-800 transition-colors">
+                  <div className="pb-3 sm:pb-4 flex items-center gap-3">
+                    <FaFileAlt size={20} className="text-blue-600 group-hover:text-purple-600 transition-colors" />
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-900 group-hover:text-gray-800 transition-colors">
                       {policy.name}
                     </h3>
                   </div>
-                  <p className="text-gray-600 group-hover:text-gray-700 transition-colors mb-4">
+                  <p className="text-sm sm:text-base text-gray-600 group-hover:text-gray-700 transition-colors mb-3 sm:mb-4">
                     {policy.description}
                   </p>
-                  <div className="mt-auto flex gap-4">
+                  <div className="mt-auto flex gap-3 sm:gap-4">
                     {policy.preview && (
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => openPdfModal(policy.preview)}
-                        className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors w-fit"
+                        className="flex items-center gap-1 sm:gap-2 text-sm sm:text-base text-blue-600 hover:text-blue-800 transition-colors w-fit"
                       >
                         <FaFilePdf className="text-red-500" />
                         <span>View PDF</span>
                       </motion.button>
                     )}
                     {policy.pageLink && (
-                      <Link to={policy.pageLink} className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors">
-                        <FaExternalLinkAlt size={14} />
+                      <Link to={policy.pageLink} className="flex items-center gap-1 sm:gap-2 text-sm sm:text-base text-blue-600 hover:text-blue-800 transition-colors">
+                        <FaExternalLinkAlt size={12} />
                         <span>Learn More</span>
                       </Link>
                     )}
@@ -361,29 +365,35 @@ export default function About() {
           className="modal"
           overlayClassName="modal-overlay"
         >
-          <div className="bg-white rounded-lg p-4 max-w-4xl mx-auto my-8 max-h-[90vh] overflow-auto">
+          <div className="bg-white rounded-lg p-4 w-full mx-4 sm:mx-auto my-8 max-w-4xl max-h-[90vh] overflow-auto">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-semibold">Policy Document</h3>
+              <h3 className="text-lg sm:text-xl font-semibold">Policy Document</h3>
               <button 
                 onClick={closeModal}
-                className="text-gray-500 hover:text-gray-700"
+                className="text-gray-500 hover:text-gray-700 text-2xl"
               >
                 &times;
               </button>
             </div>
-            <div className="border rounded-lg p-4 bg-gray-50">
-              <iframe 
-                src={currentPdf} 
-                className="w-full h-[70vh]" 
-                title="PDF Viewer"
-              >
-                <p>Your browser does not support PDFs. Please download the PDF to view it: <a href={currentPdf}>Download PDF</a>.</p>
-              </iframe>
+            <div className="border rounded-lg p-2 sm:p-4 bg-gray-50">
+              {currentPdf ? (
+                <iframe 
+                  src={currentPdf} 
+                  className="w-full h-[60vh] sm:h-[70vh]" 
+                  title="PDF Viewer"
+                >
+                  <p>Your browser does not support PDFs. Please download the PDF to view it: <a href={currentPdf}>Download PDF</a>.</p>
+                </iframe>
+              ) : (
+                <div className="w-full h-[60vh] sm:h-[70vh] flex items-center justify-center bg-gray-100 rounded">
+                  <p className="text-gray-500">Loading PDF...</p>
+                </div>
+              )}
             </div>
             <div className="mt-4 flex justify-end">
               <button
                 onClick={closeModal}
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+                className="px-3 sm:px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-sm sm:text-base"
               >
                 Close
               </button>
@@ -397,18 +407,18 @@ export default function About() {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-8 mb-20 relative overflow-hidden shadow-[0_20px_50px_rgba(59,130,246,0.1)]"
+          className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6 sm:p-8 mb-16 md:mb-20 relative overflow-hidden shadow-[0_20px_50px_rgba(59,130,246,0.1)]"
         >
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-600 animate-spin-slow"></div>
           </div>
           <div className="relative z-10">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 md:mb-8 text-center">
               Our Expertise
             </h2>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">
+            <div className="flex flex-col md:flex-row gap-6 md:gap-8">
+              <div className="flex-1">
+                <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3 md:mb-4">
                   ISO Standards
                 </h3>
                 <div className="flex flex-wrap gap-2">
@@ -420,7 +430,7 @@ export default function About() {
                         background: "linear-gradient(45deg, #3b82f6, #8b5cf6)",
                         color: "white"
                       }}
-                      className="inline-block bg-white border border-gray-200 text-gray-800 text-sm font-medium px-3 py-1 rounded-full
+                      className="inline-block bg-white border border-gray-200 text-gray-800 text-xs sm:text-sm font-medium px-2 sm:px-3 py-1 rounded-full
                                  transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md"
                     >
                       {standard}
@@ -428,8 +438,8 @@ export default function About() {
                   ))}
                 </div>
               </div>
-              <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">
+              <div className="flex-1">
+                <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3 md:mb-4">
                   Specialized Services
                 </h3>
                 <div className="flex flex-wrap gap-2">
@@ -441,7 +451,7 @@ export default function About() {
                         background: "linear-gradient(45deg, #8b5cf6, #3b82f6)",
                         color: "white"
                       }}
-                      className="inline-block bg-white border border-gray-200 text-gray-800 text-sm font-medium px-3 py-1 rounded-full
+                      className="inline-block bg-white border border-gray-200 text-gray-800 text-xs sm:text-sm font-medium px-2 sm:px-3 py-1 rounded-full
                                  transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md"
                     >
                       {service}
@@ -460,7 +470,7 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold text-gray-900 mb-4"
+            className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 md:mb-4"
           >
             Ready to Work With Us?
           </motion.h2>
@@ -469,12 +479,12 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             viewport={{ once: true }}
-            className="text-xl text-gray-600 mb-8"
+            className="text-lg md:text-xl text-gray-600 mb-6 md:mb-8"
           >
             Let's discuss how we can help your organization achieve its
             certification goals
           </motion.p>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -482,7 +492,7 @@ export default function About() {
             >
               <Link
                 to="/form"
-                className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-all shadow-[0_4px_15px_rgba(59,130,246,0.3)]"
+                className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-lg font-semibold hover:shadow-lg transition-all shadow-[0_4px_15px_rgba(59,130,246,0.3)] text-sm sm:text-base"
               >
                 Get Quote
               </Link>
@@ -494,7 +504,7 @@ export default function About() {
             >
               <Link
                 to="/contact-us"
-                className="inline-block border-2 border-blue-600 text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition-all shadow-[0_4px_15px_rgba(59,130,246,0.1)]"
+                className="inline-block border-2 border-blue-600 text-blue-600 px-6 sm:px-8 py-2 sm:py-3 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition-all shadow-[0_4px_15px_rgba(59,130,246,0.1)] text-sm sm:text-base"
               >
                 Contact Us
               </Link>
@@ -516,6 +526,7 @@ export default function About() {
           justify-content: center;
           background-color: rgba(0, 0, 0, 0.5);
           z-index: 1000;
+          overflow-y: auto;
         }
         .modal-overlay {
           position: fixed;
