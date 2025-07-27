@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../img/eimcta.png";
-import { menuitems } from "../utilities/JSON/Navbardata";
+import { menuitems } from "../utilities/Array/data.js";
 import {
   Info,
   Layers,
