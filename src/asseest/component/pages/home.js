@@ -157,7 +157,7 @@ export default function Home() {
                   transition={{ delay: 0.4 }}
                   viewport={{ once: true }}
                 >
-                  Explore Our Expertise
+                  Explore Our Expertise with us 
                 </motion.button>
               </div>
             </div>
