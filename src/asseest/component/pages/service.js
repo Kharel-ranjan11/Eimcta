@@ -13,6 +13,14 @@ const relatedServices = [
     features: ["Gap Analysis", "Documentation", "Internal Audit"],
   },
   {
+    id: 1.5,
+    title: "ISO 9001 Certification",
+    description: "Quality Management Systems consultancy and certification",
+    category: "ISO",
+    icon: "fas fa-certificate",
+    features: ["Gap Analysis", "Documentation", "Internal Audit"],
+  },
+  {
     id: 2,
     title: "Workplace Safety Audit",
     description: "Comprehensive OHS audit for industrial safety compliance",

@@ -1,239 +1,521 @@
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { FiChevronRight, FiMail, FiPhone, FiGlobe, FiCheckCircle, FiAward, FiFileText, FiUsers, FiShield, FiGlobe as FiEarth, FiTrendingUp, FiClock, FiLayers } from "react-icons/fi";
 
 const ISOConsultancy = () => {
-  const isoStandards = [
+  const [activeTab, setActiveTab] = useState(0);
+  const [hoveredTab, setHoveredTab] = useState(null);
+
+  // Standard data with icons and colors
+  const allStandards = [
+    { 
+      id: "9001", 
+      name: "ISO 9001:2015", 
+      focus: "Quality Management", 
+      industries: "All industries", 
+      icon: <FiAward className="text-blue-500" />,
+      gradient: "from-blue-100 to-blue-50"
+    },
+    { 
+      id: "14001", 
+      name: "ISO 14001:2015", 
+      focus: "Environmental Management", 
+      industries: "Manufacturing, Construction", 
+      icon: <FiEarth className="text-green-500" />,
+      gradient: "from-green-100 to-green-50"
+    },
+    { 
+      id: "45001", 
+      name: "ISO 45001:2018", 
+      focus: "Occupational Health & Safety", 
+      industries: "Factories, Hospitals", 
+      icon: <FiShield className="text-orange-500" />,
+      gradient: "from-orange-100 to-orange-50"
+    },
+    { 
+      id: "27001", 
+      name: "ISO 27001:2022", 
+      focus: "Information Security", 
+      industries: "IT, Banking, Healthcare", 
+      icon: <FiFileText className="text-purple-500" />,
+      gradient: "from-purple-100 to-purple-50"
+    },
+    { 
+      id: "39001", 
+      name: "ISO 39001:2012", 
+      focus: "Road Traffic Safety", 
+      industries: "Transportation, Logistics", 
+      icon: <FiTrendingUp className="text-red-500" />,
+      gradient: "from-red-100 to-red-50"
+    },
+    { 
+      id: "15189", 
+      name: "ISO 15189:2022", 
+      focus: "Medical Laboratories", 
+      industries: "Healthcare, Diagnostics", 
+      icon: <FiCheckCircle className="text-cyan-500" />,
+      gradient: "from-cyan-100 to-cyan-50"
+    },
+    { 
+      id: "26000", 
+      name: "ISO 26000:2010", 
+      focus: "Social Responsibility", 
+      industries: "All industries", 
+      icon: <FiUsers className="text-yellow-500" />,
+      gradient: "from-yellow-100 to-yellow-50"
+    },
+    { 
+      id: "55001", 
+      name: "ISO 55001:2014", 
+      focus: "Asset Management", 
+      industries: "Utilities, Infrastructure", 
+      icon: <FiLayers className="text-indigo-500" />,
+      gradient: "from-indigo-100 to-indigo-50"
+    },
+    { 
+      id: "50001", 
+      name: "ISO 50001:2018", 
+      focus: "Energy Management", 
+      industries: "Manufacturing, Energy", 
+      icon: <FiClock className="text-emerald-500" />,
+      gradient: "from-emerald-100 to-emerald-50"
+    },
+    { 
+      id: "41001", 
+      name: "ISO 41001:2018", 
+      focus: "Facility Management", 
+      industries: "Real Estate, Corporate", 
+      icon: <FiGlobe className="text-amber-500" />,
+      gradient: "from-amber-100 to-amber-50"
+    },
+    { 
+      id: "28001", 
+      name: "ISO 28001", 
+      focus: "Supply Chain Security", 
+      industries: "Logistics, Shipping", 
+      icon: <FiShield className="text-blue-600" />,
+      gradient: "from-blue-100 to-blue-50"
+    },
+    { 
+      id: "SA8000", 
+      name: "SA 8000", 
+      focus: "Social Accountability", 
+      industries: "Textiles, Manufacturing", 
+      icon: <FiUsers className="text-pink-500" />,
+      gradient: "from-pink-100 to-pink-50"
+    }
+  ];
+
+  // Tab data
+  const tabs = [
     {
-      id: "iso9001",
-      title: "ISO 9001:2015",
-      subtitle: "Quality Management System",
-      description: "Elevating Your Business with Quality Management",
-      clauses: [
-        "Clause 4: Context of the organization",
-        "Clause 5: Leadership",
-        "Clause 6: Planning",
-        "Clause 7: Support",
-        "Clause 8: Operation",
-        "Clause 9: Performance evaluation",
-        "Clause 10: Improvement",
-      ],
-      color: "bg-blue-500",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+      id: "overview",
+      title: "Overview",
+      icon: "🧭",
+      content: (
+        <div className="space-y-8">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-gradient-to-br from-blue-50 to-white p-8 rounded-3xl shadow-sm border border-blue-100"
+          >
+            <h3 className="text-2xl font-bold mb-6 flex items-center">
+              <span className="bg-blue-100 text-blue-600 rounded-full w-12 h-12 flex items-center justify-center mr-4 text-xl">🧭</span>
+              What is ISO Consultancy?
+            </h3>
+            <p className="text-lg mb-6 leading-relaxed">
+              <strong className="font-semibold text-blue-700">ISO Consultancy</strong> provides expert guidance to implement international standards, 
+              streamline processes, and achieve certification. We bridge the gap between your current systems and ISO requirements.
+            </p>
+            <div className="bg-blue-50/80 p-6 rounded-xl border border-blue-200 backdrop-blur-sm">
+              <p className="text-blue-700 text-lg">
+                Whether it's <strong>ISO 9001 (Quality)</strong>, <strong>ISO 14001 (Environment)</strong>, 
+                or <strong>ISO 45001 (Safety)</strong>, we customize solutions for <strong>your industry needs</strong>.
+              </p>
+            </div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="bg-gradient-to-br from-green-50 to-white p-8 rounded-3xl shadow-sm border border-green-100"
+          >
+            <h3 className="text-2xl font-bold mb-6 flex items-center">
+              <span className="bg-green-100 text-green-600 rounded-full w-12 h-12 flex items-center justify-center mr-4 text-xl">🔍</span>
+              Why ISO Standards Matter
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                { icon: "📈", title: "Operational Excellence", desc: "Streamline processes for maximum efficiency" },
+                { icon: "⚖️", title: "Regulatory Compliance", desc: "Meet legal and customer requirements" },
+                { icon: "🌐", title: "Global Recognition", desc: "Enhance credibility in international markets" },
+                { icon: "🛡️", title: "Risk Management", desc: "Proactively identify and mitigate risks" },
+                { icon: "🔄", title: "Continuous Improvement", desc: "Implement PDCA cycle for growth" },
+                { icon: "💼", title: "Competitive Advantage", desc: "Stand out in procurement processes" },
+              ].map((item, i) => (
+                <motion.div 
+                  key={i}
+                  whileHover={{ y: -5 }}
+                  className="bg-white p-5 rounded-xl border border-gray-200 hover:shadow-md transition-all"
+                >
+                  <div className="text-2xl mb-3">{item.icon}</div>
+                  <h4 className="font-bold text-lg mb-2">{item.title}</h4>
+                  <p className="text-gray-600">{item.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      )
     },
     {
-      id: "iso45001",
-      title: "ISO 45001:2018",
-      subtitle: "Occupational Health, Safety & Environment",
-      description: "Safety Management System Certification",
-      clauses: [
-        "Clause 4: Context of the organization",
-        "Clause 5: Leadership and worker participation",
-        "Clause 6: Planning",
-        "Clause 7: Support",
-        "Clause 8: Operation",
-        "Clause 9: Performance evaluation",
-        "Clause 10: Improvement",
-      ],
-      color: "bg-red-500",
-      image: "https://images.unsplash.com/photo-1581093196270-c4b05a7f3cc2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+      id: "standards",
+      title: "Standards",
+      icon: "📘",
+      content: (
+        <div className="space-y-8">
+          <div className="bg-gradient-to-br from-purple-50 to-white p-8 rounded-3xl border border-purple-100">
+            <h3 className="text-2xl font-bold mb-6 flex items-center">
+              <span className="bg-purple-100 text-purple-600 rounded-full w-12 h-12 flex items-center justify-center mr-4 text-xl">📘</span>
+              Comprehensive ISO Standards Coverage
+            </h3>
+            <p className="text-lg text-gray-700 mb-8">
+              We specialize in implementing a wide range of international standards across industries. 
+              Select a standard to learn more about its benefits and implementation process.
+            </p>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {allStandards.map((standard, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ y: -5, scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className={`bg-gradient-to-br ${standard.gradient} p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all overflow-hidden relative`}
+                >
+                  <div className="absolute -right-6 -top-6 text-7xl opacity-10">
+                    {standard.icon}
+                  </div>
+                  <div className="flex items-start mb-4 relative z-10">
+                    <div className="bg-white p-2 rounded-lg shadow-xs mr-4">
+                      <div className="text-2xl">
+                        {standard.icon}
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold">{standard.name}</h3>
+                      <p className="text-sm text-gray-500">{standard.id}</p>
+                    </div>
+                  </div>
+                  <p className="text-gray-700 mb-4 relative z-10">{standard.focus}</p>
+                  <div className="bg-white/70 p-2 rounded-lg backdrop-blur-sm">
+                    <p className="text-sm text-gray-600">
+                      <span className="font-medium">Industries:</span> {standard.industries}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )
     },
     {
-      id: "iso22000",
-      title: "ISO 22000",
-      subtitle: "Food Safety Standard & HACCP",
-      description: "Food Safety Management System Certification",
-      clauses: [
-        "Clause 4: Context of the organization",
-        "Clause 5: Leadership",
-        "Clause 6: Planning",
-        "Clause 7: Support",
-        "Clause 8: Operation",
-        "Clause 9: Performance evaluation",
-        "Clause 10: Improvement",
-      ],
-      color: "bg-green-500",
-      image: "https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-    },
-    {
-      id: "iso21001",
-      title: "ISO 21001:2018",
-      subtitle: "Educational Organization Management System",
-      description: "Enhancing Educational Service Quality",
-      clauses: [
-        "Clause 4: Context of the organization",
-        "Clause 5: Leadership",
-        "Clause 6: Planning",
-        "Clause 7: Support",
-        "Clause 8: Operation",
-        "Clause 9: Performance evaluation",
-        "Clause 10: Improvement",
-      ],
-      color: "bg-yellow-500",
-      image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+      id: "process",
+      title: "Process",
+      icon: "🛠️",
+      content: (
+        <div className="relative">
+          <div className="hidden lg:block absolute left-1/2 h-full w-1 bg-gradient-to-b from-indigo-400 via-purple-400 to-pink-400 transform -translate-x-1/2"></div>
+          
+          {[
+            { 
+              id: 1, 
+              title: "Initial Assessment", 
+              desc: "Comprehensive gap analysis of current systems", 
+              icon: "🔍",
+              color: "from-indigo-100 to-indigo-50"
+            },
+            { 
+              id: 2, 
+              title: "Planning", 
+              desc: "Develop customized implementation roadmap", 
+              icon: "📝",
+              color: "from-blue-100 to-blue-50"
+            },
+            { 
+              id: 3, 
+              title: "Documentation", 
+              desc: "Create policies, procedures and records", 
+              icon: "📑",
+              color: "from-cyan-100 to-cyan-50"
+            },
+            { 
+              id: 4, 
+              title: "Implementation", 
+              desc: "Train teams and integrate systems", 
+              icon: "🔄",
+              color: "from-green-100 to-green-50"
+            },
+            { 
+              id: 5, 
+              title: "Internal Audit", 
+              desc: "Conduct compliance verification audits", 
+              icon: "✔️",
+              color: "from-yellow-100 to-yellow-50"
+            },
+            { 
+              id: 6, 
+              title: "Certification", 
+              desc: "Coordinate with accredited certification bodies", 
+              icon: "🏆",
+              color: "from-purple-100 to-purple-50"
+            },
+          ].map((step, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              className={`relative mb-8 ${i % 2 === 0 ? "lg:w-1/2 lg:pr-12 lg:mr-auto" : "lg:w-1/2 lg:pl-12 lg:ml-auto"}`}
+            >
+              <div className={`bg-gradient-to-br ${step.color} p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all h-full`}>
+                <div className="flex items-start">
+                  <div className="bg-white rounded-lg w-14 h-14 flex items-center justify-center mr-4 flex-shrink-0 shadow-xs text-2xl">
+                    {step.icon}
+                  </div>
+                  <div>
+                    <div className="flex items-center mb-1">
+                      <div className="bg-white text-gray-700 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-2">
+                        {step.id}
+                      </div>
+                      <h3 className="text-xl font-bold">{step.title}</h3>
+                    </div>
+                    <p className="text-gray-600">{step.desc}</p>
+                    {i === 2 && (
+                      <div className="mt-4 bg-white/70 p-3 rounded-lg backdrop-blur-sm">
+                        <p className="text-sm text-gray-600 font-medium">Key Documents:</p>
+                        <ul className="text-xs text-gray-500 list-disc list-inside mt-1">
+                          <li>Quality Manual</li>
+                          <li>Process Maps</li>
+                          <li>Standard Operating Procedures</li>
+                        </ul>
+                      </div>
+                    )}
+                    {i === 4 && (
+                      <div className="mt-4 bg-white/70 p-3 rounded-lg backdrop-blur-sm">
+                        <p className="text-sm text-gray-600 font-medium">Audit Focus Areas:</p>
+                        <ul className="text-xs text-gray-500 list-disc list-inside mt-1">
+                          <li>Clause-by-clause compliance</li>
+                          <li>Effectiveness measurement</li>
+                          <li>Opportunities for improvement</li>
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      )
     },
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        when: "beforeChildren"
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut"
-      }
-    }
-  };
-
-  const cardHoverVariants = {
-    hover: {
-      y: -10,
-      scale: 1.03,
-      transition: {
-        duration: 0.3,
-        ease: "easeOut"
-      }
-    }
-  };
-
-  const processItemVariants = {
-    offscreen: {
-      y: 50,
-      opacity: 0
-    },
-    onscreen: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        bounce: 0.4,
-        duration: 0.8
-      }
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 to-blue-800 py-16 px-4 sm:px-6 lg:px-8">
-      {/* Header Section */}
+    <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+      {/* Hero Section */}
       <motion.div 
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.6 }}
         className="text-center mb-16"
       >
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-          ISO Consultancy
-        </h1>
-        <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-          We are one of the leading global providers of accredited ISO certification. 
-          We offer a broad portfolio of services within management system ISO certification 
-          and related services.
-        </p>
-      </motion.div>
-
-      {/* ISO Standards Grid */}
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto"
-      >
-        {isoStandards.map((standard, index) => (
-          <motion.div
-            key={index}
-            variants={itemVariants}
-            whileHover="hover"
-            className="relative rounded-xl overflow-hidden shadow-2xl h-full"
-          >
-            <Link to={`/iso-standards/${standard.id}`} className="block h-full">
-              <motion.div
-                variants={cardHoverVariants}
-                className={`h-full ${standard.color} bg-opacity-90 hover:bg-opacity-100 transition-all duration-300 flex flex-col`}
-              >
-                {/* Background Image with Overlay */}
-                <div className="absolute inset-0 z-0">
-                  <img 
-                    src={standard.image} 
-                    alt={standard.title}
-                    className="w-full h-full object-cover opacity-20"
-                  />
-                </div>
-                
-                {/* Content */}
-                <div className="relative z-10 p-6 text-white flex flex-col h-full">
-                  <div>
-                    <h2 className="text-2xl font-bold mb-2">{standard.title}</h2>
-                    <h3 className="text-xl font-semibold mb-3">{standard.subtitle}</h3>
-                    <p className="mb-4">{standard.description}</p>
-                  </div>
-
-                  {/* Clause Section with Smooth Expand */}
-                  <motion.div 
-                    className="mt-auto"
-                    
-                  >
-                    <div className="pt-4 border-t border-white 
-                    border-opacity-20 overflow-hidden">
-                     
-                        
-                    </div>
-                  </motion.div>
-                  
-                  <button className="mt-9 px-6 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full font-medium transition-all duration-300 self-start">
-                    Learn More
-                  </button>
-                </div>
-              </motion.div>
-            </Link>
-          </motion.div>
-        ))}
-      </motion.div>
-
-      {/* Certification Process */}
-      <motion.div 
-        initial="offscreen"
-        whileInView="onscreen"
-        viewport={{ once: true, amount: 0.2 }}
-        className="mt-24 max-w-4xl mx-auto bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8"
-      >
-        <motion.h2 
-          variants={itemVariants}
-          className="text-3xl font-bold text-white text-center mb-8"
+        <motion.div
+          initial={{ scale: 0.9 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="inline-block mb-6"
         >
-          Our Certification Process
-        </motion.h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div className="bg-gradient-to-r from-blue-600 to-blue-400 text-white px-6 py-2 rounded-full text-sm font-semibold inline-flex items-center">
+            <FiAward className="mr-2" /> ISO Certification Experts
+          </div>
+        </motion.div>
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <span className="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+            ISO Consultancy Services
+          </span>
+        </h1>
+        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          Streamline your path to international standards certification with our proven methodology
+        </p>
+        <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+          <motion.button
+            whileHover={{ scale: 1.05, boxShadow: "0 5px 15px rgba(59, 130, 246, 0.4)" }}
+            whileTap={{ scale: 0.98 }}
+            className="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-8 py-3 rounded-lg font-semibold text-lg flex items-center justify-center"
+          >
+            Get Started <FiChevronRight className="ml-2" />
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+            className="bg-white border border-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold text-lg flex items-center justify-center shadow-sm hover:shadow-md"
+          >
+            View Case Studies
+          </motion.button>
+        </div>
+      </motion.div>
+
+      {/* Tab Navigation */}
+      <div className="mb-8">
+        <div className="relative">
+          <div className="flex space-x-1 overflow-x-auto pb-2 scrollbar-hide">
+            {tabs.map((tab, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveTab(i)}
+                onMouseEnter={() => setHoveredTab(i)}
+                onMouseLeave={() => setHoveredTab(null)}
+                className={`px-6 py-3 font-medium rounded-t-lg transition-colors relative ${activeTab === i ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+              >
+                <span className="mr-2">{tab.icon}</span>
+                {tab.title}
+                {(hoveredTab === i || activeTab === i) && (
+                  <motion.div
+                    layoutId="tabIndicator"
+                    className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-blue-400 rounded-t"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200"></div>
+        </div>
+      </div>
+
+      {/* Tab Content */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={tabs[activeTab].id}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.3 }}
+          className="pt-6"
+        >
+          {tabs[activeTab].content}
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Clients Section */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        className="my-20"
+      >
+        <h2 className="text-3xl font-bold text-center mb-12">
+          Trusted By Organizations Across Industries
+        </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
           {[
-            { step: 1, title: "Gap Analysis", desc: "Identify current state vs requirements" },
-            { step: 2, title: "Documentation", desc: "Develop required policies & procedures" },
-            { step: 3, title: "Implementation", desc: "Train staff and deploy processes" },
-            { step: 4, title: "Internal Audit", desc: "Verify system effectiveness" },
-            { step: 5, title: "Certification", desc: "Official accreditation body audit" },
-          ].map((process, i) => (
+            { type: "Manufacturers", icon: "🏭", count: "120+" },
+            { type: "Healthcare", icon: "🏥", count: "80+" },
+            { type: "Education", icon: "🎓", count: "45+" },
+            { type: "IT Companies", icon: "💻", count: "65+" },
+            { type: "Agriculture", icon: "🌾", count: "30+" },
+            { type: "Government", icon: "🏛️", count: "25+" },
+          ].map((client, i) => (
             <motion.div
               key={i}
-              variants={processItemVariants}
-              className="bg-white bg-opacity-10 p-4 rounded-lg text-center transform transition-all duration-300 hover:scale-105"
+              whileHover={{ y: -5 }}
+              className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md text-center transition-all"
             >
-              <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold mx-auto mb-3">
-                {process.step}
-              </div>
-              <h3 className="font-semibold text-white mb-2">{process.title}</h3>
-              <p className="text-blue-100 text-sm">{process.desc}</p>
+              <div className="text-4xl mb-4">{client.icon}</div>
+              <h3 className="font-bold text-lg mb-1">{client.type}</h3>
+              <p className="text-sm text-gray-500">{client.count} clients</p>
             </motion.div>
           ))}
+        </div>
+      </motion.div>
+
+      {/* CTA Section */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-3xl p-8 md:p-12 text-white overflow-hidden relative my-20"
+      >
+        <div className="absolute -right-20 -top-20 w-64 h-64 bg-white rounded-full opacity-10"></div>
+        <div className="absolute -left-20 -bottom-20 w-64 h-64 bg-white rounded-full opacity-10"></div>
+        <div className="absolute right-0 bottom-0 w-32 h-32 bg-blue-500 rounded-full opacity-20 filter blur-xl"></div>
+        
+        <div className="relative z-10 max-w-4xl mx-auto text-center">
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl font-bold mb-6"
+          >
+            Ready to Achieve ISO Certification?
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            viewport={{ once: true }}
+            className="text-xl mb-8"
+          >
+            Get a free consultation with our ISO specialists today
+          </motion.p>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          >
+            <motion.div 
+              whileHover={{ y: -5 }}
+              className="bg-white/10 p-6 rounded-xl backdrop-blur-sm border border-white/20 hover:shadow-lg transition-all"
+            >
+              <div className="flex justify-center text-3xl mb-4">
+                <FiMail className="text-blue-200" />
+              </div>
+              <p className="font-medium mb-2 text-lg">Email Us</p>
+              <a href="mailto:info@everestconsultrain.com" className="text-blue-100 hover:text-white text-sm">
+                info@everestconsultrain.com
+              </a>
+            </motion.div>
+            
+            <motion.div 
+              whileHover={{ y: -5 }}
+              className="bg-white/10 p-6 rounded-xl backdrop-blur-sm border border-white/20 hover:shadow-lg transition-all"
+            >
+              <div className="flex justify-center text-3xl mb-4">
+                <FiPhone className="text-blue-200" />
+              </div>
+              <p className="font-medium mb-2 text-lg">Call Us</p>
+              <p className="text-blue-100 text-sm">+977-XXXX-XXXXXX</p>
+            </motion.div>
+            
+            <motion.div 
+              whileHover={{ y: -5 }}
+              className="bg-white/10 p-6 rounded-xl backdrop-blur-sm border border-white/20 hover:shadow-lg transition-all"
+            >
+              <div className="flex justify-center text-3xl mb-4">
+                <FiGlobe className="text-blue-200" />
+              </div>
+              <p className="font-medium mb-2 text-lg">Visit Us</p>
+              <a href="http://www.everestconsultrain.com" className="text-blue-100 hover:text-white text-sm">
+                everestconsultrain.com
+              </a>
+            </motion.div>
+          </motion.div>
         </div>
       </motion.div>
     </div>

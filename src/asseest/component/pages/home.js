@@ -1,13 +1,15 @@
 import { useState, useEffect, lazy, Suspense, useMemo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import {features} from "../utilities/Array/data.js";
-import {testimonials} from "../utilities/Array/data.js";
+import { features, testimonials } from "../utilities/Array/data.js";
+import { Img_home } from '../utilities/img_home.jsx';
+import h_img from '../utilities/Svg/iso_pra.png';
+
+
 // Lazy load heavy components
 const ImageCarousel = lazy(() => import("../utilities/caro"), {
   loading: () => <div className="h-96 bg-gray-100 animate-pulse" />,
   ssr: false
 });
-
 const ParallaxBanner = lazy(() => import("../utilities/parallelx"), {
   loading: () => <div className="h-96 bg-gray-100 animate-pulse" />,
 });
@@ -15,10 +17,12 @@ const ParallaxBanner = lazy(() => import("../utilities/parallelx"), {
 // FeatureCard component
 const FeatureCard = ({ item }) => (
   <motion.div
-    className="relative bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:-translate-y-1 group overflow-hidden"
+    className="relative bg-white/90 backdrop-blur-sm p-6 rounded-xl 
+    shadow-lg hover:shadow-xl transition-all duration-200 
+    hover:-translate-y-1 group overflow-hidden"
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
-    transition={{ 
+    transition={{
       delay: item.id * 0.05 + 0.2,
       duration: 0.4,
       ease: "easeOut"
@@ -40,11 +44,11 @@ const FeatureCard = ({ item }) => (
 
 // TestimonialCard component
 const TestimonialCard = ({ item }) => (
-  <motion.div 
+  <motion.div
     className="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/20 transition-all duration-300"
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
-    transition={{ 
+    transition={{
       delay: item.id * 0.1 + 0.3,
       duration: 0.4
     }}
@@ -63,8 +67,8 @@ const TestimonialCard = ({ item }) => (
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
-  
-  // Define all data arrays
+
+  // Parallax images array
   const parallaxImages = [
     'https://images.unsplash.com/photo-1498496294664-d9372eb521f3?auto=compress&w=1200&q=80',
     'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=compress&w=1200&q=80',
@@ -72,32 +76,27 @@ export default function Home() {
     'https://images.unsplash.com/photo-1542281286-9e0a16bb7366?auto=compress&w=1200&q=80'
   ];
 
-
-
-
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Optimized scroll effects
   const { scrollYProgress } = useScroll({
     offset: ['start start', 'end end']
   });
-  
+
   const y1 = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 30 : 60]);
   const y2 = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 40 : 80]);
-  
-  // Memoize parallax values
+
   const parallaxValues = useMemo(() => ({
-    y1: y1,
-    y2: y2
-  }), [isMobile]);
+    y1,
+    y2
+  }), [isMobile, y1, y2]);
 
   return (
     <section className="p-0 overflow-hidden">
@@ -105,12 +104,12 @@ export default function Home() {
       <Suspense fallback={<div className="h-96 bg-gray-100 animate-pulse" />}>
         <ImageCarousel />
       </Suspense>
-      
+
       {/* First Parallax Section */}
       <Suspense fallback={<div className="h-96 bg-gray-100 animate-pulse" />}>
         <ParallaxBanner image={parallaxImages[1]}>
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-blue-600/50"></div>
-          <motion.section 
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/40 to-blue-600/40 backdrop-blur-sm rounded-md"></div>
+          <motion.section
             className="relative py-16 px-6 text-center"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -118,26 +117,26 @@ export default function Home() {
             transition={{ duration: 0.6 }}
           >
             <div className="max-w-4xl mx-auto bg-white/90 backdrop-blur-md p-6 rounded-xl shadow-lg">
-              <motion.h1 
+              <motion.h1
                 className="text-2xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-800 to-blue-600 mb-4"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ delay: 0.1 }}
                 viewport={{ once: true }}
               >
-                Your Trusted Partner for ISO Certification
+                What can Standards <em className='text-blue-900 underline'>do for you?</em>
               </motion.h1>
-              <motion.p 
-                className="text-base md:text-lg text-gray-700 mb-6"
+              <motion.p
+                className="text-base md:text-lg text-gray-700 mb-6 text-justify"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
                 viewport={{ once: true }}
               >
-                Empowering businesses with global compliance standards, expert consultancy, and impactful training programs.
+                International standards ensure that the products and services you use daily are safe, reliable, and of high quality. They also guide businesses in adopting sustainable and ethical practices, helping to create a future where your purchases not only perform excellently but also safeguard our planet. In essence, standards seamlessly blend quality with conscience, enhancing your everyday experiences and choices.
               </motion.p>
               <div className="flex flex-col sm:flex-row justify-center gap-3">
-                <motion.button 
+                <motion.button
                   className="bg-gradient-to-r from-blue-600 to-blue-800 text-white font-medium py-2 px-6 rounded-full hover:shadow-md transition-all duration-200"
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
@@ -148,7 +147,7 @@ export default function Home() {
                 >
                   Request a Free Consultation
                 </motion.button>
-                <motion.button 
+                <motion.button
                   className="bg-white text-blue-600 border border-blue-600 font-medium py-2 px-6 rounded-full hover:bg-blue-50 transition duration-200"
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
@@ -157,7 +156,7 @@ export default function Home() {
                   transition={{ delay: 0.4 }}
                   viewport={{ once: true }}
                 >
-                  Explore Our Expertise with us 
+                  Explore Our Expertise
                 </motion.button>
               </div>
             </div>
@@ -168,7 +167,7 @@ export default function Home() {
       {/* Features Section */}
       <section className="relative py-12 px-6 bg-gradient-to-br from-blue-50 to-blue-100">
         <div className="relative max-w-7xl mx-auto">
-          <motion.h2 
+          <motion.h2
             className="text-xl md:text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-800 to-blue-600 mb-8"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -177,7 +176,7 @@ export default function Home() {
           >
             Your Growth. Your Safety. Our Expertise.
           </motion.h2>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((item) => (
               <FeatureCard key={item.id} item={item} />
@@ -186,46 +185,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Workplace Safety & OHS */}
-      <section className="relative py-16 px-6">
-        <div className="relative max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-8">
-          <motion.div 
-            className="lg:w-1/2 relative"
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <div className="rounded-xl overflow-hidden shadow-lg">
-              <motion.img
-                src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=compress&w=1200&q=80"
-                alt="Workplace Safety"
-                className="w-full h-auto object-cover"
-                loading="lazy"
-                style={{ y: parallaxValues.y2 }}
-              />
-            </div>
-          </motion.div>
-          <motion.div 
-            className="lg:w-1/2 bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-lg"
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-800 to-blue-600 mb-4">
-              Workplace Safety & OHS Solutions
-            </h2>
-            <p className="text-gray-700 mb-6">
-              Create a safer and more compliant workplace with our OHS audits, risk assessments, and safety officer training programs.
-            </p>
-            <button 
-              className="bg-gradient-to-r from-blue-600 to-blue-800 text-white font-medium py-2 px-6 rounded-full hover:shadow-md transition-all duration-200"
-            >
-              Learn More
-            </button>
-          </motion.div>
-        </div>
+      {/* Img_home Component */}
+      <section>
+        <Img_home  src={h_img} rotate='rotate-[-90deg]'/>
       </section>
 
       {/* Client Success Section */}
@@ -245,9 +207,9 @@ export default function Home() {
 
       {/* CTA Section */}
       <section className="relative py-16 px-6">
-        <div 
+        <div
           className="absolute inset-0"
-          style={{ 
+          style={{
             backgroundImage: `url(${parallaxImages[3]})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
@@ -263,12 +225,12 @@ export default function Home() {
             Contact us today for a free consultation and take the first step towards achieving excellence.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-3">
-            <button 
+            <button
               className="bg-gradient-to-r from-blue-600 to-blue-800 text-white font-medium py-2 px-6 rounded-full hover:shadow-md transition-all duration-200"
             >
               Get Started Now
             </button>
-            <button 
+            <button
               className="bg-white text-blue-600 border border-blue-600 font-medium py-2 px-6 rounded-full hover:bg-blue-50 transition duration-200"
             >
               Call Our Experts

@@ -17,9 +17,19 @@ import About from './asseest/component/pages/about.js';
 import Contact from './asseest/component/pages/contactus.jsx';
 import { motion, AnimatePresence } from "framer-motion";
 import CoreExpertise from './asseest/component/pages/iso_consultancy.jsx';
+import { Faq } from './asseest/component/pages/faq.jsx';
+import Traning from './asseest/component/utilities/traning/traning.jsx';
+import { ISO_certification } from './asseest/component/pages/iso_certificate.jsx';
+import EnvironmentalServices from './asseest/component/pages/Enviroment.jsx';
+import ISOConsultancy from './asseest/component/pages/iso_consultancy.jsx';
+import  SafetySignPPE  from './asseest/component/pages/safetysignppe.jsx';
+// import { Router_link } from './asseest/component/utilities/Array/data.js';
+// import Person_Incharge_PI_2 from './asseest/component/utilities/traning/T_child/Person_Incharge_PI_2.jsx';
+// import Permit_to_Work_System_PTW from './asseest/component/utilities/traning/T_child/Permit_to_Work_System_(PTW).jsx';
+
+
 
 function App() {
-  // const location=useLocation()
   return (
     <div>
       <AnimatePresence mode="wait">
@@ -48,9 +58,33 @@ function App() {
             <PageTransitionWrapper> <Contact /></PageTransitionWrapper>} />
 
           <Route path="services/iso-consultancy" element={
-            <PageTransitionWrapper> <CoreExpertise /></PageTransitionWrapper>} />
+            <PageTransitionWrapper> <ISOConsultancy /></PageTransitionWrapper>} />
 
-          {/* iso-consultancy */}
+          <Route path="Blog-Offers/FAQ" element={
+            <PageTransitionWrapper> <Faq /></PageTransitionWrapper>} />
+
+          <Route path="services/iso-certification" element={
+            <PageTransitionWrapper> <ISO_certification /></PageTransitionWrapper>} />
+        
+          <Route path="services/environmental-services-eta-env-monitoring-air-water-soil-etc" element={
+            <PageTransitionWrapper> <EnvironmentalServices /></PageTransitionWrapper>} />
+
+          <Route path="services/supply-of-sign-quality-safety-env-companies" element={
+            <PageTransitionWrapper> <SafetySignPPE /></PageTransitionWrapper>} />
+
+        
+        
+          <Route path="services/iso-training" element={
+            <PageTransitionWrapper>
+              <Traning />
+            </PageTransitionWrapper>
+          }>
+            {/* {Router_link.map(({ path, element }, index) => (
+              <Route key={index} path={path.replaceAll("_", "-")} element={element} />
+            ))} */}
+          </Route>
+          {/* neboshIgcUk */}
+          {/* <Route path="/neboshDiplomaUk" element={<Permit_to_Work_System_PTW />} />  */}
           <Route path="*" element={<NotFound />} />
         </Routes>
 
