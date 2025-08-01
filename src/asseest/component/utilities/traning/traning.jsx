@@ -35,42 +35,17 @@ const itemVariants = {
 };
 
 const cardHoverVariants = {
-  rest: { y: 0 },
-  hover: { y: -10 }
+  rest: {
+    y: 0,
+    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+  },
+  hover: {
+    y: -8,
+    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+  }
 };
 
-const LoadingSkeleton = () => (
-  <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-    <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-      {/* Header Skeleton */}
-      <div className="max-w-3xl mb-12">
-        <div className="h-12 bg-gray-200 rounded-full w-3/4 mb-4 animate-pulse"></div>
-        <div className="h-6 bg-gray-200 rounded-full w-full mb-8 animate-pulse"></div>
-        <div className="flex gap-4">
-          <div className="h-20 bg-gray-200 rounded-xl w-1/2 animate-pulse"></div>
-          <div className="h-20 bg-gray-200 rounded-xl w-1/2 animate-pulse"></div>
-        </div>
-      </div>
-
-      {/* Tabs Skeleton */}
-      <div className="flex gap-4 mb-8 overflow-hidden">
-        {[...Array(4)].map((_, i) => (
-          <div key={i} className="h-12 bg-gray-200 rounded-full w-24 animate-pulse"></div>
-        ))}
-      </div>
-
-      {/* Content Skeleton */}
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {[...Array(6)].map((_, i) => (
-          <div key={i} className="h-96 bg-gray-200 rounded-xl animate-pulse"></div>
-        ))}
-      </div>
-    </div>
-  </div>
-);
-
 const Training = () => {
-  const [loading, setLoading] = useState(true);
   const [hoveredCard, setHoveredCard] = useState(null);
   const controls = useAnimation();
   const [ref, inView] = useInView({ threshold: 0.1 });
@@ -80,7 +55,7 @@ const Training = () => {
     navbarItems?.find((item) => item?.title === "Training")?.children || [];
 
   // Find OHSE Training index and set as default active tab
-  const ohseIndex = trainingGroups.findIndex(group => 
+  const ohseIndex = trainingGroups.findIndex(group =>
     group.title && group.title.toLowerCase() === "ohse training"
   );
   const [activeTab, setActiveTab] = useState(ohseIndex >= 0 ? ohseIndex : 0);
@@ -98,85 +73,119 @@ const Training = () => {
   const groupItems = activeGroup?.children || [];
 
   useEffect(() => {
-    // Simulate loading
-    const timer = setTimeout(() => setLoading(false), 1500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
     if (inView) {
       controls.start("visible");
     }
   }, [controls, inView]);
 
-  if (loading) {
-    return <LoadingSkeleton />;
-  }
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Animated header section */}
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-blue-50">
+      {/* Hero section with animated gradient */}
       <motion.header
         ref={headerRef}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: headerInView ? 1 : 0.8, y: headerInView ? 0 : -10 }}
         transition={{ duration: 0.5 }}
-        className="bg-white shadow-sm"
+        className="relative overflow-hidden"
       >
-        <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+        {/* Animated background gradient */}
+        <motion.div
+          animate={{
+            backgroundPosition: ["0% 0%", "100% 100%"],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "linear",
+          }}
+          className="absolute inset-0 bg-gradient-to-r from-indigo-100 via-purple-100 to-blue-100 bg-[length:300%_300%]"
+        />
+
+        <div className="max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl">
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600"
+              className="text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 sm:text-6xl"
             >
-              Professional Training Programs
+              Elevate Your Expertise
             </motion.h1>
-            
+
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
-              className="mt-4 text-xl text-gray-600"
+              className="mt-6 text-xl text-gray-700"
             >
-              Enhance your skills with our {totalItems}+ courses across {totalCategories} specialized categories
+              Master in-demand skills with our {totalItems}+ industry-recognized courses across {totalCategories} specialized domains
             </motion.p>
-            
+
             {/* Stats bar */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
-              className="mt-8 flex flex-wrap gap-4"
+              className="mt-12 grid grid-cols-2 gap-4 sm:flex sm:flex-wrap"
             >
-              <motion.div 
+              <motion.div
                 whileHover={{ scale: 1.03 }}
-                className="flex items-center px-6 py-3 bg-white rounded-xl shadow-sm border border-gray-100"
+                className="flex items-center px-6 py-4 bg-white/90 backdrop-blur-sm rounded-xl shadow-sm border border-white/20"
               >
-                <div className="p-2 mr-3 rounded-full bg-blue-100 text-blue-600">
+                <div className="p-2 mr-3 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 text-blue-600">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                   </svg>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-500">Total Courses</p>
-                  <p className="text-2xl font-bold text-gray-900">{totalItems}</p>
+                  <p className="text-sm font-medium text-gray-600">Courses Available</p>
+                  <p className="text-2xl font-bold text-gray-900">{totalItems}+</p>
                 </div>
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 whileHover={{ scale: 1.03 }}
-                className="flex items-center px-6 py-3 bg-white rounded-xl shadow-sm border border-gray-100"
+                className="flex items-center px-6 py-4 bg-white/90 backdrop-blur-sm rounded-xl shadow-sm border border-white/20"
               >
-                <div className="p-2 mr-3 rounded-full bg-green-100 text-green-600">
+                <div className="p-2 mr-3 rounded-full bg-gradient-to-br from-purple-100 to-indigo-100 text-purple-600">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                   </svg>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-500">Categories</p>
+                  <p className="text-sm font-medium text-gray-600">Categories</p>
                   <p className="text-2xl font-bold text-gray-900">{totalCategories}</p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ scale: 1.03 }}
+                className="flex items-center px-6 py-4 bg-white/90 backdrop-blur-sm rounded-xl shadow-sm border border-white/20"
+              >
+                <div className="p-2 mr-3 rounded-full bg-gradient-to-br from-indigo-100 to-blue-100 text-indigo-600">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Learning Paths</p>
+                  <p className="text-2xl font-bold text-gray-900">12+</p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ scale: 1.03 }}
+                className="flex items-center px-6 py-4 bg-white/90 backdrop-blur-sm rounded-xl shadow-sm border border-white/20"
+              >
+                <div className="p-2 mr-3 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 text-blue-600">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Certifications</p>
+                  <p className="text-2xl font-bold text-gray-900">30+</p>
                 </div>
               </motion.div>
             </motion.div>
@@ -184,16 +193,15 @@ const Training = () => {
         </div>
       </motion.header>
 
-      <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        {/* Category tabs */}
-        <motion.div 
+      <main className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+        {/* Category tabs - Sticky navigation */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className="mb-8 relative"
+          className="mb-12 sticky top-0 z-10 bg-white/80 backdrop-blur-md py-4 border-b border-gray-200"
         >
-          <div className="absolute bottom-0 h-0.5 bg-gray-200 w-full"></div>
-          <nav className="flex space-x-8 overflow-x-auto pb-1">
+          <nav className="flex space-x-4 overflow-x-auto pb-1">
             {trainingGroups.map((group, idx) => {
               const { title: groupTitle } = renderTrainingData(group);
               return (
@@ -202,19 +210,18 @@ const Training = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setActiveTab(idx)}
-                  className={`relative whitespace-nowrap py-4 px-1 font-medium text-sm transition-all duration-300 ${idx === activeTab ? 'text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                  className={`relative whitespace-nowrap py-2 px-4 font-medium text-sm rounded-full transition-all duration-300 ${idx === activeTab
+                      ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                    }`}
                 >
                   {groupTitle}
-                  <span className={`ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${idx === activeTab ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}`}>
+                  <span className={`ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${idx === activeTab
+                      ? 'bg-white/20 text-white'
+                      : 'bg-gray-100 text-gray-800'
+                    }`}>
                     {group?.children?.length || 0}
                   </span>
-                  {idx === activeTab && (
-                    <motion.span 
-                      layoutId="tabIndicator"
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
                 </motion.button>
               );
             })}
@@ -227,29 +234,31 @@ const Training = () => {
           initial="hidden"
           animate={controls}
           variants={containerVariants}
-          className="space-y-8"
+          className="space-y-12"
         >
-          <motion.div variants={itemVariants} className="space-y-4">
+          <motion.div variants={itemVariants} className="space-y-6">
             <div className="flex items-center">
-              <motion.span 
+              <motion.span
                 whileHover={{ rotate: 360 }}
-                className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 text-blue-600 font-bold mr-4"
+                className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 text-indigo-600 font-bold text-xl mr-4"
               >
                 {activeTab + 1}
               </motion.span>
-              <h2 className="text-3xl font-bold text-gray-900">
-                {groupTitle}
-              </h2>
+              <div>
+                <h2 className="text-3xl font-bold text-gray-900">
+                  {groupTitle}
+                </h2>
+                {groupDescription && (
+                  <p className="text-gray-600 mt-2 text-lg">{groupDescription}</p>
+                )}
+              </div>
             </div>
-            {groupDescription && (
-              <p className="text-gray-600 max-w-3xl text-lg pl-14">{groupDescription}</p>
-            )}
           </motion.div>
 
           <motion.div variants={containerVariants} className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {groupItems.map((item, itemIdx) => {
               const { title, description } = renderTrainingData(item);
-              
+
               return (
                 <motion.div
                   key={`item-${itemIdx}`}
@@ -259,32 +268,27 @@ const Training = () => {
                   animate="rest"
                   onMouseEnter={() => setHoveredCard(itemIdx)}
                   onMouseLeave={() => setHoveredCard(null)}
-                  className="relative rounded-xl overflow-hidden bg-white shadow-lg"
+                  className="relative rounded-2xl overflow-hidden bg-white border border-gray-100"
                 >
-                  <motion.div 
+                  <motion.div
                     variants={cardHoverVariants}
                     className="relative flex flex-col h-full p-6"
                   >
-                    {/* Card background effect */}
-                    <AnimatePresence>
-                      {hoveredCard === itemIdx && (
-                        <motion.div 
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 0.1 }}
-                          exit={{ opacity: 0 }}
-                          className="absolute inset-0 bg-gradient-to-br from-blue-400 to-indigo-500"
-                        />
-                      )}
-                    </AnimatePresence>
-                    
+                    {/* Card accent */}
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-500" />
+
+                    {/* Card content */}
                     <div className="flex items-start mb-4">
-                      <span className="flex-shrink-0 bg-blue-100 text-blue-800 text-sm font-medium mr-3 px-2.5 py-0.5 rounded-full">
+                      <span className="flex-shrink-0 bg-gradient-to-br from-indigo-100 to-purple-100 text-indigo-800 text-sm font-medium mr-3 px-2.5 py-0.5 rounded-full">
                         {activeTab + 1}.{itemIdx + 1}
                       </span>
                       <h3 className="text-xl font-semibold text-gray-900">{title}</h3>
                     </div>
-                    
+
                     <p className="text-gray-600 mb-6 line-clamp-3">{description}</p>
+
+                    {/* Card footer */}
+
                   </motion.div>
                 </motion.div>
               );
@@ -293,62 +297,80 @@ const Training = () => {
         </motion.div>
 
         {/* CTA Section */}
+            
+
+            
+        
         <motion.section
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mt-20 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-2xl shadow-2xl overflow-hidden"
+  initial={{ opacity: 0, y: 50 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.6 }}
+  className="mt-24 rounded-2xl shadow-xl overflow-hidden relative bg-gradient-to-r from-gray-900 to-blue-900"
+>
+  {/* CSS pattern background */}
+  <div 
+    className="absolute inset-0 opacity-5"
+    style={{
+      backgroundImage: 'linear-gradient(135deg, #ffffff 10%, transparent 10%, transparent 50%, #ffffff 50%, #ffffff 60%, transparent 60%, transparent 100%)',
+      backgroundSize: '15px 15px'
+    }}
+  ></div>
+
+  {/* Decorative elements */}
+  <div className="absolute inset-0 opacity-10">
+    <div className="absolute top-0 left-20 w-32 h-32 bg-white rounded-full filter blur-3xl"></div>
+    <div className="absolute bottom-10 right-20 w-40 h-40 bg-blue-300 rounded-full filter blur-3xl"></div>
+  </div>
+  
+  <div className="px-6 py-16 sm:p-16 lg:p-20 relative z-10">
+    <div className="max-w-3xl mx-auto text-center">
+      <motion.h2 
+        whileInView={{ scale: [0.95, 1] }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="text-4xl font-extrabold text-white sm:text-5xl"
+      >
+        Ready to transform your career?
+      </motion.h2>
+      <motion.p
+        whileInView={{ opacity: [0, 1] }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.2, duration: 0.5 }}
+        className="mt-6 text-xl text-blue-100"
+      >
+        Join thousands of professionals who've accelerated their growth with our industry-leading programs.
+      </motion.p>
+      <motion.div
+        whileInView={{ opacity: [0, 1], y: [10, 0] }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.4, duration: 0.5 }}
+        className="mt-10 flex flex-col sm:flex-row justify-center gap-4"
+      >
+        <motion.button 
+          whileHover={{ scale: 1.05, boxShadow: "0 10px 25px -5px rgba(255, 255, 255, 0.1)" }}
+          whileTap={{ scale: 0.95 }}
+          className="inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-medium rounded-2xl shadow-lg text-blue-900 bg-white hover:bg-blue-50 transition-all"
         >
-          <div className="px-6 py-16 sm:p-16 lg:p-20">
-            <div className="max-w-3xl mx-auto text-center">
-              <motion.h2 
-                whileInView={{ scale: [0.95, 1] }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="text-3xl font-extrabold text-white sm:text-4xl"
-              >
-                Ready to transform your career?
-              </motion.h2>
-              <motion.p
-                whileInView={{ opacity: [0, 1] }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-                className="mt-4 text-xl text-blue-100"
-              >
-                Join our community of professionals who've accelerated their growth with our training programs.
-              </motion.p>
-              <motion.div
-                whileInView={{ opacity: [0, 1], y: [10, 0] }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.4, duration: 0.5 }}
-                className="mt-10 flex flex-col sm:flex-row justify-center gap-4"
-              >
-                <motion.button 
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-2xl shadow-sm text-blue-600 bg-white hover:bg-blue-50"
-                >
-                  Get course catalog
-                  <svg className="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fillRule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clipRule="evenodd" />
-                  </svg>
-                </motion.button>
-                <motion.button 
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="inline-flex items-center justify-center px-8 py-3 border border-white text-base font-medium rounded-2xl shadow-sm text-white bg-transparent hover:bg-white hover:bg-opacity-10"
-                >
-                  Speak with an advisor
-                  <svg className="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
-                    <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
-                  </svg>
-                </motion.button>
-              </motion.div>
-            </div>
-          </div>
-        </motion.section>
+          Get Full Course Catalog
+          <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </motion.button>
+        <motion.button 
+          whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
+          whileTap={{ scale: 0.95 }}
+          className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-base font-medium rounded-2xl shadow-sm text-white bg-transparent hover:bg-white/10 transition-all"
+        >
+          Speak with an Advisor
+          <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </motion.button>
+      </motion.div>
+    </div>
+  </div>
+</motion.section>
       </main>
     </div>
   );

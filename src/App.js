@@ -23,6 +23,7 @@ import { ISO_certification } from './asseest/component/pages/iso_certificate.jsx
 import EnvironmentalServices from './asseest/component/pages/Enviroment.jsx';
 import ISOConsultancy from './asseest/component/pages/iso_consultancy.jsx';
 import  SafetySignPPE  from './asseest/component/pages/safetysignppe.jsx';
+import TechnicalBidComponent from './asseest/component/pages/Bid_tender';
 // import { Router_link } from './asseest/component/utilities/Array/data.js';
 // import Person_Incharge_PI_2 from './asseest/component/utilities/traning/T_child/Person_Incharge_PI_2.jsx';
 // import Permit_to_Work_System_PTW from './asseest/component/utilities/traning/T_child/Permit_to_Work_System_(PTW).jsx';
@@ -72,7 +73,9 @@ function App() {
           <Route path="services/supply-of-sign-quality-safety-env-companies" element={
             <PageTransitionWrapper> <SafetySignPPE /></PageTransitionWrapper>} />
 
-        
+        <Route path="services/tender-technical-bid-preparation" element={
+            <PageTransitionWrapper> <TechnicalBidComponent /></PageTransitionWrapper>} />
+
         
           <Route path="services/iso-training" element={
             <PageTransitionWrapper>

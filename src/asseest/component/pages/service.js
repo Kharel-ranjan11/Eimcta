@@ -1,281 +1,297 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Parallax } from "react-parallax";
+import { 
+  FaChartLine, 
+  FaFlask, 
+  FaChalkboardTeacher, 
+  FaShieldAlt, 
+  FaLeaf, 
+  FaIndustry,
+  FaUserTie,
+  FaCertificate,
+  FaHandsHelping,
+  FaAward
+} from "react-icons/fa";
 
-const relatedServices = [
-  {
-    id: 1,
-    title: "ISO 9001 Certification",
-    description: "Quality Management Systems consultancy and certification",
-    category: "ISO",
-    icon: "fas fa-certificate",
-    features: ["Gap Analysis", "Documentation", "Internal Audit"],
-  },
-  {
-    id: 1.5,
-    title: "ISO 9001 Certification",
-    description: "Quality Management Systems consultancy and certification",
-    category: "ISO",
-    icon: "fas fa-certificate",
-    features: ["Gap Analysis", "Documentation", "Internal Audit"],
-  },
-  {
-    id: 2,
-    title: "Workplace Safety Audit",
-    description: "Comprehensive OHS audit for industrial safety compliance",
-    category: "OHS",
-    icon: "fas fa-hard-hat",
-    features: ["Hazard Identification", "Risk Assessment", "PPE Compliance"],
-  },
-  {
-    id: 3,
-    title: "Environmental Monitoring",
-    description: "Air, Water and Noise pollution studies and compliance reports",
-    category: "Environmental",
-    icon: "fas fa-leaf",
-    features: ["EIA Reporting", "Monitoring Plan", "Regulatory Support"],
-  },
-  {
-    id: 4,
-    title: "Fire Safety Training",
-    description: "Hands-on safety training for fire prevention and response",
-    category: "Training",
-    icon: "fas fa-fire-extinguisher",
-    features: ["Mock Drills", "Evacuation Training", "Fire Watch Programs"],
-  },
-  {
-    id: 5,
-    title: "Safety Signage Installation",
-    description: "Industrial and commercial signage solutions",
-    category: "Safety",
-    icon: "fas fa-exclamation-triangle",
-    features: ["Directional Signs", "Hazard Warnings", "Exit Signage"],
-  },
-];
+const Services = () => {
+  // Gradient backgrounds for service cards
+  const cardGradients = [
+    "bg-gradient-to-br from-blue-500 to-blue-700",
+    "bg-gradient-to-br from-emerald-500 to-emerald-700",
+    "bg-gradient-to-br from-purple-500 to-purple-700",
+    "bg-gradient-to-br from-rose-500 to-rose-700",
+    "bg-gradient-to-br from-teal-500 to-teal-700",
+    "bg-gradient-to-br from-amber-500 to-amber-700"
+  ];
 
-const uniqueCategories = [...new Set(relatedServices.map((s) => s.category))];
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        when: "beforeChildren"
+      }
+    }
+  };
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
+  const cardVariants = {
+    hidden: { y: 30, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 15
+      }
     },
-  },
-};
+    hover: {
+      y: -8,
+      scale: 1.02,
+      transition: {
+        duration: 0.3,
+        ease: "easeOut"
+      }
+    }
+  };
 
-const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.5,
+  // Services data
+  const services = [
+    {
+      icon: <FaChartLine className="text-4xl" />,
+      title: "ISO Consultancy Services",
+      description: "We guide your organization through every stage of ISO implementation from gap analysis to certification readiness.",
+      items: [
+        "ISO 9001 - Quality Management",
+        "ISO 14001 - Environmental Management",
+        "ISO 45001 - Occupational Health & Safety",
+        "ISO 22000 & HACCP - Food Safety",
+        "ISO 27001 - Information Security"
+      ],
+      cta: "Get Certified"
     },
-  },
-};
+    {
+      icon: <FaFlask className="text-4xl" />,
+      title: "Accredited Testing & Calibration",
+      description: "Precision services including equipment calibration and comprehensive testing per ISO/IEC 17025 standards.",
+      items: [
+        "Equipment calibration services",
+        "Food, water, environmental testing",
+        "Laboratory setup consulting",
+        "Quality assurance programs",
+        "Compliance verification"
+      ],
+      cta: "Schedule Testing"
+    },
+    {
+      icon: <FaChalkboardTeacher className="text-4xl" />,
+      title: "Professional Training Programs",
+      description: "Specialized training to build competence aligned with ISO requirements and industry standards.",
+      items: [
+        "Lead Auditor certification",
+        "Food safety trainings (HACCP)",
+        "Occupational health workshops",
+        "Environmental compliance",
+        "Soft skills development"
+      ],
+      cta: "View Courses"
+    },
+    {
+      icon: <FaShieldAlt className="text-4xl" />,
+      title: "Occupational Health & Safety",
+      description: "Creating proactive safety cultures that reduce risk and enhance workplace productivity.",
+      items: [
+        "Hazard Identification & Risk Assessment",
+        "Emergency preparedness planning",
+        "Safety audits and compliance",
+        "PPE consultation",
+        "Incident investigation"
+      ],
+      cta: "Improve Safety"
+    },
+    {
+      icon: <FaLeaf className="text-4xl" />,
+      title: "Environmental Management",
+      description: "Comprehensive solutions supporting your environmental responsibility and sustainability goals.",
+      items: [
+        "Environmental Impact Assessments",
+        "Waste management planning",
+        "Sustainability consulting",
+        "Regulatory compliance",
+        "Carbon footprint analysis"
+      ],
+      cta: "Go Green"
+    },
+    {
+      icon: <FaIndustry className="text-4xl" />,
+      title: "Industry-Specific Solutions",
+      description: "Tailored approaches addressing unique challenges across various sectors.",
+      items: [
+        "Manufacturing & Industrial",
+        "Healthcare & Pharmaceutical",
+        "Food Production & Hospitality",
+        "Educational Institutions",
+        "Service Industries"
+      ],
+      cta: "Sector Solutions"
+    }
+  ];
 
-export default function Services() {
-  const [activeCategory, setActiveCategory] = useState(uniqueCategories[0]);
-  const filteredServices = relatedServices.filter((s) => s.category === activeCategory);
+  const benefits = [
+    {
+      icon: <FaUserTie className="text-3xl" />,
+      title: "Experienced Consultants",
+      description: "Seasoned professionals with 10+ years in ISO implementation"
+    },
+    {
+      icon: <FaCertificate className="text-3xl" />,
+      title: "Customized Solutions",
+      description: "Tailored to your organization's specific needs"
+    },
+    {
+      icon: <FaHandsHelping className="text-3xl" />,
+      title: "End-to-End Support",
+      description: "From documentation to certification and beyond"
+    },
+    {
+      icon: <FaAward className="text-3xl" />,
+      title: "Commitment to Excellence",
+      description: "Driving continual improvement and sustainable compliance"
+    }
+  ];
 
   return (
-    <div className="py-20 bg-gradient-to-b from-gray-50 to-white">
-      <div className="container mx-auto px-4">
-        {/* Hero with Parallax */}
-        <Parallax bgImage="https://images.unsplash.com/photo-1600880292203-757bb62b4baf" strength={300}>
-          <div className="h-96 flex items-center justify-center bg-black bg-opacity-50">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-center"
-            >
-              <h1 className="text-5xl font-bold text-white mb-6">Our Services</h1>
-              <p className="text-xl text-gray-200 max-w-3xl mx-auto">
-                We are one of the leading global providers of accredited ISO certification and management consultancy services.
-              </p>
-            </motion.div>
-          </div>
-        </Parallax>
-
-        {/* Tabs */}
+    <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+      {/* Decorative background element */}
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-r from-blue-100 to-transparent opacity-20 -z-10"></div>
+      
+      <div className="max-w-7xl mx-auto relative">
+        {/* Section header */}
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="flex justify-center gap-4 flex-wrap my-16"
-        >
-          {uniqueCategories.map((category) => (
-            <motion.button
-              key={category}
-              variants={itemVariants}
-              onClick={() => setActiveCategory(category)}
-              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                activeCategory === category
-                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg"
-                  : "bg-gray-100 text-gray-700 hover:bg-gradient-to-r hover:from-blue-100 hover:to-indigo-100 hover:text-blue-600 hover:shadow-md"
-              }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {category}
-            </motion.button>
-          ))}
-        </motion.div>
-
-        {/* Services Cards */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20"
-        >
-          {filteredServices.map((service) => (
-            <motion.div
-              key={service.id}
-              variants={itemVariants}
-              className="p-8 border rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 bg-white group hover:bg-gradient-to-br hover:from-blue-50 hover:to-indigo-50"
-              whileHover={{ y: -10 }}
-            >
-              <div className="flex flex-col gap-4 mb-6">
-                <div className="bg-gradient-to-r from-blue-500 to-indigo-500 w-16 h-16 rounded-xl flex items-center justify-center text-white text-2xl group-hover:rotate-12 transition-transform duration-300">
-                  <i className={service.icon}></i>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 group-hover:text-blue-600 transition-colors duration-300">
-                  {service.title}
-                </h3>
-                <p className="text-gray-600">{service.description}</p>
-              </div>
-              <div className="space-y-3 mb-8">
-                {service.features.map((feature, index) => (
-                  <div
-                    key={index}
-                    className="flex items-start space-x-3 text-gray-700 group-hover:text-gray-800 transition-colors duration-300"
-                  >
-                    <i className="fas fa-check-circle text-green-500 mt-1"></i>
-                    <span>{feature}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="bg-gray-100 text-gray-700 px-4 py-1.5 rounded-full text-xs font-medium group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors duration-300">
-                  {service.category}
-                </span>
-                <Link
-                  to="/form"
-                  className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-5 py-2.5 text-sm rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg"
-                >
-                  Get Quote
-                </Link>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Safety Equipment Section */}
-        <Parallax bgImage="https://images.unsplash.com/photo-1581093057305-25a0a6b9a8b0" strength={500}>
-          <div className="py-20 bg-black bg-opacity-70 rounded-2xl my-20">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-4xl font-bold text-white mb-4">Safety Signs & PPE Equipment</h2>
-              <p className="text-xl text-gray-200">
-                Complete range of safety equipment and signage solutions
-              </p>
-            </motion.div>
-
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 px-4"
-            >
-              {[
-                {
-                  title: "Safety Signs",
-                  image:
-                    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&h=300",
-                  desc: "Professional safety signage for workplace compliance",
-                },
-                {
-                  title: "PPE & Safety Requisites",
-                  image:
-                    "https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?auto=format&fit=crop&w=400&h=300",
-                  desc: "Personal protective equipment and safety gear",
-                },
-                {
-                  title: "Fire Safety Equipment",
-                  image:
-                    "https://images.unsplash.com/photo-1520637836862-4d197d17c50a?auto=format&fit=crop&w=400&h=300",
-                  desc: "Complete fire safety and rescue equipment",
-                },
-              ].map((item, idx) => (
-                <motion.div
-                  key={idx}
-                  variants={itemVariants}
-                  className="p-6 border rounded-2xl bg-white bg-opacity-90 backdrop-blur-sm shadow-lg hover:shadow-2xl transition-all duration-500"
-                  whileHover={{ scale: 1.03 }}
-                >
-                  <div className="overflow-hidden rounded-lg mb-4">
-                    <motion.img
-                      src={item.image}
-                      alt={item.title}
-                      className="rounded-lg w-full h-48 object-cover hover:scale-110 transition-transform duration-500"
-                      whileHover={{ scale: 1.1 }}
-                    />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-3">{item.title}</h3>
-                  <p className="text-gray-600 mb-6">{item.desc}</p>
-                  <button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow hover:shadow-md">
-                    View Products
-                  </button>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </Parallax>
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mt-20"
+          viewport={{ once: true, margin: "-100px" }}
+          className="text-center mb-16"
         >
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-12 rounded-2xl shadow-inner">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">Need Help Choosing the Right Service?</h2>
-            <p className="text-xl text-gray-600 mb-10 max-w-3xl mx-auto">
-              Our experts are here to help you find the perfect solution for your business needs
-            </p>
-            <div className="flex flex-wrap justify-center gap-6">
-              <Link
-                to="/form"
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-10 py-4 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-800">
+            Our Premium Services
+          </h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Empowering your organization with <span className="font-semibold text-blue-600">international standards compliance</span> and operational excellence.
+          </p>
+        </motion.div>
+
+        {/* Services grid */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          {services.map((service, index) => (
+            <motion.div
+              key={index}
+              variants={cardVariants}
+              whileHover="hover"
+              className={`relative group overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 ${cardGradients[index]}`}
+            >
+              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+              <div className="relative p-8 h-full flex flex-col text-white">
+                <div className="mb-6 p-3 bg-white bg-opacity-20 rounded-full w-max">
+                  {service.icon}
+                </div>
+                <h2 className="text-2xl font-bold mb-4">{service.title}</h2>
+                <p className="mb-6 opacity-90">{service.description}</p>
+                
+                <ul className="space-y-3 mb-8">
+                  {service.items.map((item, i) => (
+                    <li key={i} className="flex items-start">
+                      <svg className="flex-shrink-0 h-5 w-5 text-white opacity-80 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span className="opacity-90">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="mt-auto"
+                >
+                  <button className="w-full py-3 px-6 bg-white bg-opacity-20 hover:bg-opacity-30 backdrop-blur-sm rounded-lg font-medium transition-all duration-300 border border-white border-opacity-30 hover:border-opacity-50 flex items-center justify-between">
+                    {service.cta}
+                    <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </button>
+                </motion.div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Benefits section */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          viewport={{ once: true }}
+          className="mt-24"
+        >
+          <div className="bg-gradient-to-r
+           from-gray-900 to-blue-900 rounded-2xl p-10 text-white relative overflow-hidden">
+            {/* CSS pattern background */}
+            <div className="absolute inset-0 opacity-5" 
+            style={{
+              backgroundImage: 'linear-gradient(135deg, #ffffff 10%, transparent 10%, transparent 50%, #ffffff 50%, #ffffff 60%, transparent 60%, transparent 100%)',
+              backgroundSize: '15px 15px'
+            }}></div>
+            
+            <div className="relative">
+              <h3 className="text-3xl font-bold mb-8 text-center">Why Choose Us?</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {benefits.map((benefit, index) => (
+                  <motion.div 
+                    key={index}
+                    whileHover={{ y: -5 }}
+                    className="bg-white bg-opacity-10 backdrop-blur-sm p-6 rounded-xl border border-white border-opacity-20 hover:border-opacity-40 transition-all"
+                  >
+                    <div className="p-3 bg-white bg-opacity-20 rounded-full w-max mb-4">
+                      {benefit.icon}
+                    </div>
+                    <h4 className="text-xl font-semibold mb-2">{benefit.title}</h4>
+                    <p className="opacity-80">{benefit.description}</p>
+                  </motion.div>
+                ))}
+              </div>
+              
+              <motion.div
+                initial={{ scale: 0.95 }}
+                whileInView={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 100 }}
+                viewport={{ once: true }}
+                className="mt-12 text-center"
               >
-                Get Free Consultation
-              </Link>
-              <Link
-                to="/contact-us"
-                className="border-2 border-blue-600 text-blue-600 px-10 py-4 rounded-xl hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Contact Us
-              </Link>
+                <button className="py-4 px-8 bg-white
+                 text-blue-900 font-bold rounded-lg
+                  hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl flex items-center mx-auto">
+                  Get Your Free Consultation
+                  <svg className="w-5 h-5 ml-2"
+                   fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </button>
+              </motion.div>
             </div>
           </div>
         </motion.div>
       </div>
-    </div>
+    </section>
   );
-}
+};
+
+export default Services;

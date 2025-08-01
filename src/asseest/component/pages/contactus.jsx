@@ -18,6 +18,7 @@ import {
   FaUser,
   FaPaperPlane,
   FaCommentAlt,
+  FaExclamationCircle
 } from "react-icons/fa";
 import { FiSend } from "react-icons/fi";
 import { MdAccessTime } from "react-icons/md";
@@ -31,10 +32,9 @@ export default function Contact() {
 
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [activeTab, setActiveTab] = useState("form"); // 'form' or 'chat'
+  const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState("form");
   const formRef = useRef(null);
-
-  // Track window width for responsive adjustments
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -47,17 +47,20 @@ export default function Contact() {
     await loadFull(engine);
   };
 
-  // Custom cursor effect - only on desktop
+  // Enhanced cursor effect with fixed distance
   useEffect(() => {
-    if (windowWidth < 1024) return; // Disable on mobile
+    if (windowWidth < 1024) return;
 
     const cursor = document.querySelector(".custom-cursor");
     const cursorFollower = document.querySelector(".cursor-follower");
     const links = document.querySelectorAll("a, button, .hover-effect, input, textarea");
 
     const moveCursor = (e) => {
-      cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
-      cursorFollower.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+      cursor.style.transform = `translate3d(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%), 0)`;
+      cursorFollower.style.transform = `translate3d(calc(${e.clientX}px - 50% + 8px), calc(${e.clientY}px - 50% + 8px), 0)`;
+
+
+
     };
 
     const handleLinkHover = () => {
@@ -96,19 +99,26 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
 
-    console.log("Form submitted:", formData);
-    setSubmitted(true);
-    setFormData({ name: "", email: "", message: "" });
-    setIsSubmitting(false);
+      // Simulate error for demo
+      const shouldError = Math.random() > 0.8; // 20% chance of error
+      if (shouldError) {
+        throw new Error("Network error occurred. Please try again.");
+      }
 
-    // Reset form after animation
-    setTimeout(() => {
-      setSubmitted(false);
-    }, 3000);
+      console.log("Form submitted:", formData);
+      setSubmitted(true);
+      setFormData({ name: "", email: "", message: "" });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const resources = [
@@ -207,8 +217,14 @@ export default function Contact() {
     },
     submitted: {
       scale: 1,
-      backgroundColor: "#10B981",
+      background: "linear-gradient(to right, #10B981, #059669)",
+      transition: { duration: 0.3 }
     },
+    error: {
+      x: [0, -5, 5, -5, 5, 0],
+      backgroundColor: "#FEE2E2",
+      transition: { duration: 0.6 }
+    }
   };
 
   const tabVariants = {
@@ -216,18 +232,27 @@ export default function Contact() {
     visible: { opacity: 1, y: 0 }
   };
 
+  const errorVariants = {
+    hidden: { scale: 0.8, opacity: 0 },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 500 }
+    },
+    exit: {
+      scale: 0.8,
+      opacity: 0,
+      transition: { duration: 0.2 }
+    }
+  };
+
   return (
     <div className="relative overflow-hidden">
       {/* Custom cursor elements - only on desktop */}
       {windowWidth >= 1024 && (
         <>
-          <div className="custom-cursor fixed w-4 h-4 bg-blue-600
-           rounded-full pointer-events-none z-50 mix-blend-difference 
-           transform -translate-x-1/2 -translate-y-1/2 transition-transform
-            duration-100 ease-out"></div>
-          <div className="cursor-follower fixed w-8 h-8 border-2
-           border-blue-400 rounded-full pointer-events-none z-40 
-           transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-out"></div>
+          <div className="custom-cursor fixed w-3 h-3 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full pointer-events-none z-50 mix-blend-difference transform transition-transform duration-100 ease-out"></div>
+          <div className="cursor-follower fixed w-8 h-8 border-2 border-blue-400 rounded-full pointer-events-none z-40 transform transition-all duration-300 ease-out backdrop-filter backdrop-blur-sm"></div>
         </>
       )}
 
@@ -322,7 +347,9 @@ export default function Contact() {
               className="text-center px-4"
             >
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4">
-                Contact Us
+                <span className="bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
+                  Contact Us
+                </span>
               </h1>
               <p className="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto">
                 Get in touch with our team for any questions about our services
@@ -340,18 +367,20 @@ export default function Contact() {
               className="space-y-6 md:space-y-8"
             >
               <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
-                Get in Touch
+                <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                  Get in Touch
+                </span>
               </h2>
 
               <div className="space-y-4 md:space-y-6">
                 {/* Email */}
                 <motion.div
                   whileHover={{ y: windowWidth >= 768 ? -5 : 0 }}
-                  className="p-4 sm:p-6 border rounded-lg shadow-sm bg-white hover:shadow-lg transition-all hover-effect"
+                  className="p-4 sm:p-6 border rounded-lg shadow-sm bg-gradient-to-br from-blue-50 to-indigo-50 hover:shadow-lg transition-all hover-effect"
                 >
                   <div className="flex items-center">
-                    <div className="bg-blue-100 w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mr-3 sm:mr-4 group cursor-pointer">
-                      <FaEnvelope className="text-blue-600 text-lg sm:text-xl transition-transform duration-300 group-hover:scale-110" />
+                    <div className="bg-gradient-to-r from-blue-100 to-indigo-100 w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mr-3 sm:mr-4 group cursor-pointer">
+                      <FaEnvelope className="text-gradient-to-r from-blue-600 to-indigo-600 text-lg sm:text-xl transition-transform duration-300 group-hover:scale-110" />
                     </div>
                     <div>
                       <h3 className="text-base sm:text-lg font-semibold text-gray-800">Email</h3>
@@ -363,11 +392,11 @@ export default function Contact() {
                 {/* Phone */}
                 <motion.div
                   whileHover={{ y: windowWidth >= 768 ? -5 : 0 }}
-                  className="p-4 sm:p-6 border rounded-lg shadow-sm bg-white hover:shadow-lg transition-all hover-effect"
+                  className="p-4 sm:p-6 border rounded-lg shadow-sm bg-gradient-to-br from-blue-50 to-indigo-50 hover:shadow-lg transition-all hover-effect"
                 >
                   <div className="flex items-center">
-                    <div className="bg-blue-100 w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mr-3 sm:mr-4 group cursor-pointer">
-                      <FaPhone className="text-blue-600 text-lg sm:text-xl transition-transform duration-300 group-hover:scale-110" />
+                    <div className="bg-gradient-to-r from-blue-100 to-indigo-100 w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mr-3 sm:mr-4 group cursor-pointer">
+                      <FaPhone className="text-gradient-to-r from-blue-600 to-indigo-600 text-lg sm:text-xl transition-transform duration-300 group-hover:scale-110" />
                     </div>
                     <div>
                       <h3 className="text-base sm:text-lg font-semibold text-gray-800">Phone</h3>
@@ -386,11 +415,11 @@ export default function Contact() {
                 {/* Location */}
                 <motion.div
                   whileHover={{ y: windowWidth >= 768 ? -5 : 0 }}
-                  className="p-4 sm:p-6 border rounded-lg shadow-sm bg-white hover:shadow-lg transition-all hover-effect"
+                  className="p-4 sm:p-6 border rounded-lg shadow-sm bg-gradient-to-br from-blue-50 to-indigo-50 hover:shadow-lg transition-all hover-effect"
                 >
                   <div className="flex items-center">
-                    <div className="bg-blue-100 w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mr-3 sm:mr-4 group cursor-pointer">
-                      <FaMapMarkerAlt className="text-blue-600 text-lg sm:text-xl transition-transform duration-300 group-hover:scale-110" />
+                    <div className="bg-gradient-to-r from-blue-100 to-indigo-100 w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mr-3 sm:mr-4 group cursor-pointer">
+                      <FaMapMarkerAlt className="text-gradient-to-r from-blue-600 to-indigo-600 text-lg sm:text-xl transition-transform duration-300 group-hover:scale-110" />
                     </div>
                     <div>
                       <h3 className="text-base sm:text-lg font-semibold text-gray-800">Location</h3>
@@ -482,13 +511,13 @@ export default function Contact() {
                 <div className="flex border-b border-gray-200">
                   <button
                     onClick={() => setActiveTab('form')}
-                    className={`flex-1 py-3 px-4 text-center font-medium transition-colors ${activeTab === 'form' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                    className={`flex-1 py-3 px-4 text-center font-medium transition-colors ${activeTab === 'form' ? 'text-gradient-to-r from-blue-600 to-indigo-600 border-b-2 border-gradient-to-r from-blue-600 to-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
                   >
                     Contact Form
                   </button>
                   <button
                     onClick={() => setActiveTab('chat')}
-                    className={`flex-1 py-3 px-4 text-center font-medium transition-colors ${activeTab === 'chat' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                    className={`flex-1 py-3 px-4 text-center font-medium transition-colors ${activeTab === 'chat' ? 'text-gradient-to-r from-blue-600 to-indigo-600 border-b-2 border-gradient-to-r from-blue-600 to-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
                   >
                     Live Chat
                   </button>
@@ -508,7 +537,9 @@ export default function Contact() {
                       >
                         <div className="mb-6">
                           <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
-                            Send us a Message
+                            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                              Send us a Message
+                            </span>
                           </h2>
                           <p className="text-gray-600 mt-2 text-sm sm:text-base">
                             Fill out the form below and we'll get back to you as soon as
@@ -520,13 +551,28 @@ export default function Contact() {
                           <motion.div
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
-                            className="mb-6 p-4 bg-green-100 text-green-800 rounded-lg flex items-center"
+                            className="mb-6 p-4 bg-gradient-to-r from-green-100 to-green-50 text-green-800 rounded-lg flex items-center"
                           >
                             <FaPaperPlane className="mr-2 text-green-600" />
                             Thank you for your message! We will get back to you soon.
                           </motion.div>
                         ) : (
                           <form onSubmit={handleSubmit} className="space-y-6">
+                            <AnimatePresence>
+                              {error && (
+                                <motion.div
+                                  variants={errorVariants}
+                                  initial="hidden"
+                                  animate="visible"
+                                  exit="exit"
+                                  className="mb-4 p-3 bg-red-100 text-red-800 rounded-lg flex items-start"
+                                >
+                                  <FaExclamationCircle className="mt-1 mr-2 flex-shrink-0 text-red-500" />
+                                  <span>{error}</span>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+
                             <div className="relative">
                               <label
                                 htmlFor="name"
@@ -598,7 +644,7 @@ export default function Contact() {
                               className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-2 sm:py-3 rounded-lg flex items-center justify-center space-x-2 text-sm sm:text-base"
                               variants={buttonVariants}
                               initial="initial"
-                              animate={isSubmitting ? "submitting" : submitted ? "submitted" : "initial"}
+                              animate={isSubmitting ? "submitting" : submitted ? "submitted" : error ? "error" : "initial"}
                               whileHover="hover"
                               whileTap="tap"
                               disabled={isSubmitting}
@@ -615,6 +661,11 @@ export default function Contact() {
                                 <>
                                   <FiSend className="text-lg" />
                                   <span>Message Sent!</span>
+                                </>
+                              ) : error ? (
+                                <>
+                                  <FaExclamationCircle className="text-lg" />
+                                  <span>Try Again</span>
                                 </>
                               ) : (
                                 <>
@@ -636,8 +687,8 @@ export default function Contact() {
                         transition={{ duration: 0.2 }}
                         className="flex flex-col items-center justify-center py-8 text-center"
                       >
-                        <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                          <FaCommentAlt className="text-blue-600 text-2xl" />
+                        <div className="bg-gradient-to-r from-blue-100 to-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                          <FaCommentAlt className="text-gradient-to-r from-blue-600 to-indigo-600 text-2xl" />
                         </div>
                         <h3 className="text-xl font-semibold text-gray-800 mb-2">
                           Live Chat Support
@@ -645,30 +696,22 @@ export default function Contact() {
                         <p className="text-gray-600 mb-6 max-w-md mx-auto">
                           Our team is available to chat Monday-Friday from 9am-5pm.
                         </p>
-                        <div className="space-y-3    w-full max-w-xs">
+                        <div className="space-y-3 w-full max-w-xs">
                           <a
                             href="viber://chat?number=%2B9779741766637"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className=" bg-green-500
-                             hover:bg-green-600 
-                             text-white font-medium
-                              py-2 px-4 rounded-lg 
-                              transition-colors flex items-center justify-center space-x-2"
+                            className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
                           >
                             <FaWhatsapp className="text-xl" />
-                            <span>Chat on Viber</span>
+                            <span>Chat on WhatsApp</span>
                           </a>
-                          
+
                           <a
                             href="viber://chat?number=%2B9779741766637"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className=" bg-purple-500
-                             hover:bg-purple-600 
-                             text-white font-medium
-                              py-2 px-4 rounded-lg 
-                              transition-colors flex items-center justify-center space-x-2"
+                            className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
                           >
                             <FaViber className="text-xl" />
                             <span>Chat on Viber</span>
@@ -677,7 +720,7 @@ export default function Contact() {
                             href="https://m.me/eimcta"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className=" bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
+                            className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
                           >
                             <FaFacebook className="text-xl" />
                             <span>Chat on Messenger</span>
@@ -700,7 +743,9 @@ export default function Contact() {
             className="mt-16 md:mt-20"
           >
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-8 md:mb-12 text-center">
-              Additional Resources
+              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                Additional Resources
+              </span>
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {resources.map(({ title, icon: Icon, description, to, color, textColor }, index) => (
@@ -714,10 +759,10 @@ export default function Contact() {
                     y: windowWidth >= 768 ? -10 : 0,
                     boxShadow: windowWidth >= 768 ? "0 10px 25px -5px rgba(0, 0, 0, 0.1)" : "none"
                   }}
-                  className={`p-4 sm:p-6 border rounded-xl bg-white hover:shadow-lg transition-all hover-effect ${color}`}
+                  className={`p-4 sm:p-6 border rounded-xl hover:shadow-lg transition-all hover-effect ${color}`}
                 >
                   <div className="text-center mb-3 sm:mb-4">
-                    <div className={`bg-gradient-to-r ${color} w-12 h-12 sm:w-16 sm:h-16 rounded-lg flex items-center justify-center mx-auto mb-3 sm:mb-4 group cursor-pointer`}>
+                    <div className={`${color} w-12 h-12 sm:w-16 sm:h-16 rounded-lg flex items-center justify-center mx-auto mb-3 sm:mb-4 group cursor-pointer`}>
                       <Icon className={`${textColor} text-xl sm:text-2xl transition-transform duration-300 group-hover:scale-110`} />
                     </div>
                     <h4 className="text-base sm:text-lg font-semibold text-gray-800">{title}</h4>
@@ -745,7 +790,9 @@ export default function Contact() {
             className="mt-16 md:mt-20"
           >
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 md:mb-8 text-center">
-              Find Us on the Map
+              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                Find Us on the Map
+              </span>
             </h2>
             <div className="w-full h-64 sm:h-80 md:h-96 rounded-xl overflow-hidden shadow-2xl relative">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-600 opacity-20 z-10 pointer-events-none"></div>
@@ -767,34 +814,47 @@ export default function Contact() {
       {/* Custom styles for cursor */}
       <style jsx>{`
         .custom-cursor {
-          width: 8px;
-          height: 8px;
-          z-index: 9999;
-        }
-        
-        .cursor-follower {
-          width: 24px;
-          height: 24px;
-          z-index: 9998;
-        }
-        
-        .cursor-hover {
-          transform: scale(1.5);
-          background-color: #ffffff;
-        }
-        
-        .cursor-follower-hover {
-          transform: scale(0.5);
-          background-color: rgba(255, 255, 255, 0.5);
-          border-color: transparent;
-        }
-        
+    width: 8px;
+    height: 8px;
+    background: #3b82f6;
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate3d(-50%, -50%, 0);
+    transition: transform 0.1s ease;
+  }
+  
+  .cursor-follower {
+    width: 24px;
+    height: 24px;
+    border: 2px solid rgba(59, 130, 246, 0.5);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate3d(-50%, -50%, 0);
+    transition: 
+      transform 0.3s cubic-bezier(0.2, 0.8, 0.4, 1),
+      border 0.3s ease;
+  }
+  
+  .cursor-hover {
+    transform: scale(1.5) translate3d(-50%, -50%, 0);
+    background: #ffffff;
+  }
+  
+  .cursor-follower-hover {
+    transform: scale(0.8) translate3d(-50%, -50%, 0);
+    border-color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.1);
+      }
         .hover-effect {
           transition: all 0.3s ease;
         }
         
         .hover-effect:hover {
-          transform: translateY(5px);
+          transform: translateY(-5px);
         }
 
         @media (max-width: 767px) {
