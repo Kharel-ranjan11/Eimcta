@@ -1,183 +1,107 @@
-import { useState, useEffect, lazy, Suspense, useMemo } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { features, testimonials } from "../utilities/Array/data.js";
 import { Img_home } from '../utilities/img_home.jsx';
-import h_img from '../utilities/Svg/iso_pra.png';
+import image_1 from '../../img/HOME_1.png';
 
+// Lazy load components
+const ImageCarousel = lazy(() => import("../utilities/caro"));
+const ParallaxBanner = lazy(() => import("../utilities/parallelx"));
 
-// Lazy load heavy components
-const ImageCarousel = lazy(() => import("../utilities/caro"), {
-  loading: () => <div className="h-96 bg-gray-100 animate-pulse" />,
-  ssr: false
-});
-const ParallaxBanner = lazy(() => import("../utilities/parallelx"), {
-  loading: () => <div className="h-96 bg-gray-100 animate-pulse" />,
-});
-
-// FeatureCard component
-const FeatureCard = ({ item }) => (
-  <motion.div
-    className="relative bg-white/90 backdrop-blur-sm p-6 rounded-xl 
-    shadow-lg hover:shadow-xl transition-all duration-200 
-    hover:-translate-y-1 group overflow-hidden"
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{
-      delay: item.id * 0.05 + 0.2,
-      duration: 0.4,
-      ease: "easeOut"
-    }}
-    viewport={{ once: true, margin: "-50px" }}
-    style={{ willChange: 'transform, opacity' }}
-  >
-    <div className="relative z-10">
-      <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-blue-600 to-blue-800 flex items-center justify-center text-white mb-4">
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={item.icon} />
-        </svg>
-      </div>
-      <h3 className="text-lg font-semibold mb-2 text-blue-800">{item.title}</h3>
-      <p className="text-gray-600 text-sm">{item.desc}</p>
-    </div>
-  </motion.div>
+// Loading placeholder component
+const LoadingPlaceholder = () => (
+  <div className="h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100">
+    <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+  </div>
 );
 
-// TestimonialCard component
-const TestimonialCard = ({ item }) => (
+// Feature card component
+const FeatureCard = ({ item }) => (
   <motion.div
-    className="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/20 transition-all duration-300"
-    initial={{ opacity: 0, y: 20 }}
+    className="bg-white p-6 sm:p-8 rounded-xl shadow-md hover:shadow-lg transition-all"
+    initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
-    transition={{
-      delay: item.id * 0.1 + 0.3,
-      duration: 0.4
-    }}
+    transition={{ delay: item.id * 0.1 }}
     viewport={{ once: true }}
-    style={{ willChange: 'transform, opacity' }}
   >
-    <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center text-white mb-4">
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div className="w-12 h-12 sm:w-14 sm:h-14 bg-blue-100 rounded-lg flex items-center justify-center mb-4 sm:mb-6">
+      <svg className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={item.icon} />
       </svg>
     </div>
-    <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
-    <p className="text-blue-100 text-sm">{item.desc}</p>
+    <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-gray-800">{item.title}</h3>
+    <p className="text-sm sm:text-base text-gray-600">{item.desc}</p>
   </motion.div>
 );
 
-export default function Home() {
-  const [isMobile, setIsMobile] = useState(false);
+// Testimonial card component with error handling
+const TestimonialCard = ({ testimonial }) => (
+  <motion.div
+    className="bg-white p-6 sm:p-8 rounded-xl shadow-md"
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+  >
+    <div className="flex items-center mb-4 sm:mb-6">
+      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold">
+        {testimonial?.name?.charAt(0) || 'U'}
+      </div>
+      <div className="ml-3 sm:ml-4">
+        <h4 className="font-bold text-sm sm:text-base">{testimonial?.name || 'Anonymous'}</h4>
+        <p className="text-gray-500 text-xs sm:text-sm">{testimonial?.position || 'Customer'}</p>
+      </div>
+    </div>
+    <p className="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4">"{testimonial?.quote || 'Great service!'}"</p>
+    <div className="flex text-yellow-400">
+      {[...Array(5)].map((_, i) => (
+        <svg key={i} className="w-4 h-4 sm:w-5 sm:h-5 fill-current" viewBox="0 0 20 20">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      ))}
+    </div>
+  </motion.div>
+);
 
-  // Parallax images array
-  const parallaxImages = [
-    'https://images.unsplash.com/photo-1498496294664-d9372eb521f3?auto=compress&w=1200&q=80',
-    'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=compress&w=1200&q=80',
-    'https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=compress&w=1200&q=80',
-    'https://images.unsplash.com/photo-1542281286-9e0a16bb7366?auto=compress&w=1200&q=80'
-  ];
+const Home = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  const { scrollYProgress } = useScroll();
+
+  // Parallax effects
+  const y1 = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 30 : 60]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 40 : 80]);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const { scrollYProgress } = useScroll({
-    offset: ['start start', 'end end']
-  });
-
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 30 : 60]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 40 : 80]);
-
-  const parallaxValues = useMemo(() => ({
-    y1,
-    y2
-  }), [isMobile, y1, y2]);
-
   return (
-    <section className="p-0 overflow-hidden">
-      {/* Hero Carousel */}
-      <Suspense fallback={<div className="h-96 bg-gray-100 animate-pulse" />}>
-        <ImageCarousel />
+    <div className="bg-white overflow-hidden">
+      {/* ===== HERO SECTION ===== */}
+      <Suspense fallback={<LoadingPlaceholder />}>
+        <section className="relative w-full">
+          <ImageCarousel />
+        </section>
       </Suspense>
-
-      {/* First Parallax Section */}
-      <Suspense fallback={<div className="h-96 bg-gray-100 animate-pulse" />}>
-        <ParallaxBanner image={parallaxImages[1]}>
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/40 to-blue-600/40 backdrop-blur-sm rounded-md"></div>
-          <motion.section
-            className="relative py-16 px-6 text-center"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="max-w-4xl mx-auto bg-white/90 backdrop-blur-md p-6 rounded-xl shadow-lg">
-              <motion.h1
-                className="text-2xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-800 to-blue-600 mb-4"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ delay: 0.1 }}
-                viewport={{ once: true }}
-              >
-                What can Standards <em className='text-blue-900 underline'>do for you?</em>
-              </motion.h1>
-              <motion.p
-                className="text-base md:text-lg text-gray-700 mb-6 text-justify"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                viewport={{ once: true }}
-              >
-                International standards ensure that the products and services you use daily are safe, reliable, and of high quality. They also guide businesses in adopting sustainable and ethical practices, helping to create a future where your purchases not only perform excellently but also safeguard our planet. In essence, standards seamlessly blend quality with conscience, enhancing your everyday experiences and choices.
-              </motion.p>
-              <div className="flex flex-col sm:flex-row justify-center gap-3">
-                <motion.button
-                  className="bg-gradient-to-r from-blue-600 to-blue-800 text-white font-medium py-2 px-6 rounded-full hover:shadow-md transition-all duration-200"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  viewport={{ once: true }}
-                >
-                  Request a Free Consultation
-                </motion.button>
-                <motion.button
-                  className="bg-white text-blue-600 border border-blue-600 font-medium py-2 px-6 rounded-full hover:bg-blue-50 transition duration-200"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  viewport={{ once: true }}
-                >
-                  Explore Our Expertise
-                </motion.button>
-              </div>
-            </div>
-          </motion.section>
-        </ParallaxBanner>
-      </Suspense>
-
-      {/* Features Section */}
-      <section className="relative py-12 px-6 bg-gradient-to-br from-blue-50 to-blue-100">
-        <div className="relative max-w-7xl mx-auto">
-          <motion.h2
-            className="text-xl md:text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-800 to-blue-600 mb-8"
+      
+      {/* ===== WHY ISO SECTION ===== */}
+      <section className="relative w-full bg-gradient-to-br from-blue-50 to-white">
+        <div className="container mx-auto px-4 sm:px-6 py-20">
+          <motion.div
+            className="text-center mb-12 sm:mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
             viewport={{ once: true }}
           >
-            Your Growth. Your Safety. Our Expertise.
-          </motion.h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
+              Why <span className="text-blue-600">ISO Certification</span> Matters
+            </h2>
+            <div className="w-20 sm:w-24 h-1 bg-blue-500 mx-auto rounded-full"></div>
+          </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {features.map((item) => (
               <FeatureCard key={item.id} item={item} />
             ))}
@@ -185,59 +109,213 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Img_home Component */}
-      <section>
-        <Img_home  src={h_img} rotate='rotate-[-90deg]'/>
-      </section>
+      {/* ===== POPULAR STANDARDS ===== */}
+      <section className="relative w-full py-16 sm:py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6">
+          <motion.div
+            className="text-center mb-12 sm:mb-16"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
+              Our <span className="text-blue-600">ISO Services</span>
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">
+              Comprehensive support for all major ISO standards
+            </p>
+          </motion.div>
 
-      {/* Client Success Section */}
-      <section className="relative py-12 px-6 bg-gradient-to-br from-blue-800 to-blue-600 text-white">
-        <div className="relative max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-xl md:text-3xl font-bold mb-4">Client Success & Achievements</h2>
-            <div className="w-16 h-1 bg-blue-300 mx-auto"></div>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((item) => (
-              <TestimonialCard key={item.id} item={item} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {[
+              {
+                title: "ISO 9001",
+                desc: "Quality Management System (QMS)",
+                color: "from-blue-500 to-blue-700",
+                icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
+                features: [
+                  "Customer focus and satisfaction",
+                  "Process approach methodology",
+                  "Continuous improvement cycle",
+                  "Evidence-based decision making"
+                ],
+                benefits: [
+                  "Improved product/service quality",
+                  "Increased operational efficiency",
+                  "Enhanced customer trust",
+                  "Reduced waste and costs"
+                ],
+                link: "/iso-9001-guide"
+              },
+              {
+                title: "ISO 27001",
+                desc: "Information Security Management (ISMS)",
+                color: "from-green-500 to-green-700",
+                icon: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z",
+                features: [
+                  "Risk assessment methodology",
+                  "Data confidentiality controls",
+                  "Incident management procedures",
+                  "Business continuity planning"
+                ],
+                benefits: [
+                  "Protection against cyber threats",
+                  "Compliance with regulations",
+                  "Secure client data handling",
+                  "Reduced breach risks"
+                ],
+                link: "/iso-27001-guide"
+              },
+              {
+                title: "ISO 14001",
+                desc: "Environmental Management System (EMS)",
+                color: "from-emerald-500 to-emerald-700",
+                icon: "M13 7h3m-3 4h3m-3 4h3M6 7h6v4H6zm0 6v-6H4v6h2zm6 0H8v-6h4v6zm4-6h-2v6h2v-6z",
+                features: [
+                  "Environmental impact assessment",
+                  "Waste reduction strategies",
+                  "Energy efficiency programs",
+                  "Sustainable resource use"
+                ],
+                benefits: [
+                  "Reduced environmental footprint",
+                  "Compliance with environmental laws",
+                  "Improved corporate image",
+                  "Cost savings through efficiency"
+                ],
+                link: "/iso-14001-guide"
+              },
+              {
+                title: "ISO 45001",
+                desc: "Occupational Health & Safety (OH&S)",
+                color: "from-orange-500 to-orange-700",
+                icon: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10",
+                features: [
+                  "Hazard identification",
+                  "Risk prevention programs",
+                  "Worker participation systems",
+                  "Emergency preparedness"
+                ],
+                benefits: [
+                  "Reduced workplace injuries",
+                  "Improved employee morale",
+                  "Lower insurance premiums",
+                  "Legal compliance assurance"
+                ],
+                link: "/iso-45001-guide"
+              }
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all h-full flex flex-col"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <div className={`h-2 bg-gradient-to-r ${item.color}`}></div>
+                <div className="p-4 sm:p-6 flex-grow">
+                  <div className="flex items-start mb-3 sm:mb-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-opacity-20 flex items-center justify-center mr-3 sm:mr-4"
+                      style={{ backgroundColor: item.color.split(' ')[1].replace('from-', '').replace('-500', '-100') }}>
+                      <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        style={{ color: item.color.split(' ')[1].replace('from-', '').replace('-500', '-600') }}>
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={item.icon} />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-800">{item.title}</h3>
+                      <p className="text-sm sm:text-base text-gray-600">{item.desc}</p>
+                    </div>
+                  </div>
+
+                  <div className="mb-3 sm:mb-4">
+                    <h4 className="font-semibold text-sm sm:text-base text-gray-700 mb-1 sm:mb-2">Key Features:</h4>
+                    <ul className="list-disc pl-4 sm:pl-5 space-y-1 text-xs sm:text-sm text-gray-600">
+                      {item.features.slice(0, 3).map((feature, j) => (
+                        <li key={j}>{feature}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="mb-3 sm:mb-4">
+                    <h4 className="font-semibold text-sm sm:text-base text-gray-700 mb-1 sm:mb-2">Main Benefits:</h4>
+                    <ul className="list-disc pl-4 sm:pl-5 space-y-1 text-xs sm:text-sm text-gray-600">
+                      {item.benefits.slice(0, 2).map((benefit, j) => (
+                        <li key={j}>{benefit}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="relative py-16 px-6">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url(${parallaxImages[3]})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            y: parallaxValues.y1
-          }}
-        ></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-900/80 to-blue-600/60"></div>
-        <div className="relative max-w-4xl mx-auto bg-white/90 backdrop-blur-md p-6 rounded-xl shadow-lg text-center">
-          <h2 className="text-xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-800 to-blue-600 mb-4">
-            Ready to Transform Your Business Compliance?
-          </h2>
-          <p className="text-gray-700 mb-6">
-            Contact us today for a free consultation and take the first step towards achieving excellence.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-3">
-            <button
-              className="bg-gradient-to-r from-blue-600 to-blue-800 text-white font-medium py-2 px-6 rounded-full hover:shadow-md transition-all duration-200"
-            >
-              Get Started Now
-            </button>
-            <button
-              className="bg-white text-blue-600 border border-blue-600 font-medium py-2 px-6 rounded-full hover:bg-blue-50 transition duration-200"
-            >
-              Call Our Experts
-            </button>
+      {/* ===== TESTIMONIALS ===== */}
+      <section className="relative w-full py-16 sm:py-20 bg-gray-50">
+        <div className="container mx-auto px-4 sm:px-6">
+          <motion.div
+            className="text-center mb-12 sm:mb-16"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
+              What Our <span className="text-blue-600">Clients Say</span>
+            </h2>
+            <div className="w-20 sm:w-24 h-1 bg-blue-500 mx-auto rounded-full"></div>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            {testimonials && testimonials.length > 0 ? (
+              testimonials.map((testimonial, i) => (
+                <TestimonialCard key={i} testimonial={testimonial} />
+              ))
+            ) : (
+              <div className="col-span-3 text-center py-8 sm:py-10">
+                <p className="text-gray-500 text-sm sm:text-base">No testimonials available yet</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
-    </section>
+
+      {/* ===== CTA SECTION ===== */}
+      <section className="relative w-full py-16 sm:py-20 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+        <div className="container mx-auto px-4 sm:px-6 text-center">
+          <motion.h2
+            className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            Ready to Achieve ISO Certification?
+          </motion.h2>
+          <motion.p
+            className="text-lg sm:text-xl mb-8 sm:mb-10 max-w-2xl mx-auto"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            Get a free consultation with our ISO experts today
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            <button className="bg-white text-blue-600 font-bold py-2 px-6 sm:py-3 sm:px-8 rounded-full shadow-lg hover:bg-gray-100 transition-all text-sm sm:text-base">
+              Get Started Now
+            </button>
+          </motion.div>
+        </div>
+      </section>
+    </div>
   );
-}
+};
+
+export default Home;

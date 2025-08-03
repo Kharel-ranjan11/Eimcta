@@ -1,162 +1,110 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import caro1 from '../../img/car1.jpg';
 
 const carouselItems = [
   {
-    title: 'ISO Certification Solutions',
-    quote: 'Achieve global recognition with our seamless ISO certification consultancy.',
-    items: [
-      'ISO 9001  Quality Management',
-      'ISO 14001  Environmental Management',
-      'ISO 45001 Occupational Health & Safety',
-      'ISO Documentation & Pre-Audit Support',
-      'End-to-End Certification Guidance',
+    standard: 'ISO 9001:2015',
+    title: 'Quality Management System',
+    description: 'Framework for consistent quality delivery and customer satisfaction',
+    clauses: [
+      { number: '4.0', title: 'Organizational Context', icon: '🏛️' },
+      { number: '5.0', title: 'Leadership', icon: '👑' },
+      { number: '6.0', title: 'Planning', icon: '📊' },
+      { number: '7.0', title: 'Support', icon: '🛠️' },
+      { number: '8.0', title: 'Operations', icon: '⚙️' },
+      { number: '9.0', title: 'Evaluation', icon: '📈' },
+      { number: '10.0', title: 'Improvement', icon: '🚀' }
     ],
-    cta: 'Learn More',
-    illustration: 'https://illustrations.popsy.co/amber/digital-nomad.svg',
-    bgColor: 'from-purple-600 to-indigo-700',
+    image: caro1,
+    bgGradient: 'bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800'
   },
   {
-    title: 'OHS Solutions',
-    quote: 'Empowering workplaces to become safer, compliant, and risk-free.',
-    items: [
-      'Workplace Risk Assessments',
-      'Safety Officer & Fire Warden Training',
-      'Disaster Preparedness & Emergency Drills',
-      'Compliance with National & International Safety Standards',
-      'OHS Audits and Reporting',
+    standard: 'ISO 14001:2015',
+    title: 'Environmental Management',
+    description: 'Systematic approach to environmental responsibility and sustainability',
+    clauses: [
+      { number: '4.0', title: 'Context Analysis', icon: '🌎' },
+      { number: '5.0', title: 'Leadership', icon: '🤝' },
+      { number: '6.0', title: 'Planning', icon: '🎯' },
+      { number: '7.0', title: 'Support', icon: '📚' },
+      { number: '8.0', title: 'Operations', icon: '🏭' },
+      { number: '9.0', title: 'Evaluation', icon: '🔍' },
+      { number: '10.0', title: 'Improvement', icon: '🔄' }
     ],
-    cta: 'Explore OHS Solutions',
-    illustration: 'https://illustrations.popsy.co/amber/security-on.svg',
-    bgColor: 'from-amber-600 to-orange-600',
+    image: caro1,
+    bgGradient: 'bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-700'
   },
   {
-    title: 'Environmental Solutions',
-    quote: 'Driving sustainability with advanced environmental management practices.',
-    items: [
-      'Environmental Audits & Analysis',
-      'Waste Management Strategies',
-      'ISO 14001 Environmental Compliance',
-      'Energy Efficiency Programs',
-      'Pollution Control & Impact Assessments',
+    standard: 'ISO 45001:2018',
+    title: 'Occupational Health & Safety',
+    description: 'Framework for worker safety and risk minimization',
+    clauses: [
+      { number: '4.0', title: 'Context', icon: '👷' },
+      { number: '5.0', title: 'Leadership', icon: '💼' },
+      { number: '6.0', title: 'Planning', icon: '⚠️' },
+      { number: '7.0', title: 'Support', icon: '🛡️' },
+      { number: '8.0', title: 'Operations', icon: '⚒️' },
+      { number: '9.0', title: 'Evaluation', icon: '📝' },
+      { number: '10.0', title: 'Improvement', icon: '📊' }
     ],
-    cta: 'See Environmental Services',
-    illustration: 'https://illustrations.popsy.co/amber/earth-day.svg',
-    bgColor: 'from-emerald-600 to-teal-700',
-  },
-  {
-    title: 'Professional Training Programs',
-    quote: 'Skill-building programs designed to create impact and ensure compliance.',
-    items: [
-      'Lead Auditor Trainings (ISO 9001, IRCA-approved)',
-      'Food Safety & HACCP Programs',
-      'Fire & First Aid Training',
-      'Disaster Management Workshops',
-      'Customized Corporate Training Modules',
-    ],
-    cta: 'Enroll in Training',
-    illustration: 'https://illustrations.popsy.co/amber/teacher.svg',
-    bgColor: 'from-blue-600 to-cyan-600',
-  },
+    image: caro1,
+    bgGradient: 'bg-gradient-to-br from-orange-500 via-amber-600 to-yellow-500'
+  }
 ];
 
-const ImageCarousel = ({ scrollTargetRef }) => {
+const ImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(1); // 1 for forward, -1 for backward
-  const [isHovering, setIsHovering] = useState(false);
-  const intervalRef = useRef(null);
+  const [direction, setDirection] = useState(1);
+  const carouselRef = useRef(null);
   const currentItem = carouselItems[currentIndex];
 
-  // Auto-advance carousel
-  useEffect(() => {
-    const startInterval = () => {
-      intervalRef.current = setInterval(() => {
-        if (!isHovering) {
-          goToNext();
-        }
-      }, 6000);
-    };
-
-    startInterval();
-    return () => clearInterval(intervalRef.current);
-  }, [isHovering]);
-
-  const goToSlide = (index) => {
-    setDirection(index > currentIndex ? 1 : -1);
-    setCurrentIndex(index);
-  };
-
-  const goToNext = () => {
-    setDirection(1);
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % carouselItems.length);
-    resetInterval();
-  };
-
-  const goToPrev = () => {
-    setDirection(-1);
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + carouselItems.length) % carouselItems.length);
-    resetInterval();
-  };
-
-  const resetInterval = () => {
-    clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(() => {
-      if (!isHovering) {
-        goToNext();
-      }
-    }, 6000);
-  };
-
-  const handleScrollDown = () => {
-    if (scrollTargetRef?.current) {
-      scrollTargetRef.current.scrollIntoView({
-        behavior: 'smooth'
-      });
-    } else {
-      window.scrollBy({
-        top: window.innerHeight,
-        behavior: 'smooth'
-      });
-    }
-  };
-
-  // Animation variants
   const slideVariants = {
     enter: (direction) => ({
-      x: direction > 0 ? '100%' : '-100%',
-      opacity: 0,
+      x: direction > 0 ? '30%' : '-30%',
+      opacity: 0
     }),
     center: {
       x: 0,
       opacity: 1,
+      transition: { duration: 0.5 }
     },
     exit: (direction) => ({
-      x: direction > 0 ? '-100%' : '100%',
+      x: direction > 0 ? '-30%' : '30%',
       opacity: 0,
-    }),
+      transition: { duration: 0.5 }
+    })
   };
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
+  const clauseVariants = {
+    hidden: { opacity: 0, y: 20 },
     visible: (i) => ({
-      y: 0,
       opacity: 1,
-      transition: {
-        delay: i * 0.1 + 0.3,
-      },
-    }),
+      y: 0,
+      transition: { delay: i * 0.1, duration: 0.5 }
+    })
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      // alert(`Window resized to: ${window.innerWidth} x ${window.innerHeight}`);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // run once on mount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <div
-      className="relative w-full h-screen overflow-hidden"
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
-    >
-      {/* Background gradient */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${currentItem.bgColor} opacity-90`} />
+      ref={carouselRef}
+      className={`relative w-full ${currentItem.bgGradient} 
+      overflow-hidden flex items-center
+       justify-center
+        py-10 px-4 sm:px-6 md:px-12 lg:px-24`}
 
+    >
       <AnimatePresence custom={direction} mode="wait">
         <motion.div
           key={currentIndex}
@@ -165,126 +113,105 @@ const ImageCarousel = ({ scrollTargetRef }) => {
           initial="enter"
           animate="center"
           exit="exit"
-          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className="absolute inset-0 flex flex-col items-center justify-center px-6 md:px-16 lg:px-24 py-20"
+          className="relative w-full flex justify-center items-center"
         >
-          {/* Content container - now full width for mobile */}
-          <div className="w-full h-full flex flex-col md:flex-row items-center justify-center max-w-7xl mx-auto">
-            {/* Content */}
-            <div className="w-full md:w-1/2 text-white z-10 mb-8 md:mb-0 md:pr-8">
-              <motion.h2
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight"
-                initial={{ y: -20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.2 }}
-              >
-                {currentItem.title}
-              </motion.h2>
-
-              <motion.p
-                className="text-lg sm:text-xl md:text-2xl mb-6 text-white/90 italic"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-              >
-                "{currentItem.quote}"
-              </motion.p>
-
-              <motion.ul className="space-y-2 mb-6">
-                {currentItem.items.map((item, i) => (
+          <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh]">
+            {/* Left Content */}
+            <div className="text-white space-y-6">
+              <div className="space-y-1">
+                <span className="text-lg sm:text-xl md:text-2xl font-light tracking-wider">
+                  {currentItem.standard}
+                </span>
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
+                  {currentItem.title}
+                </h1>
+              </div>
+              <p className="text-base sm:text-lg md:text-xl opacity-90">
+                {currentItem.description}
+              </p>
+              <ul className="grid grid-cols-2 sm:grid-cols-2 gap-3">
+                {currentItem.clauses.map((clause, i) => (
                   <motion.li
                     key={i}
                     custom={i}
+                    variants={clauseVariants}
                     initial="hidden"
                     animate="visible"
-                    variants={itemVariants}
-                    className="flex items-start"
+                    className="p-3 sm:p-4 rounded-xl backdrop-blur-sm bg-white/10 border border-white/20"
                   >
-                    <span className="inline-block w-2 h-2 bg-white rounded-full mt-2 mr-3" />
-                    <span className="text-base sm:text-lg md:text-xl">{item}</span>
+                    <div className="flex items-start space-x-3">
+                      <span className="text-2xl">{clause.icon}</span>
+                      <div>
+                        <span className="text-xs sm:text-sm opacity-80">
+                          Clause {clause.number}
+                        </span>
+                        <h3 className="text-sm sm:text-base md:text-lg font-medium">
+                          {clause.title}
+                        </h3>
+                      </div>
+                    </div>
                   </motion.li>
                 ))}
-              </motion.ul>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`px-6 py-2 sm:px-8 sm:py-3 rounded-full font-semibold text-base sm:text-lg bg-white ${currentItem.bgColor.includes('purple') ? 'text-purple-600' :
-                    currentItem.bgColor.includes('amber') ? 'text-amber-600' :
-                      currentItem.bgColor.includes('emerald') ? 'text-emerald-600' :
-                        'text-blue-600'
-                  } shadow-lg hover:shadow-xl transition-all`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 }}
-              >
-                {currentItem.cta}
-              </motion.button>
+              </ul>
             </div>
 
-            {/* Illustration - now full width for mobile but appears below content */}
-            <motion.div
-              className="w-full md:w-1/2 flex items-center justify-center mt-8 md:mt-0"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.6 }}
-            >
-              <img
-                src={currentItem.illustration}
+            {/* Right Image */}
+            <div className="flex justify-center items-center">
+              <motion.img
+                src={currentItem.image}
                 alt={currentItem.title}
-                className="max-w-full h-auto max-h-[300px] sm:max-h-[350px] md:max-h-[400px] lg:max-h-[500px] object-contain"
+                className="w-[59rem]
+                 sm:w-[12rem] md:max-w-md 
+                 lg:max-w-lg xl:max-w-xl
+                  aspect-video object-contain rounded-2xl shadow-2xl border-4 border-white/20"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.3 }}
               />
-            </motion.div>
+            </div>
           </div>
         </motion.div>
       </AnimatePresence>
 
       {/* Navigation Dots */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+      <div className="absolute bottom-6 sm:bottom-10 left-1/2 transform -translate-x-1/2 flex space-x-3 z-10">
         {carouselItems.map((_, index) => (
           <button
             key={index}
-            onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all ${index === currentIndex ? 'bg-white w-6' : 'bg-white/50 hover:bg-white/70'}`}
-            aria-label={`Go to slide ${index + 1}`}
+            onClick={() => {
+              setDirection(index > currentIndex ? 1 : -1);
+              setCurrentIndex(index);
+            }}
+            className={`h-3 w-3 rounded-full transition-all duration-300 ${
+              index === currentIndex ? 'w-8 bg-white' : 'bg-white/30'
+            }`}
           />
         ))}
       </div>
 
-      {/* Prev/Next Buttons */}
-      <motion.button
-        onClick={goToPrev}
-        className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        aria-label="Previous slide"
+      {/* Prev Button */}
+      <button
+        onClick={() => {
+          setDirection(-1);
+          setCurrentIndex((prev) => (prev - 1 + carouselItems.length) % carouselItems.length);
+        }}
+        className="absolute left-4 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 p-2 sm:p-3 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition"
       >
-        <ChevronLeft size={24} className="text-white" />
-      </motion.button>
+        <ChevronLeft className="w-6 h-6 text-white" />
+      </button>
 
-      <motion.button
-        onClick={goToNext}
-        className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        aria-label="Next slide"
+      {/* Next Button */}
+      <button
+        onClick={() => {
+          setDirection(1);
+          setCurrentIndex((prev) => (prev + 1) % carouselItems.length);
+        }}
+        className="absolute right-4 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 p-2 sm:p-3 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition"
       >
-        <ChevronRight size={24} className="text-white" />
-      </motion.button>
-
-      {/* Scroll Down Button */}
-      <motion.button
-        onClick={handleScrollDown}
-        className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 p-2 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        aria-label="Scroll down"
-      >
-        <ArrowDown size={24} className="text-white" />
-      </motion.button>
+        <ChevronRight className="w-6 h-6 text-white" />
+      </button>
     </div>
   );
 };
+
 export default ImageCarousel;
