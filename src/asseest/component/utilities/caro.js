@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import caro1 from '../../img/car1.jpg';
 import caro2 from '../../img/caro2.jpg';
+import caro3 from '../../img/caro3.jpg'
 
 // Define icon colors per carousel item to use for their clauses
 const iconColors = [
@@ -83,8 +84,8 @@ const carouselItems = [
       { number: '9.0', title: 'Evaluation', icon: FileText },
       { number: '10.0', title: 'Improvement', icon: BarChart3 }
     ],
-    image: caro1,
-    ratio: "portrait",
+    image: caro3,
+    ratio: "landscape",
     bgGradient: 'bg-gradient-to-br from-orange-500 via-amber-600 to-yellow-500'
   }
 ];
