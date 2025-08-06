@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Facebook, Instagram, Youtube, Linkedin } from "lucide-react";
 import { getFbUserPages } from "../utilities/SocialMedia/AllApi"; // ✅ named import
 import PageInfoCard from "../utilities/pageInfoCard";
+import { UploadForm } from "../utilities/upload";
 
 const dummyFetch = async () => [];
 
@@ -124,7 +125,10 @@ export default function Blog() {
           platformKey={activePlatform}
           page={selectedPageByPlatform[activePlatform]}
         />
-      )}
-    </div>
+
+      )
+      }
+      <UploadForm />
+    </div >
   );
 }

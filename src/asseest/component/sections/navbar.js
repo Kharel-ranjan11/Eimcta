@@ -96,14 +96,16 @@ const Navbar = () => {
                 </NavLink>
 
                 {item.children && (
-                  <div className="absolute left-1/2 transform -translate-x-1/2 mt-1 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top z-50">
+                  <div className="absolute left-1/2 transform 
+                  -translate-x-1/2 mt-1
+                   w-66 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top z-50">
                     <div className="py-1">
                       {item.children.map((child, cIdx) => (
                         <NavLink
                           key={cIdx}
                           to={child.path}
                           className={({ isActive }) =>
-                            `block px-4 py-2 text-sm capitalize ${
+                            `block px-4 py-2 text-sm text-wrap capitalize ${
                               isActive
                                 ? "bg-blue-100 text-blue-700"
                                 : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"

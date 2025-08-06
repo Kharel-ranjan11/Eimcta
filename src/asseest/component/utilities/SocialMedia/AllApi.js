@@ -6,6 +6,7 @@ const PAGE_ACCESS_TOKEN = "EAAKLuukcwaQBPBaZC1cc6WOu8ZCcgnIMXZC0HWa8TKThCuBItrY0
 /**
  * Get all Facebook pages for the user.
  */
+
 export const getFbUserPages = async () => {
   try {
     const res = await axios.get(`${API}/me/accounts`, {
@@ -14,10 +15,9 @@ export const getFbUserPages = async () => {
     return res.data.data;
   } catch (err) {
     console.error("Error fetching pages:", err.response?.data || err.message);
-    throw err; // ❗ Always throw so error can be handled in the UI
+    throw err;
   }
 };
-
 /**
  * Get posts from a specific page.
  */

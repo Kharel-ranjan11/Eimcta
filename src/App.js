@@ -22,8 +22,9 @@ import Traning from './asseest/component/utilities/traning/traning.jsx';
 import { ISO_certification } from './asseest/component/pages/iso_certificate.jsx';
 import EnvironmentalServices from './asseest/component/pages/Enviroment.jsx';
 import ISOConsultancy from './asseest/component/pages/iso_consultancy.jsx';
-import  SafetySignPPE  from './asseest/component/pages/safetysignppe.jsx';
+import SafetySignPPE from './asseest/component/pages/safetysignppe.jsx';
 import TechnicalBidComponent from './asseest/component/pages/Bid_tender';
+import ISOAuditGuide from './asseest/component/pages/aduit.jsx';
 // import { Router_link } from './asseest/component/utilities/Array/data.js';
 // import Person_Incharge_PI_2 from './asseest/component/utilities/traning/T_child/Person_Incharge_PI_2.jsx';
 // import Permit_to_Work_System_PTW from './asseest/component/utilities/traning/T_child/Permit_to_Work_System_(PTW).jsx';
@@ -40,6 +41,7 @@ function App() {
         <Routes>
           <Route path="/" element={
             <PageTransitionWrapper> <Home /></PageTransitionWrapper>} />
+
           <Route path="/Blog-Offers/FB-Titktok-Linkedin-youtube" element={
             <PageTransitionWrapper>  <Blog /></PageTransitionWrapper>} />
 
@@ -66,17 +68,20 @@ function App() {
 
           <Route path="services/iso-certification" element={
             <PageTransitionWrapper> <ISO_certification /></PageTransitionWrapper>} />
-        
+
           <Route path="services/environmental-services-eta-env-monitoring-air-water-soil-etc" element={
             <PageTransitionWrapper> <EnvironmentalServices /></PageTransitionWrapper>} />
 
           <Route path="services/supply-of-sign-quality-safety-env-companies" element={
             <PageTransitionWrapper> <SafetySignPPE /></PageTransitionWrapper>} />
 
-        <Route path="services/tender-technical-bid-preparation" element={
+          <Route path="services/tender-technical-bid-preparation" element={
             <PageTransitionWrapper> <TechnicalBidComponent /></PageTransitionWrapper>} />
 
-        
+          <Route path="services/iso-audit" element={
+            <PageTransitionWrapper> <ISOAuditGuide /></PageTransitionWrapper>} />
+
+
           <Route path="services/iso-training" element={
             <PageTransitionWrapper>
               <Traning />

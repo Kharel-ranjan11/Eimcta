@@ -401,7 +401,7 @@ export const menuitems = [
         title: 'Tender/Technical/Bid Preparation',
         path: '/services/tender-technical-bid-preparation'
       }, {
-        title: 'Environmental Services,ETA,Env.Monitoring(Air,Water,Soil etc)',
+        title: 'Environmental Services,EIA,Env.Monitoring(Air,Water,Soil etc)',
         path: '/services/environmental-services-eta-env-monitoring-air-water-soil-etc'
       }, {
         title: 'Supply of Sign (Quality,safety,Env.,Companies )',
