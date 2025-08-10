@@ -109,86 +109,7 @@ export default function Blog() {
     }));
   };
 
-  const FloatingSvg = () => (
-    <svg
-      className="absolute w-[1200px] h-[1200px] -left-[37.6rem] -top-1/2 opacity-30 animate-spin-slow"
-      viewBox="0 0 100 100"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-
-      {/* Glowing center */}
-      <circle cx="50" cy="50" r="12" fill="url(#center-glow)">
-        <animate attributeName="r" values="2;3;2" dur="5s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="1;0.8;1" dur="3s" repeatCount="indefinite" />
-      </circle>
-
-      {/* Concentric rings */}
-      <circle cx="50" cy="50" r="10" stroke="url(#ring-glow-1)" strokeWidth="0.5" fill="none" opacity="0.7">
-        <animate attributeName="r" values="10;11;10" dur="7s" repeatCount="indefinite" />
-      </circle>
-
-      <circle cx="50" cy="50" r="30" stroke="url(#ring-glow-2)" strokeWidth="0.3" fill="none" opacity="0.6">
-        <animate attributeName="r" values="30;31;30" dur="9s" repeatCount="indefinite" />
-      </circle>
-
-      <circle cx="50" cy="50" r="48" stroke="url(#outer-glow)" strokeWidth="0.8" fill="none" opacity="0.5">
-        <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="120s" repeatCount="indefinite" />
-      </circle>
-      {Array.from({ length: 120 }).map((_, i) => {
-        const starX = Math.random() * 100;  // 0-100 range to match viewBox
-        const starY = Math.random() * 100;
-        const size = Math.random() * 0.2 + 0.1; // 0.1-0.3 radius
-        const baseOpacity =  Math.random() * 1; // 0.7-1.0
-        const duration = 2 + Math.random() * 3; // 2-5 seconds
-
-        <circle
-          key={`star-${i}`}
-          cx={starX}
-          cy={starY}
-          r={size}
-          fill="white"
-          opacity="1"
-        >
-          <animate
-            attributeName="opacity"
-            values={`
-          ${baseOpacity};
-          ${baseOpacity * 0.3};
-          ${baseOpacity}
-        `}
-            dur={`${duration}s`}
-            repeatCount="indefinite"
-            begin={Math.random() * 2} // Stagger start times (0-2s)
-          />
-        </circle>
-          ;
-      })}
-      {/* Stars */}
-
-      <defs>
-        <radialGradient id="center-glow">
-          <stop offset="0%" stopColor="#f0abfc" stopOpacity="1" />
-          <stop offset="100%" stopColor="#7e22ce" stopOpacity="1" />
-        </radialGradient>
-
-        <radialGradient id="ring-glow-1" gradientUnits="userSpaceOnUse" cx="50" cy="50" r="10">
-          <stop offset="0%" stopColor="#a855f7" stopOpacity="1" />
-          <stop offset="100%" stopColor="#0ea5e9" stopOpacity="1" />
-        </radialGradient>
-
-        <radialGradient id="ring-glow-2" gradientUnits="userSpaceOnUse" cx="50" cy="50" r="30">
-          <stop offset="0%" stopColor="#ec4899" stopOpacity="1" />
-          <stop offset="100%" stopColor="#0ea5e9" stopOpacity="1" />
-        </radialGradient>
-
-        <radialGradient id="outer-glow" gradientUnits="userSpaceOnUse" cx="50" cy="50" r="48">
-          <stop offset="0%" stopColor="#7e22ce" stopOpacity="1" />
-          <stop offset="50%" stopColor="#ec4899" stopOpacity="1" />
-          <stop offset="100%" stopColor="#0ea5e9" stopOpacity="1" />
-        </radialGradient>
-      </defs>
-    </svg>
-  );
+  
 
   const renderPlatformContent = () => {
     if (!activePlatform) {
@@ -263,7 +184,6 @@ export default function Blog() {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-purple-950 via-black to-blue-950 text-gray-100 py-8 px-4 sm:px-6 lg:px-8">
-      <FloatingSvg />
       <div className="absolute top-[-300px] left-[-200px] w-[700px] h-[700px] bg-[radial-gradient(ellipse_at_center,_rgba(168,85,247,0.2),_transparent)] rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-[-200px] right-[-150px] w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_center,_rgba(236,72,153,0.15),_transparent)] rounded-full blur-3xl animate-pulse-slow" />
 

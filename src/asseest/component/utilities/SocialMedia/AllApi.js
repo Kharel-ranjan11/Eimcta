@@ -39,18 +39,27 @@ export const getPagePosts = async (pageId, pageAccessToken) => {
 /**
  * Upload a new post to a Facebook page.
  */
-export const UploadFbPost =  (formData) => {
-  console.log("Uploading post to All API  page:",  formData);
-  // try {
-  //   const res = await axios.post(`${API}/${pageId}/feed`, null, {
-  //     params: {
-        
-  //       access_token: accessToken,
-  //     },
-  //   });
-  //   return res.data; // e.g., { id: "123456789" }
-  // } catch (error) {
-  //   console.error("Error uploading Facebook post:", error.response?.data || error.message);
-  //   throw error;
-  // }
+export const UploadFbPost = async (formData) => {
+  const { selectedPage, title, description, files } = formData;
+  console.log("Uploading post to Facebook page:", selectedPage.id, selectedPage.name, selectedPage.access_token);
+  try {
+    const res = await axios.post(`${API}/${selectedPage.id}/feed`, null, {
+      params: {
+
+        access_token: selectedPage.access_token,
+      },
+    });
+    return {
+      success: true,
+      message: `✅ Post uploaded successfully to "${selectedPage.name}"`,
+      data: res.data, // includes the post ID
+    };
+    // e.g., { id: "123456789" }
+  } catch (error) {
+    return {
+      error: true,
+      message: ` Failed to upload post: ${error}`,
+    };
+    ;
+  }
 };
