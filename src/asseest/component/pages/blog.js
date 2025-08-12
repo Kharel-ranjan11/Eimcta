@@ -1,7 +1,8 @@
-import React, { useState, useMemo } from "react";
-import { Facebook, Instagram, Youtube, Linkedin, ChevronRight, Loader2 } from "lucide-react";
+import React, { useState, useMemo, useEffect } from "react";
+import { Facebook, Instagram, Youtube, Linkedin, ChevronRight, Loader2, Eye, EyeOff } from "lucide-react";
 import { getFbUserPages } from "../utilities/SocialMedia/AllApi";
 import { UploadForm } from "../utilities/upload";
+import { motion, AnimatePresence } from "framer-motion";
 
 const dummyFetch = async () => {
   await new Promise(resolve => setTimeout(resolve, 800));
@@ -15,7 +16,8 @@ const platformButtons = [
     color: "from-blue-600 to-blue-800",
     hoverColor: "hover:from-blue-700 hover:to-blue-900",
     icon: <Facebook className="w-5 h-5" />,
-    hasApi: true
+    hasApi: true,
+    password: "eimcta@3Md.kumar"
   },
   {
     name: "Instagram",
@@ -24,7 +26,8 @@ const platformButtons = [
     hoverColor: "hover:from-fuchsia-700 hover:to-pink-700",
     icon: <Instagram className="w-5 h-5" />,
     hasApi: false,
-    disabledMessage: "Instagram API not available - requires Meta Business Verification"
+    disabledMessage: "Instagram API not available - requires Meta Business Verification",
+    password: "eimcta@3Md.kumar"
   },
   {
     name: "YouTube",
@@ -33,7 +36,8 @@ const platformButtons = [
     hoverColor: "hover:from-red-700 hover:to-red-900",
     icon: <Youtube className="w-5 h-5" />,
     hasApi: false,
-    disabledMessage: "YouTube API coming in Q4 2023"
+    disabledMessage: "YouTube API coming in Q4 2023",
+    password: "eimcta@3Md.kumar"
   },
   {
     name: "LinkedIn",
@@ -42,7 +46,8 @@ const platformButtons = [
     hoverColor: "hover:from-sky-900 hover:to-sky-950",
     icon: <Linkedin className="w-5 h-5" />,
     hasApi: false,
-    disabledMessage: "LinkedIn API requires partner status"
+    disabledMessage: "LinkedIn API requires partner status",
+    password: "eimcta@3Md.kumar"
   },
 ];
 
@@ -58,46 +63,66 @@ export default function Blog() {
   const [selectedPageByPlatform, setSelectedPageByPlatform] = useState({ fb: null, yt: null, linkedin: null });
   const [apiError, setApiError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [authenticatedPlatforms, setAuthenticatedPlatforms] = useState([]);
+  const [showPassword, setShowPassword] = useState(false);
 
   const selectedPage = useMemo(() => {
     return activePlatform ? selectedPageByPlatform[activePlatform] : null;
   }, [activePlatform, selectedPageByPlatform]);
 
+  useEffect(() => {
+    const fetchPagesForAuthenticatedPlatform = async () => {
+      if (activePlatform && isPlatformAuthenticated(activePlatform) && platformApiMap[activePlatform]) {
+        try {
+          setLoading(true);
+          const pages = await platformApiMap[activePlatform]();
+          setPagesByPlatform((prev) => ({
+            ...prev,
+            [activePlatform]: pages,
+          }));
+        } catch (error) {
+          const errorMsg = error?.response?.data?.error?.message || error.message || "Unknown error";
+          console.error(`Error fetching ${activePlatform} pages:`, errorMsg);
+          setApiError(`Error fetching ${activePlatform} pages: ${errorMsg}`);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchPagesForAuthenticatedPlatform();
+  }, [authenticatedPlatforms, activePlatform]);
+
+  const handlePasswordSubmit = (e) => {
+    e.preventDefault();
+    const platform = platformButtons.find(btn => btn.key === activePlatform);
+    
+    if (passwordInput === platform.password) {
+      setAuthenticatedPlatforms(prev => [...prev, activePlatform]);
+      setShowPasswordModal(false);
+      setPasswordError("");
+      setPasswordInput("");
+    } else {
+      setPasswordError("Incorrect password. Please try again.");
+    }
+  };
+
   const handlePlatformClick = async (platformKey) => {
     const platform = platformButtons.find(btn => btn.key === platformKey);
-
-    if (!platform?.hasApi) {
-      setApiError(platform?.disabledMessage || `No API integration available for ${platform?.name}`);
-      setActivePlatform(platformKey);
-      return;
-    }
-
     setActivePlatform(platformKey);
     setApiError("");
 
-    if (pagesByPlatform[platformKey].length === 0) {
-      const fetchFunction = platformApiMap[platformKey];
-      if (!fetchFunction || typeof fetchFunction !== "function") {
-        const msg = `No valid fetch function for platform: ${platformKey}`;
-        console.warn(msg);
-        setApiError(msg);
-        return;
-      }
+    if (!platform?.hasApi) {
+      setApiError(platform?.disabledMessage || `No API integration available for ${platform?.name}`);
+      return;
+    }
 
-      try {
-        setLoading(true);
-        const pages = await fetchFunction();
-        setPagesByPlatform((prev) => ({
-          ...prev,
-          [platformKey]: pages,
-        }));
-      } catch (error) {
-        const errorMsg = error?.response?.data?.error?.message || error.message || "Unknown error";
-        console.error(`Error fetching ${platformKey} pages:`, errorMsg);
-        setApiError(`Error fetching ${platformKey} pages: ${errorMsg}`);
-      } finally {
-        setLoading(false);
-      }
+    if (!isPlatformAuthenticated(platformKey)) {
+      setShowPasswordModal(true);
+      return;
     }
   };
 
@@ -109,7 +134,9 @@ export default function Blog() {
     }));
   };
 
-  
+  const isPlatformAuthenticated = (platformKey) => {
+    return authenticatedPlatforms.includes(platformKey);
+  };
 
   const renderPlatformContent = () => {
     if (!activePlatform) {
@@ -125,60 +152,107 @@ export default function Blog() {
 
     if (!platform?.hasApi) {
       return (
-        <div className="bg-gradient-to-r from-pink-900/80 to-red-800/80 border-l-4 border-pink-400 text-pink-100 p-8 rounded-lg shadow-lg mb-6 backdrop-blur-md">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3 }}
+          className="bg-gradient-to-r from-pink-900/80 to-red-800/80 border-l-4 border-pink-400 text-pink-100 p-8 rounded-lg shadow-lg mb-6 backdrop-blur-md"
+        >
           <p className="font-bold text-xl mb-2 flex items-center">
             <span className="bg-pink-700/50 p-2 rounded-lg mr-3">{platform?.icon}</span>
             API Not Integrated
           </p>
           <p className="opacity-90">{platform?.disabledMessage}</p>
-        </div>
+        </motion.div>
+      );
+    }
+
+    if (!isPlatformAuthenticated(activePlatform)) {
+      return (
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3 }}
+          className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 p-6 rounded-xl shadow-lg border border-gray-700/50 backdrop-blur-md"
+        >
+          <h3 className="text-xl font-bold text-white mb-4 flex items-center">
+            <span className="bg-gradient-to-r from-blue-500 to-purple-600 p-2 rounded-lg mr-3">{platform.icon}</span>
+            <span>Authentication Required</span>
+          </h3>
+          <p className="text-gray-300">Please enter the password to access {platform.name} features.</p>
+        </motion.div>
       );
     }
 
     if (loading) {
       return (
-        <div className="flex justify-center items-center p-12 bg-gray-800/80 rounded-xl shadow-lg border border-gray-700/50 backdrop-blur-md">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className="flex justify-center items-center p-12 bg-gray-800/80 rounded-xl shadow-lg border border-gray-700/50 backdrop-blur-md"
+        >
           <div className="flex flex-col items-center">
             <Loader2 className="animate-spin w-12 h-12 text-blue-400 mb-4" />
             <p className="text-gray-300">Loading {platform?.name} pages...</p>
           </div>
-        </div>
+        </motion.div>
       );
     }
 
     const pages = pagesByPlatform[activePlatform];
 
     return (
-      <div className="space-y-6">
-        <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 p-6 rounded-xl shadow-lg border border-gray-700/50 backdrop-blur-md">
-          <h3 className="text-xl font-bold text-white mb-4 flex items-center">
-            <span className="bg-gradient-to-r from-blue-500 to-purple-600 p-2 rounded-lg mr-3">{platform.icon}</span>
-            <span>Select {platform.name} Destination</span>
-          </h3>
-
-          <select
-            onChange={(e) => handlePageSelect(activePlatform, e.target.value)}
-            className="w-full bg-gray-700/80 border border-gray-600/50 text-white px-4 py-3 rounded-lg appearance-none focus:ring-2 focus:ring-purple-500 focus:border-transparent backdrop-blur-sm"
-            value={selectedPage?.id || ""}
-          >
-            <option value="">-- Select {platform.name} Page --</option>
-            {pages.map((page) => (
-              <option key={page.id} value={page.id} className="bg-gray-800/80">
-                {page.name} {page.username && `(${page.username})`}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {selectedPage && (
-          <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/80 p-8 rounded-xl shadow-2xl border border-gray-700/50 backdrop-blur-md">
-            <h3 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
-              Create Post for {selectedPage.name}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activePlatform}
+          initial={{ opacity: 0, x: -100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 100 }}
+          transition={{ duration: 0.3 }}
+          className="space-y-6 overflow-y-hidden"
+        >
+          <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 p-6 rounded-xl shadow-lg border border-gray-700/50 backdrop-blur-md">
+            <h3 className="text-xl font-bold text-white mb-4 flex items-center">
+              <span className="bg-gradient-to-r from-blue-500 to-purple-600 p-2 rounded-lg mr-3">{platform.icon}</span>
+              <span>Select {platform.name} Destination</span>
             </h3>
-            <UploadForm selectedPage={selectedPage} platform={activePlatform} />
+
+            {pages.length > 0 ? (
+              <select
+                onChange={(e) => handlePageSelect(activePlatform, e.target.value)}
+                className="w-full bg-gray-700/80 border border-gray-600/50 text-white px-4 py-3 rounded-lg appearance-none focus:ring-2 focus:ring-purple-500 focus:border-transparent backdrop-blur-sm"
+                value={selectedPage?.id || ""}
+              >
+                <option value="">-- Select {platform.name} Page --</option>
+                {pages.map((page) => (
+                  <option key={page.id} value={page.id} className="bg-gray-800/80">
+                    {page.name} {page.username && `(${page.username})`}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <div className="text-gray-400 py-4">
+                No pages available. Please check your API connection.
+              </div>
+            )}
           </div>
-        )}
-      </div>
+
+          {selectedPage && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.3 }}
+              className="bg-gradient-to-br from-gray-900/80 to-gray-800/80 p-8 rounded-xl shadow-2xl border border-gray-700/50 backdrop-blur-md"
+            >
+              <h3 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
+                Create Post for {selectedPage.name}
+              </h3>
+              <UploadForm selectedPage={selectedPage} platform={activePlatform} />
+            </motion.div>
+          )}
+        </motion.div>
+      </AnimatePresence>
     );
   };
 
@@ -227,6 +301,9 @@ export default function Blog() {
                     Coming Soon
                   </span>
                 )}
+                {btn.hasApi && isPlatformAuthenticated(btn.key) && (
+                  <span className="absolute top-2 right-2 w-3 h-3 bg-green-500 rounded-full"></span>
+                )}
               </div>
             </button>
           ))}
@@ -236,6 +313,79 @@ export default function Blog() {
           {renderPlatformContent()}
         </div>
       </div>
+
+      {/* Password Modal */}
+      <AnimatePresence>
+        {showPasswordModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: -20, opacity: 0 }}
+              className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-2xl border border-gray-700/50 p-8 max-w-md w-full"
+            >
+              <h3 className="text-2xl font-bold mb-6 text-white flex items-center">
+                <span className="bg-gradient-to-r from-blue-500 to-purple-600 p-2 rounded-lg mr-3">
+                  {platformButtons.find(btn => btn.key === activePlatform)?.icon}
+                </span>
+                Enter Password
+              </h3>
+              <form onSubmit={handlePasswordSubmit}>
+                <div className="mb-6">
+                  <label htmlFor="password" className="block text-gray-300 mb-2">
+                    Password for {platformButtons.find(btn => btn.key === activePlatform)?.name}
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      id="password"
+                      value={passwordInput}
+                      onChange={(e) => setPasswordInput(e.target.value)}
+                      className="w-full bg-gray-700/80 border border-gray-600/50 text-white px-4 py-3 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent pr-10"
+                      placeholder="Enter platform password"
+                      autoFocus
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300"
+                    >
+                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                  </div>
+                  {passwordError && (
+                    <p className="mt-2 text-red-400 text-sm">{passwordError}</p>
+                  )}
+                </div>
+                <div className="flex justify-end space-x-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowPasswordModal(false);
+                      setPasswordError("");
+                      setPasswordInput("");
+                    }}
+                    className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 rounded-lg transition-colors"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
