@@ -52,7 +52,7 @@ const carouselItems = [
     ],
     image: caro1,
     ratio: "portrait",
-    bgGradient: 'bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800'
+    bgGradient: 'bg-gradient-to-br from-amber-600 via-orange-700 to-amber-900'
   },
   {
     standard: 'ISO 14001:2015',
@@ -69,7 +69,7 @@ const carouselItems = [
     ],
     image: caro2,
     ratio: "landscape",
-    bgGradient: 'bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-700'
+    bgGradient: 'bg-gradient-to-br from-yellow-800 via-yellow-900 to-yellow-950'
   },
   {
     standard: 'ISO 45001:2018',
@@ -136,7 +136,9 @@ const ImageCarousel = () => {
     <>
       <div
         ref={carouselRef}
-        className={`relative w-full ${currentItem.bgGradient} overflow-hidden flex items-center justify-center py-10 px-4 sm:px-6 md:px-12 lg:px-24`}
+        className={`relative w-full ${currentItem.bgGradient}
+         overflow-hidden flex items-center justify-center 
+         py-10 px-4 sm:px-6 md:px-12 lg:px-24`}
       >
         <AnimatePresence custom={direction} mode="wait">
           <motion.div
@@ -148,7 +150,9 @@ const ImageCarousel = () => {
             exit="exit"
             className="relative w-full flex justify-center items-center"
           >
-            <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh]">
+            <div className="w-full max-w-7xl
+             mx-auto grid grid-cols-1 lg:grid-cols-2
+              gap-10 items-center min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh]">
               {/* Left Content */}
               <div className="text-white space-y-6">
                 <div className="space-y-1">
@@ -175,7 +179,10 @@ const ImageCarousel = () => {
                         animate="visible"
                         whileHover={{ scale: 1.05, boxShadow: `0 0 12px ${iconColor}` }}
                         transition={{ type: 'spring', stiffness: 300 }}
-                        className="p-4 rounded-xl backdrop-blur-sm bg-white/15 border border-white/30 flex items-center gap-x-5 cursor-pointer transform-gpu shadow-md hover:bg-white/25"
+                        className="p-4 rounded-xl
+                         backdrop-blur-sm bg-white/15 border 
+                         border-white/30 flex items-center
+                          gap-x-5 cursor-pointer transform-gpu shadow-md hover:bg-white/25"
                       >
                         <IconComp
                           size={32}
