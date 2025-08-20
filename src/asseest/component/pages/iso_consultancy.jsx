@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
+import { Quote } from "lucide-react";
 import { useState } from "react";
 import { FiChevronRight, FiMail, FiPhone, FiGlobe, FiCheckCircle, FiAward, FiFileText, FiUsers, FiShield, FiGlobe as FiEarth, FiTrendingUp, FiClock, FiLayers } from "react-icons/fi";
 
@@ -8,99 +9,99 @@ const ISOConsultancy = () => {
 
   // Standard data with icons and colors
   const allStandards = [
-    { 
-      id: "9001", 
-      name: "ISO 9001:2015", 
-      focus: "Quality Management", 
-      industries: "All industries", 
+    {
+      id: "9001",
+      name: "ISO 9001:2015",
+      focus: "Quality Management",
+      industries: "All industries",
       icon: <FiAward className="text-blue-500" />,
       gradient: "from-blue-100 to-blue-50"
     },
-    { 
-      id: "14001", 
-      name: "ISO 14001:2015", 
-      focus: "Environmental Management", 
-      industries: "Manufacturing, Construction", 
+    {
+      id: "14001",
+      name: "ISO 14001:2015",
+      focus: "Environmental Management",
+      industries: "Manufacturing, Construction",
       icon: <FiEarth className="text-green-500" />,
       gradient: "from-green-100 to-green-50"
     },
-    { 
-      id: "45001", 
-      name: "ISO 45001:2018", 
-      focus: "Occupational Health & Safety", 
-      industries: "Factories, Hospitals", 
+    {
+      id: "45001",
+      name: "ISO 45001:2018",
+      focus: "Occupational Health & Safety",
+      industries: "Factories, Hospitals",
       icon: <FiShield className="text-orange-500" />,
       gradient: "from-orange-100 to-orange-50"
     },
-    { 
-      id: "27001", 
-      name: "ISO 27001:2022", 
-      focus: "Information Security", 
-      industries: "IT, Banking, Healthcare", 
+    {
+      id: "27001",
+      name: "ISO 27001:2022",
+      focus: "Information Security",
+      industries: "IT, Banking, Healthcare",
       icon: <FiFileText className="text-purple-500" />,
       gradient: "from-purple-100 to-purple-50"
     },
-    { 
-      id: "39001", 
-      name: "ISO 39001:2012", 
-      focus: "Road Traffic Safety", 
-      industries: "Transportation, Logistics", 
+    {
+      id: "39001",
+      name: "ISO 39001:2012",
+      focus: "Road Traffic Safety",
+      industries: "Transportation, Logistics",
       icon: <FiTrendingUp className="text-red-500" />,
       gradient: "from-red-100 to-red-50"
     },
-    { 
-      id: "15189", 
-      name: "ISO 15189:2022", 
-      focus: "Medical Laboratories", 
-      industries: "Healthcare, Diagnostics", 
+    {
+      id: "15189",
+      name: "ISO 15189:2022",
+      focus: "Medical Laboratories",
+      industries: "Healthcare, Diagnostics",
       icon: <FiCheckCircle className="text-cyan-500" />,
       gradient: "from-cyan-100 to-cyan-50"
     },
-    { 
-      id: "26000", 
-      name: "ISO 26000:2010", 
-      focus: "Social Responsibility", 
-      industries: "All industries", 
+    {
+      id: "26000",
+      name: "ISO 26000:2010",
+      focus: "Social Responsibility",
+      industries: "All industries",
       icon: <FiUsers className="text-yellow-500" />,
       gradient: "from-yellow-100 to-yellow-50"
     },
-    { 
-      id: "55001", 
-      name: "ISO 55001:2014", 
-      focus: "Asset Management", 
-      industries: "Utilities, Infrastructure", 
+    {
+      id: "55001",
+      name: "ISO 55001:2014",
+      focus: "Asset Management",
+      industries: "Utilities, Infrastructure",
       icon: <FiLayers className="text-indigo-500" />,
       gradient: "from-indigo-100 to-indigo-50"
     },
-    { 
-      id: "50001", 
-      name: "ISO 50001:2018", 
-      focus: "Energy Management", 
-      industries: "Manufacturing, Energy", 
+    {
+      id: "50001",
+      name: "ISO 50001:2018",
+      focus: "Energy Management",
+      industries: "Manufacturing, Energy",
       icon: <FiClock className="text-emerald-500" />,
       gradient: "from-emerald-100 to-emerald-50"
     },
-    { 
-      id: "41001", 
-      name: "ISO 41001:2018", 
-      focus: "Facility Management", 
-      industries: "Real Estate, Corporate", 
+    {
+      id: "41001",
+      name: "ISO 41001:2018",
+      focus: "Facility Management",
+      industries: "Real Estate, Corporate",
       icon: <FiGlobe className="text-amber-500" />,
       gradient: "from-amber-100 to-amber-50"
     },
-    { 
-      id: "28001", 
-      name: "ISO 28001", 
-      focus: "Supply Chain Security", 
-      industries: "Logistics, Shipping", 
+    {
+      id: "28001",
+      name: "ISO 28001",
+      focus: "Supply Chain Security",
+      industries: "Logistics, Shipping",
       icon: <FiShield className="text-blue-600" />,
       gradient: "from-blue-100 to-blue-50"
     },
-    { 
-      id: "SA8000", 
-      name: "SA 8000", 
-      focus: "Social Accountability", 
-      industries: "Textiles, Manufacturing", 
+    {
+      id: "SA8000",
+      name: "SA 8000",
+      focus: "Social Accountability",
+      industries: "Textiles, Manufacturing",
       icon: <FiUsers className="text-pink-500" />,
       gradient: "from-pink-100 to-pink-50"
     }
@@ -114,7 +115,7 @@ const ISOConsultancy = () => {
       icon: "🧭",
       content: (
         <div className="space-y-8">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="bg-gradient-to-br from-blue-50 to-white p-8 rounded-3xl shadow-sm border border-blue-100"
@@ -124,18 +125,18 @@ const ISOConsultancy = () => {
               What is ISO Consultancy?
             </h3>
             <p className="text-lg mb-6 leading-relaxed">
-              <strong className="font-semibold text-blue-700">ISO Consultancy</strong> provides expert guidance to implement international standards, 
+              <strong className="font-semibold text-blue-700">ISO Consultancy</strong> provides expert guidance to implement international standards,
               streamline processes, and achieve certification. We bridge the gap between your current systems and ISO requirements.
             </p>
             <div className="bg-blue-50/80 p-6 rounded-xl border border-blue-200 backdrop-blur-sm">
               <p className="text-blue-700 text-lg">
-                Whether it's <strong>ISO 9001 (Quality)</strong>, <strong>ISO 14001 (Environment)</strong>, 
+                Whether it's <strong>ISO 9001 (Quality)</strong>, <strong>ISO 14001 (Environment)</strong>,
                 or <strong>ISO 45001 (Safety)</strong>, we customize solutions for <strong>your industry needs</strong>.
               </p>
             </div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -154,7 +155,7 @@ const ISOConsultancy = () => {
                 { icon: "🔄", title: "Continuous Improvement", desc: "Implement PDCA cycle for growth" },
                 { icon: "💼", title: "Competitive Advantage", desc: "Stand out in procurement processes" },
               ].map((item, i) => (
-                <motion.div 
+                <motion.div
                   key={i}
                   whileHover={{ y: -5 }}
                   className="bg-white p-5 rounded-xl border border-gray-200 hover:shadow-md transition-all"
@@ -181,10 +182,10 @@ const ISOConsultancy = () => {
               Comprehensive ISO Standards Coverage
             </h3>
             <p className="text-lg text-gray-700 mb-8">
-              We specialize in implementing a wide range of international standards across industries. 
+              We specialize in implementing a wide range of international standards across industries.
               Select a standard to learn more about its benefits and implementation process.
             </p>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {allStandards.map((standard, i) => (
                 <motion.div
@@ -227,47 +228,47 @@ const ISOConsultancy = () => {
       content: (
         <div className="relative">
           <div className="hidden lg:block absolute left-1/2 h-full w-1 bg-gradient-to-b from-indigo-400 via-purple-400 to-pink-400 transform -translate-x-1/2"></div>
-          
+
           {[
-            { 
-              id: 1, 
-              title: "Initial Assessment", 
-              desc: "Comprehensive gap analysis of current systems", 
+            {
+              id: 1,
+              title: "Initial Assessment",
+              desc: "Comprehensive gap analysis of current systems",
               icon: "🔍",
               color: "from-indigo-100 to-indigo-50"
             },
-            { 
-              id: 2, 
-              title: "Planning", 
-              desc: "Develop customized implementation roadmap", 
+            {
+              id: 2,
+              title: "Planning",
+              desc: "Develop customized implementation roadmap",
               icon: "📝",
               color: "from-blue-100 to-blue-50"
             },
-            { 
-              id: 3, 
-              title: "Documentation", 
-              desc: "Create policies, procedures and records", 
+            {
+              id: 3,
+              title: "Documentation",
+              desc: "Create policies, procedures and records",
               icon: "📑",
               color: "from-cyan-100 to-cyan-50"
             },
-            { 
-              id: 4, 
-              title: "Implementation", 
-              desc: "Train teams and integrate systems", 
+            {
+              id: 4,
+              title: "Implementation",
+              desc: "Train teams and integrate systems",
               icon: "🔄",
               color: "from-green-100 to-green-50"
             },
-            { 
-              id: 5, 
-              title: "Internal Audit", 
-              desc: "Conduct compliance verification audits", 
+            {
+              id: 5,
+              title: "Internal Audit",
+              desc: "Conduct compliance verification audits",
               icon: "✔️",
               color: "from-yellow-100 to-yellow-50"
             },
-            { 
-              id: 6, 
-              title: "Certification", 
-              desc: "Coordinate with accredited certification bodies", 
+            {
+              id: 6,
+              title: "Certification",
+              desc: "Coordinate with accredited certification bodies",
               icon: "🏆",
               color: "from-purple-100 to-purple-50"
             },
@@ -326,7 +327,7 @@ const ISOConsultancy = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
       {/* Hero Section */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -411,7 +412,7 @@ const ISOConsultancy = () => {
       </AnimatePresence>
 
       {/* Clients Section */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -443,81 +444,8 @@ const ISOConsultancy = () => {
       </motion.div>
 
       {/* CTA Section */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-3xl p-8 md:p-12 text-white overflow-hidden relative my-20"
-      >
-        <div className="absolute -right-20 -top-20 w-64 h-64 bg-white rounded-full opacity-10"></div>
-        <div className="absolute -left-20 -bottom-20 w-64 h-64 bg-white rounded-full opacity-10"></div>
-        <div className="absolute right-0 bottom-0 w-32 h-32 bg-blue-500 rounded-full opacity-20 filter blur-xl"></div>
-        
-        <div className="relative z-10 max-w-4xl mx-auto text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold mb-6"
-          >
-            Ready to Achieve ISO Certification?
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            viewport={{ once: true }}
-            className="text-xl mb-8"
-          >
-            Get a free consultation with our ISO specialists today
-          </motion.p>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-6"
-          >
-            <motion.div 
-              whileHover={{ y: -5 }}
-              className="bg-white/10 p-6 rounded-xl backdrop-blur-sm border border-white/20 hover:shadow-lg transition-all"
-            >
-              <div className="flex justify-center text-3xl mb-4">
-                <FiMail className="text-blue-200" />
-              </div>
-              <p className="font-medium mb-2 text-lg">Email Us</p>
-              <a href="mailto:info@everestconsultrain.com" className="text-blue-100 hover:text-white text-sm">
-                info@everestconsultrain.com
-              </a>
-            </motion.div>
-            
-            <motion.div 
-              whileHover={{ y: -5 }}
-              className="bg-white/10 p-6 rounded-xl backdrop-blur-sm border border-white/20 hover:shadow-lg transition-all"
-            >
-              <div className="flex justify-center text-3xl mb-4">
-                <FiPhone className="text-blue-200" />
-              </div>
-              <p className="font-medium mb-2 text-lg">Call Us</p>
-              <p className="text-blue-100 text-sm">+977-XXXX-XXXXXX</p>
-            </motion.div>
-            
-            <motion.div 
-              whileHover={{ y: -5 }}
-              className="bg-white/10 p-6 rounded-xl backdrop-blur-sm border border-white/20 hover:shadow-lg transition-all"
-            >
-              <div className="flex justify-center text-3xl mb-4">
-                <FiGlobe className="text-blue-200" />
-              </div>
-              <p className="font-medium mb-2 text-lg">Visit Us</p>
-              <a href="http://www.everestconsultrain.com" className="text-blue-100 hover:text-white text-sm">
-                everestconsultrain.com
-              </a>
-            </motion.div>
-          </motion.div>
-        </div>
-      </motion.div>
+     
+      <Quote />
     </div>
   );
 };

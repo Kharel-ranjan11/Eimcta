@@ -9,49 +9,55 @@ export const ISO_CREDENTIALS = () => {
   const credentials = [
     {
       title: "ISO 9001 Certified",
-      description: "Quality Management System certification demonstrating our commitment to consistent quality.",
+      description: "Quality Management System certification demonstrating our commitment to consistent quality and continuous improvement in all our processes.",
       image: "/images/iso9001.jpg",
-      year: "2023"
+      year: "2023",
+      icon: "🏆"
     },
     {
       title: "ISO 27001 Certified",
-      description: "Information Security Management certification ensuring robust data protection.",
+      description: "Information Security Management certification ensuring robust data protection and cybersecurity measures for our clients.",
       image: "/images/iso27001.jpg",
-      year: "2022"
+      year: "2022",
+      icon: "🔒"
     },
     {
       title: "Industry Excellence Award",
-      description: "Recognized as industry leader for innovative solutions and customer satisfaction.",
+      description: "Recognized as industry leader for innovative solutions, exceptional service delivery, and outstanding customer satisfaction metrics.",
       image: "/images/award.jpg",
-      year: "2021"
+      year: "2021",
+      icon: "✨"
     },
     {
       title: "Environmental Certification",
-      description: "Demonstrating our commitment to sustainable and eco-friendly practices.",
+      description: "Demonstrating our commitment to sustainable practices, carbon footprint reduction, and eco-friendly operations.",
       image: "/images/environmental.jpg",
-      year: "2023"
+      year: "2023",
+      icon: "🌱"
     },
     {
       title: "Customer Satisfaction Award",
-      description: "Awarded for exceptional customer service and support.",
+      description: "Awarded for maintaining 98% customer satisfaction score and delivering exceptional service and support.",
       image: "/images/customer-award.jpg",
-      year: "2023"
+      year: "2023",
+      icon: "❤️"
     },
     {
       title: "Innovation Excellence",
-      description: "Recognized for groundbreaking technological advancements.",
+      description: "Recognized for groundbreaking technological advancements and digital transformation solutions.",
       image: "/images/innovation.jpg",
-      year: "2022"
+      year: "2022",
+      icon: "💡"
     }
   ];
 
-  // Auto-scroll effect remains the same
+  // Auto-scroll effect
   useEffect(() => {
     if (!isAutoPlaying) return;
 
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % credentials.length);
-    }, 3000);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, credentials.length]);
@@ -76,156 +82,156 @@ export const ISO_CREDENTIALS = () => {
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
-  // Handle swipe gestures for mobile
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
-
-  const handleTouchStart = (e) => setTouchStart(e.targetTouches[0].clientX);
-  const handleTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
-  const handleTouchEnd = () => {
-    if (touchStart - touchEnd > 50) handleNext();
-    if (touchStart - touchEnd < -50) handlePrev();
-  };
-
   return (
-    <div className="w-full bg-gradient-to-br from-amber-50 to-orange-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="w-full bg-gradient-to-br from-amber-50 to-orange-50 py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
         {/* Title */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-['Arial Narrow',Arial,sans-serif]">
-            Our <span className="text-amber-600">Achievements & Accreditations</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 font-['Arial Narrow',Arial,sans-serif]">
+            Our <span className="text-amber-600">Accolades & Accreditations</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-amber-400 to-orange-400 mx-auto rounded-full" />
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
+            Recognized excellence in quality, security, and innovation
+          </p>
+          <div className="w-24 h-1.5 bg-gradient-to-r from-amber-400 to-orange-400 mx-auto rounded-full" />
         </motion.div>
 
-        {/* Carousel Container */}
-        <div
-          className="relative"
-          ref={containerRef}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
-          {/* Desktop Arrows */}
-          <button
-            onClick={handlePrev}
-            className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-gray-500 shadow-lg hover:bg-amber-50 transition-all items-center justify-center border border-amber-100"
-            aria-label="Previous"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-
-          <button
-            onClick={handleNext}
-            className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white text-gray-500 shadow-lg hover:bg-amber-50 transition-all items-center justify-center border border-amber-100"
-            aria-label="Next"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-
-          {/* Mobile Arrows */}
-          <div className="sm:hidden flex justify-between w-full mb-4">
-            <button
-              onClick={handlePrev}
-              className="w-10 h-10 rounded-full bg-white text-gray-500 shadow hover:bg-amber-50 transition-all flex items-center justify-center border border-amber-100"
-              aria-label="Previous"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <button
-              onClick={handleNext}
-              className="w-10 h-10 rounded-full bg-white text-gray-500 shadow hover:bg-amber-50 transition-all flex items-center justify-center border border-amber-100"
-              aria-label="Next"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
+        {/* Vertical Carousel Container */}
+        <div className="flex flex-col lg:flex-row gap-8 items-center">
+          {/* Left Column - Credential List */}
+          <div className="w-full lg:w-2/5 space-y-4">
+            {credentials.map((credential, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`cursor-pointer p-5 rounded-xl transition-all duration-300 ${activeIndex === index ? 'bg-white shadow-lg border-l-4 border-amber-400' : 'bg-amber-50 shadow-md hover:bg-amber-100'}`}
+                onClick={() => scrollToItem(index)}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="text-2xl">{credential.icon}</div>
+                  <div>
+                    <h3 className={`text-lg font-bold ${activeIndex === index ? 'text-gray-800' : 'text-gray-700'}`}>
+                      {credential.title}
+                    </h3>
+                    <p className={`text-sm ${activeIndex === index ? 'text-gray-600' : 'text-gray-500'}`}>
+                      {credential.year}
+                    </p>
+                  </div>
+                  {activeIndex === index && (
+                    <motion.div 
+                      className="ml-auto"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: 'spring', stiffness: 500 }}
+                    >
+                      <div className="w-3 h-3 rounded-full bg-amber-400" />
+                    </motion.div>
+                  )}
+                </div>
+              </motion.div>
+            ))}
           </div>
 
-          {/* Carousel Items */}
-          <div className="overflow-hidden">
+          {/* Right Column - Active Credential Display */}
+          <div className="w-full lg:w-3/5">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -100 }}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
                 transition={{ duration: 0.5 }}
-                className="w-full"
+                className="bg-white rounded-2xl shadow-xl overflow-hidden h-full"
               >
-                <div className="bg-white rounded-xl shadow-md overflow-hidden flex flex-col lg:flex-row border border-amber-100">
-                  {/* Image */}
-                  <motion.div
-                    className="w-full lg:w-1/2 h-64 sm:h-80 md:h-96 relative overflow-hidden"
-                    initial={{ scale: 0.95 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <img
-                      src={credentials[activeIndex].image}
-                      alt={credentials[activeIndex].title}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/20 to-transparent" />
-                  </motion.div>
-
-                  {/* Text */}
-                  <div className="w-full lg:w-1/2 p-6 sm:p-8 flex flex-col justify-center">
-                    <motion.h3
-                      className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4 font-['Arial Narrow',Arial,sans-serif]"
-                      initial={{ y: 20 }}
-                      animate={{ y: 0 }}
+                <div className="relative h-64 md:h-80 lg:h-96 w-full overflow-hidden">
+                  <img
+                    src={credentials[activeIndex].image}
+                    alt={credentials[activeIndex].title}
+                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 via-transparent to-transparent" />
+                  <div className="absolute bottom-0 left-0 p-6">
+                    <motion.div 
+                      className="text-5xl mb-2"
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.2 }}
+                    >
+                      {credentials[activeIndex].icon}
+                    </motion.div>
+                    <motion.h3
+                      className="text-2xl md:text-3xl font-bold text-white drop-shadow-lg"
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.3 }}
                     >
                       {credentials[activeIndex].title}
                     </motion.h3>
-                    <motion.p
-                      className="text-gray-700 mb-6 text-sm sm:text-base md:text-lg italic font-['Arial Narrow',Arial,sans-serif]"
-                      initial={{ y: 20 }}
-                      animate={{ y: 0 }}
-                      transition={{ delay: 0.3 }}
-                    >
-                      {credentials[activeIndex].description}
-                    </motion.p>
-                    <motion.div
-                      className="bg-gradient-to-r from-amber-400 to-orange-400 text-white px-4 py-2 rounded-full self-start text-xs sm:text-sm font-['Arial Narrow',Arial,sans-serif]"
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.4 }}
-                    >
-                      {credentials[activeIndex].year}
-                    </motion.div>
                   </div>
+                </div>
+                <div className="p-6 md:p-8">
+                  <motion.p
+                    className="text-gray-700 text-lg mb-6"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                  >
+                    {credentials[activeIndex].description}
+                  </motion.p>
+                  <motion.div
+                    className="flex justify-between items-center"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                  >
+                    <div className="flex gap-2">
+                      <button
+                        onClick={handlePrev}
+                        className="w-10 h-10 rounded-full bg-amber-50 text-amber-600 shadow hover:bg-amber-100 transition-all flex items-center justify-center"
+                        aria-label="Previous"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={handleNext}
+                        className="w-10 h-10 rounded-full bg-amber-50 text-amber-600 shadow hover:bg-amber-100 transition-all flex items-center justify-center"
+                        aria-label="Next"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+                    </div>
+                    <div className="bg-gradient-to-r from-amber-400 to-orange-400 text-white px-5 py-2 rounded-full text-sm font-medium">
+                      Awarded {credentials[activeIndex].year}
+                    </div>
+                  </motion.div>
                 </div>
               </motion.div>
             </AnimatePresence>
           </div>
+        </div>
 
-          {/* Indicators */}
-          <div className="flex justify-center mt-8 gap-2">
-            {credentials.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => scrollToItem(index)}
-                className={`w-3 h-3 rounded-full transition-all ${
-                  index === activeIndex ? "bg-orange-400 scale-125" : "bg-gray-300"
-                }`}
-                aria-label={`Go to credential ${index + 1}`}
-              />
-            ))}
-          </div>
+        {/* Indicators */}
+        <div className="flex justify-center mt-12 gap-2">
+          {credentials.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => scrollToItem(index)}
+              className={`w-3 h-3 rounded-full transition-all ${
+                index === activeIndex ? "bg-orange-500 scale-125" : "bg-gray-300 hover:bg-gray-400"
+              }`}
+              aria-label={`Go to credential ${index + 1}`}
+            />
+          ))}
         </div>
       </div>
     </div>

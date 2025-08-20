@@ -40,7 +40,6 @@ const ImageGallery3D = () => {
         },
         {
             id: 6,
-            src: img1,
             src: 'https://source.unsplash.com/random/800x600?food',
             title: 'Food',
             description: 'Delicious gourmet dish'
@@ -63,11 +62,15 @@ const ImageGallery3D = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 py-12 px-4 sm:px-6 lg:px-8">
+        <div 
+            className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 py-12 px-4 sm:px-6 lg:px-8"
+            style={{ fontFamily: "'Arial Narrow', Arial, sans-serif", fontWeight: 'bold' }}
+        >
             <div className="max-w-7xl mx-auto">
-                <h1 className="text-4xl font-bold text-center text-white mb-12">
-                    3D Perspective Gallery
+                <h1 className="text-4xl text-center text-gray-800 mb-4">
+                    Our Gallery
                 </h1>
+                <hr className="border-t-2 border-orange-300 w-24 mx-auto mb-12" />
 
                 <motion.div
                     variants={container}
@@ -111,7 +114,7 @@ const ImageGallery3D = () => {
                                     whileHover={{ opacity: 1 }}
                                 >
                                     <div>
-                                        <h3 className="text-white text-xl font-bold">{image.title}</h3>
+                                        <h3 className="text-white text-xl">{image.title}</h3>
                                         <p className="text-gray-200">{image.description}</p>
                                     </div>
                                 </motion.div>
@@ -153,7 +156,7 @@ const ImageGallery3D = () => {
                                 animate={{ y: 0, opacity: 1 }}
                                 transition={{ delay: 0.2 }}
                             >
-                                <h2 className="text-white text-3xl font-bold">
+                                <h2 className="text-white text-3xl">
                                     {images.find(img => img.id === selectedId).title}
                                 </h2>
                                 <p className="text-gray-300 mt-2">

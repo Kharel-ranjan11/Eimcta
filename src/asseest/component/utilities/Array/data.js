@@ -1,3 +1,4 @@
+import icon from '../../../img/iSO.png'
 import {
   HelpCircle,
   BookText,
@@ -378,6 +379,7 @@ export const menuitems = [
   {
     title: "About Us",
     path: "/about-us",
+
   },
   {
     title: "Services",
@@ -385,27 +387,59 @@ export const menuitems = [
     children: [
       {
         title: 'ISO consultancy',
-        path: '/services/iso-consultancy'
+        path: '/services/iso-consultancy',
+        icon: icon
       },
       {
         title: 'ISO Audit',
-        path: '/services/iso-audit'
+        path: '/services/iso-audit',
+        icon: icon
       }, {
         title: 'ISO certification',
-        path: '/services/iso-certification'
+        path: '/services/iso-certification',
+        icon: icon
       }, {
-        title: 'ISO training',
-        path: '/services/iso-training'
+        title: ' Training | OHS | HRD  ',
+        path: '/services/iso-training',
+        icon: icon,
+
+        children: [{
+          title: 'OHS',
+          path: null,
+          icon: icon,
+          children: [
+            {
+              title: 'Health|Safety Plan/Doc.',
+              path: '/services/iso-training/ohs/health-safety-plan-doc',
+              icon: icon
+
+            },
+            {
+              title: 'HSE Implementation/Training/Workshop',
+              path: '/services/iso-training/ohs/implementation',
+              icon: icon
+            },
+            {
+              title: 'HSE Audits',
+              path: '/services/iso-training/ohs/audits',
+              icon: icon
+            }
+          ]
+
+        }],
       },
       {
         title: 'Tender/Technical/Bid Preparation',
-        path: '/services/tender-technical-bid-preparation'
+        path: '/services/tender-technical-bid-preparation',
+        icon: icon
       }, {
         title: 'Environmental Services,EIA,Env.Monitoring(Air,Water,Soil etc)',
+        icon: icon,
         path: '/services/environmental-services-eta-env-monitoring-air-water-soil-etc'
       }, {
         title: 'Supply of Sign (Quality,safety,Env.,Companies )',
-        path: '/services/supply-of-sign-quality-safety-env-companies'
+        path: '/services/supply-of-sign-quality-safety-env-companies',
+        icon: icon
       },
     ]
 
@@ -416,17 +450,21 @@ export const menuitems = [
     children: [
       {
         title: 'Offers/Contents/Latest Boosting',
-        path: '/Blog-Offers/Offers-Contents-Latest-Boosting'
+        path: '/Blog-Offers/Offers-Contents-Latest-Boosting',
+        icon: icon
       },
       {
         title: 'FAQ',
-        path: '/Blog-Offers/FAQ'
+        path: '/Blog-Offers/FAQ',
+        icon: icon
       }, {
         title: 'FB,Titktok,Linkedin,youtube',
-        path: '/Blog-Offers/FB-Titktok-Linkedin-youtube'
+        path: '/Blog-Offers/FB-Titktok-Linkedin-youtube',
+        icon: icon
       }, {
         title: 'get quote & Check Eligibility',
-        path: '/Blog-Offers/get-quote-and-check-eligibility'
+        path: '/Blog-Offers/get-quote-and-check-eligibility',
+        icon: icon
       },
 
     ],

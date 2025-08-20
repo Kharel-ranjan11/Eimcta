@@ -25,6 +25,9 @@ import ISOConsultancy from './asseest/component/pages/iso_consultancy.jsx';
 import SafetySignPPE from './asseest/component/pages/safetysignppe.jsx';
 import TechnicalBidComponent from './asseest/component/pages/Bid_tender';
 import ISOAuditGuide from './asseest/component/pages/aduit.jsx';
+import HealthSafety from './asseest/component/utilities/health&safety.jsx';
+import HSEAwarenessTraining from './asseest/component/utilities/HSE.jsx';
+import HSEAudits from './asseest/component/utilities/hseaduit.jsx';
 // import { Router_link } from './asseest/component/utilities/Array/data.js';
 // import Person_Incharge_PI_2 from './asseest/component/utilities/traning/T_child/Person_Incharge_PI_2.jsx';
 // import Permit_to_Work_System_PTW from './asseest/component/utilities/traning/T_child/Permit_to_Work_System_(PTW).jsx';
@@ -72,6 +75,16 @@ function App() {
           <Route path="services/environmental-services-eta-env-monitoring-air-water-soil-etc" element={
             <PageTransitionWrapper> <EnvironmentalServices /></PageTransitionWrapper>} />
 
+          <Route path="services/iso-training/ohs/health-safety-plan-doc" element={
+            <PageTransitionWrapper> <HealthSafety /></PageTransitionWrapper>} />
+
+          <Route path="services/iso-training/ohs/implementation" element={
+            <PageTransitionWrapper> <HSEAwarenessTraining /></PageTransitionWrapper>} />
+
+          <Route path="services/iso-training/ohs/audits" element={
+            <PageTransitionWrapper> <HSEAudits /></PageTransitionWrapper>} />
+
+          {/*  */}
           <Route path="services/supply-of-sign-quality-safety-env-companies" element={
             <PageTransitionWrapper> <SafetySignPPE /></PageTransitionWrapper>} />
 
@@ -95,7 +108,7 @@ function App() {
           {/* <Route path="/neboshDiplomaUk" element={<Permit_to_Work_System_PTW />} />  */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-
+        <Quote />
         <ScrollToTopButton />
         <Footer />
       </AnimatePresence>

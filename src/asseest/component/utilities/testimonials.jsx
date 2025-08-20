@@ -62,28 +62,51 @@ export const Testimonials = () => {
   const controls = useAnimation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const cardWidth = 320; // Approximate width of each card including gap
-  const visibleCards = 3; // Number of cards visible at once
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
+  const [visibleCards, setVisibleCards] = useState(1);
+
+  // Calculate number of visible cards based on window width
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setWindowWidth(width);
+      
+      if (width < 768) {
+        setVisibleCards(1); // Mobile - 1 card
+      } else if (width < 1024) {
+        setVisibleCards(2); // Tablet - 2 cards
+      } else {
+        setVisibleCards(3); // Desktop - 3 cards
+      }
+    };
+
+    handleResize(); // Set initial value
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Calculate card width based on number of visible cards
+  const cardWidth = 100 / visibleCards; // Percentage width per card
 
   // Calculate the scroll position based on current index
   const scrollToPosition = (index) => {
     const position = -index * cardWidth;
     controls.start({
-      x: position,
+      x: `${position}%`,
       transition: { duration: 0.5 }
     });
   };
 
   // Handle next button click
   const handleNext = () => {
-    const newIndex = (currentIndex + 1) % (testimonials.length);
+    const newIndex = Math.min(currentIndex + visibleCards, testimonials.length - visibleCards);
     setCurrentIndex(newIndex);
     scrollToPosition(newIndex);
   };
 
   // Handle previous button click
   const handlePrev = () => {
-    const newIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
+    const newIndex = Math.max(currentIndex - visibleCards, 0);
     setCurrentIndex(newIndex);
     scrollToPosition(newIndex);
   };
@@ -93,16 +116,20 @@ export const Testimonials = () => {
     if (isHovered) return;
 
     const interval = setInterval(() => {
-      handleNext();
-    }, 2000); // 2 seconds auto-scroll
+      if (currentIndex + visibleCards >= testimonials.length) {
+        // If at end, go back to start
+        setCurrentIndex(0);
+        scrollToPosition(0);
+      } else {
+        handleNext();
+      }
+    }, 3000); // 3 seconds auto-scroll
 
     return () => clearInterval(interval);
-  }, [currentIndex, isHovered]);
+  }, [currentIndex, isHovered, visibleCards]);
 
   return (
-    <section className="relative w-full py-12 md:py-16
-     lg:py-20 bg-gradient-to-br from-amber-50
-      to-orange-50 overflow-hidden">
+    <section className="relative w-full py-12 md:py-16 lg:py-20 bg-gradient-to-br from-amber-50 to-orange-50 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-10 md:mb-14 lg:mb-16"
@@ -120,88 +147,96 @@ export const Testimonials = () => {
 
         <div className="relative group">
           {/* Navigation Buttons */}
-          <button 
-            onClick={handlePrev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-amber-50 transition-colors duration-200"
-            aria-label="Previous testimonial"
-          >
-            <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
+          {currentIndex > 0 && (
+            <button 
+              onClick={handlePrev}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-amber-50 transition-colors duration-200"
+              aria-label="Previous testimonial"
+            >
+              <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+          )}
 
-          <button 
-            onClick={handleNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-amber-50 transition-colors duration-200"
-            aria-label="Next testimonial"
-          >
-            <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
+          {currentIndex + visibleCards < testimonials.length && (
+            <button 
+              onClick={handleNext}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-amber-50 transition-colors duration-200"
+              aria-label="Next testimonial"
+            >
+              <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          )}
 
-          {/* Gradient overlays */}
-          <div className="absolute inset-y-0 left-0 w-8 sm:w-12 md:w-16 lg:w-24 bg-gradient-to-r from-amber-50 to-transparent z-10"></div>
-          <div className="absolute inset-y-0 right-0 w-8 sm:w-12 md:w-16 lg:w-24 bg-gradient-to-l from-orange-50 to-transparent z-10"></div>
+          {/* Gradient overlays - only show on desktop */}
+          {windowWidth >= 768 && (
+            <>
+              <div className="absolute inset-y-0 left-0 w-8 sm:w-12 md:w-16 lg:w-24 bg-gradient-to-r from-amber-50 to-transparent z-10"></div>
+              <div className="absolute inset-y-0 right-0 w-8 sm:w-12 md:w-16 lg:w-24 bg-gradient-to-l from-orange-50 to-transparent z-10"></div>
+            </>
+          )}
 
           {/* Testimonials Carousel */}
-          <div className="overflow-hidden py-4">
+          <div className="overflow-hidden py-4 px-8 md:px-4">
             <motion.div
-              className="flex gap-4 sm:gap-6 md:gap-8"
+              className="flex"
               animate={controls}
               initial={{ x: 0 }}
               onHoverStart={() => setIsHovered(true)}
               onHoverEnd={() => setIsHovered(false)}
             >
-              {testimonials.map((testimonial, i) => (
+              {testimonials.map((testimonial) => (
                 <motion.div
                   key={testimonial.id}
-                  className="flex-shrink-0 w-64 sm:w-72 md:w-80 lg:w-96"
+                  className={`flex-shrink-0 ${windowWidth < 768 ? 'w-full' : `w-1/${visibleCards}`} px-2`}
                   whileHover={{
-                    scale: 1.03,
+                    scale: windowWidth >= 768 ? 1.03 : 1, // Only scale on desktop
                     transition: { duration: 0.3 }
                   }}
                 >
-                  <div className="bg-white border border-amber-100 p-5 sm:p-6 md:p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 h-full">
-                    <div className="flex items-start mb-4 sm:mb-5 md:mb-6">
+                  <div className="bg-white border border-amber-100 p-6 md:p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 h-full mx-auto max-w-md md:max-w-none">
+                    <div className="flex items-start mb-5 md:mb-6">
                       <div className="relative">
-                        <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-gradient-to-br from-amber-100 to-orange-100 rounded-full flex items-center justify-center">
-                          <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gradient-to-br from-amber-300 to-orange-400 rounded-full flex items-center justify-center text-white font-bold shadow-sm">
+                        <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-amber-100 to-orange-100 rounded-full flex items-center justify-center">
+                          <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-amber-300 to-orange-400 rounded-full flex items-center justify-center text-white font-bold shadow-sm">
                             {testimonial.name.charAt(0).toUpperCase()}
                           </div>
                         </div>
                         <div className="absolute -bottom-1 -right-1 bg-white p-1 rounded-full">
-                          <svg className="w-3 h-3 sm:w-4 sm:h-4 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
                           </svg>
                         </div>
                       </div>
-                      <div className="ml-3 sm:ml-4">
-                        <h4 className="font-bold text-sm sm:text-base md:text-lg text-gray-800" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}>{testimonial.name}</h4>
-                        <p className="text-amber-600 text-xs sm:text-sm md:text-base" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}>{testimonial.position}</p>
+                      <div className="ml-4">
+                        <h4 className="font-bold text-base md:text-lg text-gray-800" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}>{testimonial.name}</h4>
+                        <p className="text-amber-600 text-sm md:text-base" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}>{testimonial.position}</p>
                         <p className="text-xs text-gray-500 mt-1" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}>{testimonial.company}</p>
                       </div>
                     </div>
 
                     <div className="relative">
                       <svg
-                        className="absolute -top-5 -left-2 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-amber-100 opacity-70"
+                        className="absolute -top-5 -left-2 w-7 h-7 md:w-8 md:h-8 text-amber-100 opacity-70"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                       >
                         <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                       </svg>
-                      <p className="text-xs sm:text-sm md:text-base text-gray-700 italic relative z-10 pl-5 sm:pl-6" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}>
+                      <p className="text-sm md:text-base text-gray-700 italic relative z-10 pl-6" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}>
                         "{testimonial.quote}"
                       </p>
                     </div>
 
-                    <div className="mt-3 sm:mt-4 md:mt-6 flex items-center justify-between">
+                    <div className="mt-4 md:mt-6 flex items-center justify-between">
                       <div className="flex">
                         {[...Array(5)].map((_, i) => (
                           <svg
                             key={i}
-                            className={`w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 ${i < testimonial.rating ? 'text-amber-400' : 'text-gray-300'}`}
+                            className={`w-4 h-4 md:w-5 md:h-5 ${i < testimonial.rating ? 'text-amber-400' : 'text-gray-300'}`}
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
@@ -219,6 +254,23 @@ export const Testimonials = () => {
             </motion.div>
           </div>
         </div>
+
+        {/* Dots indicator for mobile */}
+        {windowWidth < 768 && (
+          <div className="flex justify-center mt-6 space-x-2">
+            {Array.from({ length: Math.ceil(testimonials.length / visibleCards) }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  setCurrentIndex(index * visibleCards);
+                  scrollToPosition(index * visibleCards);
+                }}
+                className={`w-2 h-2 rounded-full transition-colors ${currentIndex === index * visibleCards ? 'bg-amber-600' : 'bg-gray-300'}`}
+                aria-label={`Go to testimonial ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

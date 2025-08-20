@@ -5,7 +5,7 @@ import { Testimonials } from '../utilities/testimonials.jsx';
 import { ISO_CREDENTIALS } from '../utilities/Iso_service.jsx';
 import { Branding } from '../utilities/branding.jsx';
 import ImageGallery3D from '../utilities/gallery.jsx';
-import { ModalPage } from '../utilities/modal.jsx';
+import  ModalPage  from '../utilities/modal.jsx';
 
 // Lazy load components
 const ImageCarousel = lazy(() => import("../utilities/caro"));
@@ -73,12 +73,14 @@ const Home = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight italic">
+            <h2 className="text-4xl 
+            md:text-5xl font-bold text-gray-900 mb-4 tracking-tight 
+            ">
               Why <span className="text-amber-600 not-italic">ISO Certification</span> <span className="font-light">Matters?</span>
             </h2>
             <div className="w-24 h-1 bg-amber-500 mx-auto mb-8"></div>
             <p className="text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed font-light">
-              <span className="font-normal italic">Internationally recognized standards</span> that help organizations improve quality, safety, and efficiency while meeting regulatory requirements.
+              <span className="font-normal ">Internationally recognized standards</span> that help organizations improve quality, safety, and efficiency while meeting regulatory requirements.
             </p>
           </motion.div>
 
