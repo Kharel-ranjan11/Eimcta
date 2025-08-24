@@ -101,31 +101,7 @@ const Home = () => {
       <Branding/>
       <ModalPage />
       {/* ===== CTA SECTION ===== */}
-      <section className="relative w-full py-20 bg-gradient-to-r from-amber-500 to-amber-600">
-        <div className="container mx-auto px-4 sm:px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl font-bold text-white mb-4 tracking-tight italic">
-              Ready to Get <span className="not-italic">ISO Certified?</span>
-            </h2>
-            <p className="text-amber-100 max-w-2xl mx-auto text-lg mb-8 leading-relaxed font-light">
-              <span className="font-normal italic">Our experts</span> will guide you through the entire certification process with minimal disruption to your operations.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button className="px-8 py-3 bg-white text-amber-600 font-bold rounded-lg hover:bg-gray-100 transition-colors shadow-md hover:shadow-lg italic">
-                Get Started
-              </button>
-              <button className="px-8 py-3 border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:bg-opacity-10 transition-colors italic">
-                Contact Us
-              </button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+    
     </div>
   );
 };

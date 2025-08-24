@@ -215,7 +215,9 @@ const Navbar = () => {
                 </NavLink>
 
                 {item.children && (
-                  <div className="absolute left-1/2 transform -translate-x-1/2 mt-1 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top z-50">
+                  <div className="absolute left-1/2 transform -translate-x-1/2 mt-1 w-70 rounded-md shadow-lg bg-white 
+                  ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+                  transition-all duration-200 origin-top z-50">
                     <div className="py-1">
                       {renderDropdownItems(item.children, 1, `d-${idx}`)}
                     </div>

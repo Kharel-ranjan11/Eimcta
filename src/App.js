@@ -19,7 +19,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import CoreExpertise from './asseest/component/pages/iso_consultancy.jsx';
 import { Faq } from './asseest/component/pages/faq.jsx';
 import Traning from './asseest/component/utilities/traning/traning.jsx';
-import { ISO_certification } from './asseest/component/pages/iso_certificate.jsx';
+import  {ISO_certification}  from './asseest/component/pages/iso_certificate.jsx';
 import EnvironmentalServices from './asseest/component/pages/Enviroment.jsx';
 import ISOConsultancy from './asseest/component/pages/iso_consultancy.jsx';
 import SafetySignPPE from './asseest/component/pages/safetysignppe.jsx';
@@ -28,6 +28,7 @@ import ISOAuditGuide from './asseest/component/pages/aduit.jsx';
 import HealthSafety from './asseest/component/utilities/health&safety.jsx';
 import HSEAwarenessTraining from './asseest/component/utilities/HSE.jsx';
 import HSEAudits from './asseest/component/utilities/hseaduit.jsx';
+import Chat from './asseest/component/utilities/chat';
 // import { Router_link } from './asseest/component/utilities/Array/data.js';
 // import Person_Incharge_PI_2 from './asseest/component/utilities/traning/T_child/Person_Incharge_PI_2.jsx';
 // import Permit_to_Work_System_PTW from './asseest/component/utilities/traning/T_child/Permit_to_Work_System_(PTW).jsx';
@@ -109,6 +110,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Quote />
+        <Chat/>
         <ScrollToTopButton />
         <Footer />
       </AnimatePresence>

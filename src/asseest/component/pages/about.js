@@ -1,13 +1,29 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { Parallax } from "react-parallax";
 import { FaAward, FaHardHat, FaGraduationCap, FaTree, FaShieldAlt, FaSearch, FaFileAlt, FaFilePdf, FaExternalLinkAlt } from "react-icons/fa";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 import Modal from "react-modal";
 
-Modal.setAppElement('#root');
+// Main animation settings
+const variants = {
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { 
+      duration: 0.8, 
+      delay: 0.2,
+      ease: [0.2, 0.65, 0.3, 0.9]
+    }
+  },
+  hidden: { 
+    opacity: 0, 
+    y: 80,
+    transition: { duration: 0.6 }
+  }
+};
 
 export default function About() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -190,9 +206,9 @@ export default function About() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
         {/* Hero Section with Pattern */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          initial="hidden"
+          animate="visible"
+          variants={variants}
           className="text-center mb-12 md:mb-16 relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-700 to-green-800 p-8 md:p-12 text-white"
         >
           <PatternBackground color="from-blue-700 to-green-800" />
@@ -216,7 +232,7 @@ export default function About() {
                 initial={{ opacity: 0, x: -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, threshold: 0.1 }}
               >
                 <img
                   src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=600"
@@ -234,7 +250,7 @@ export default function About() {
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, threshold: 0.1 }}
                 className="space-y-4 md:space-y-6"
               >
                 <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Our Mission & Vision</h2>
@@ -269,7 +285,7 @@ export default function About() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, threshold: 0.1 }}
             className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 md:mb-12 text-center"
           >
             Our Comprehensive Services
@@ -280,9 +296,17 @@ export default function About() {
                 key={index}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
+                whileHover={{ 
+                  y: -15,
+                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
+                  transition: { duration: 0.3 }
+                }}
+                transition={{ 
+                  duration: 0.8,
+                  delay: index * 0.1,
+                  ease: [0.2, 0.65, 0.3, 0.9]
+                }}
+                viewport={{ once: true, threshold: 0.1 }}
                 className="relative p-4 sm:p-6 bg-white rounded-xl group overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-100"
               >
                 <div className="relative z-10 h-full flex flex-col">
@@ -309,7 +333,7 @@ export default function About() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, threshold: 0.1 }}
             className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 md:mb-12 text-center"
           >
             Our Policies & Procedures
@@ -320,9 +344,17 @@ export default function About() {
                 key={index}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
+                whileHover={{ 
+                  y: -15,
+                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
+                  transition: { duration: 0.3 }
+                }}
+                transition={{ 
+                  duration: 0.8,
+                  delay: index * 0.1,
+                  ease: [0.2, 0.65, 0.3, 0.9]
+                }}
+                viewport={{ once: true, threshold: 0.1 }}
                 className="relative p-4 sm:p-6 bg-white rounded-xl group overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-100"
               >
                 <div className="relative z-10 flex flex-col h-full">
@@ -337,8 +369,16 @@ export default function About() {
                   </p>
                   <div className="mt-auto flex gap-3 sm:gap-4">
                     <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                      whileHover={{ 
+                        y: -3,
+                        scale: 1.02,
+                        boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)",
+                        transition: { duration: 0.3 }
+                      }}
+                      whileTap={{ 
+                        scale: 0.98,
+                        transition: { duration: 0.1 }
+                      }}
                       onClick={() => openModal(policy.thumbnail, "image")}
                       className="flex items-center gap-1 sm:gap-2 text-sm sm:text-base text-blue-600 hover:text-blue-800 transition-colors w-fit"
                     >
@@ -346,8 +386,16 @@ export default function About() {
                     </motion.button>
                     {policy.preview && (
                       <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileHover={{ 
+                          y: -3,
+                          scale: 1.02,
+                          boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)",
+                          transition: { duration: 0.3 }
+                        }}
+                        whileTap={{ 
+                          scale: 0.98,
+                          transition: { duration: 0.1 }
+                        }}
                         onClick={() => openModal(policy.preview, "pdf")}
                         className="flex items-center gap-1 sm:gap-2 text-sm sm:text-base text-blue-600 hover:text-blue-800 transition-colors w-fit"
                       >
@@ -356,10 +404,22 @@ export default function About() {
                       </motion.button>
                     )}
                     {policy.pageLink && (
-                      <Link to={policy.pageLink} className="flex items-center gap-1 sm:gap-2 text-sm sm:text-base text-blue-600 hover:text-blue-800 transition-colors">
-                        <FaExternalLinkAlt size={12} />
-                        <span>Details</span>
-                      </Link>
+                      <motion.div
+                        whileHover={{ 
+                          y: -3,
+                          scale: 1.02,
+                          transition: { duration: 0.3 }
+                        }}
+                        whileTap={{ 
+                          scale: 0.98,
+                          transition: { duration: 0.1 }
+                        }}
+                      >
+                        <Link to={policy.pageLink} className="flex items-center gap-1 sm:gap-2 text-sm sm:text-base text-blue-600 hover:text-blue-800 transition-colors">
+                          <FaExternalLinkAlt size={12} />
+                          <span>Details</span>
+                        </Link>
+                      </motion.div>
                     )}
                   </div>
                 </div>
@@ -379,13 +439,15 @@ export default function About() {
           <div className="bg-white rounded-lg p-4 w-full mx-4 sm:mx-auto my-8 max-w-4xl max-h-[90vh] overflow-auto">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg sm:text-xl font-semibold">Document Preview</h3>
-              <button 
+              <motion.button 
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={closeModal}
                 className="text-gray-500 hover:text-gray-700 text-2xl"
                 aria-label="Close modal"
               >
                 &times;
-              </button>
+              </motion.button>
             </div>
             <div className="border rounded-lg p-2 sm:p-4 bg-gray-50">
               {currentFile.type === "pdf" ? (
@@ -407,19 +469,39 @@ export default function About() {
               )}
             </div>
             <div className="mt-4 flex justify-end gap-3">
-              <a 
+              <motion.a 
+                whileHover={{ 
+                  y: -3,
+                  scale: 1.02,
+                  boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)",
+                  transition: { duration: 0.3 }
+                }}
+                whileTap={{ 
+                  scale: 0.98,
+                  transition: { duration: 0.1 }
+                }}
                 href={currentFile.url} 
                 download
                 className="px-3 sm:px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-sm sm:text-base"
               >
                 Download
-              </a>
-              <button
+              </motion.a>
+              <motion.button
+                whileHover={{ 
+                  y: -3,
+                  scale: 1.02,
+                  boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)",
+                  transition: { duration: 0.3 }
+                }}
+                whileTap={{ 
+                  scale: 0.98,
+                  transition: { duration: 0.1 }
+                }}
                 onClick={closeModal}
                 className="px-3 sm:px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-100 transition-colors text-sm sm:text-base"
               >
                 Close
-              </button>
+              </motion.button>
             </div>
           </div>
         </Modal>
@@ -429,7 +511,7 @@ export default function About() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, threshold: 0.1 }}
           className="bg-gradient-to-br from-blue-700 to-green-800 rounded-xl p-6 sm:p-8 mb-16 md:mb-20 relative overflow-hidden shadow-xl"
         >
           <PatternBackground color="from-blue-800 to-green-900" />
@@ -490,7 +572,7 @@ export default function About() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, threshold: 0.1 }}
             className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 md:mb-4"
           >
             Ready to Achieve ISO Certification?
@@ -499,15 +581,23 @@ export default function About() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, threshold: 0.1 }}
             className="text-lg md:text-xl text-gray-600 mb-6 md:mb-8 max-w-3xl mx-auto"
           >
             Contact our ISO certification experts today to start your compliance journey
           </motion.p>
           <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
             <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ 
+                y: -3,
+                scale: 1.02,
+                boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)",
+                transition: { duration: 0.3 }
+              }}
+              whileTap={{ 
+                scale: 0.98,
+                transition: { duration: 0.1 }
+              }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
               <Link
@@ -519,8 +609,16 @@ export default function About() {
               </Link>
             </motion.div>
             <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ 
+                y: -3,
+                scale: 1.02,
+                boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)",
+                transition: { duration: 0.3 }
+              }}
+              whileTap={{ 
+                scale: 0.98,
+                transition: { duration: 0.1 }
+              }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
               <Link

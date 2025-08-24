@@ -380,55 +380,8 @@ const EnvironmentalServices = () => {
       </motion.section>
 
       {/* CTA Section */}
-      <motion.section 
-        className="bg-gradient-to-r from-green-600 to-blue-600 rounded-xl p-8 md:p-12 text-white relative overflow-hidden"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={containerVariants}
-      >
-        <PatternBackground />
-        <div className="relative z-10">
-          <motion.div 
-            className="max-w-4xl mx-auto text-center"
-            variants={containerVariants}
-          >
-            <motion.h2 
-              className="text-2xl md:text-3xl font-bold mb-4"
-              variants={itemVariants}
-            >
-              Ready to Enhance Your Environmental Performance?
-            </motion.h2>
-            <motion.p 
-              className="text-lg text-blue-100 mb-8"
-              variants={itemVariants}
-            >
-              Contact our team of ISO-certified environmental specialists for assessments, consulting, and implementation support tailored to your organization's needs.
-            </motion.p>
-            <motion.div 
-              className="flex flex-col sm:flex-row justify-center gap-4"
-              variants={containerVariants}
-            >
-              <motion.button 
-                className="bg-white text-green-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors shadow-md"
-                variants={itemVariants}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Request Consultation
-              </motion.button>
-              <motion.button 
-                className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:bg-opacity-10 transition-colors"
-                variants={itemVariants}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Download Brochure
-              </motion.button>
-            </motion.div>
-          </motion.div>
-        </div>
-      </motion.section>
+    
+  
     </div>
   );
 };

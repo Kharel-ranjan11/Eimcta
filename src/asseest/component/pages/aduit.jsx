@@ -31,29 +31,69 @@ import {
     Circle
 } from "lucide-react";
 
-const container = {
-    hidden: { opacity: 0 },
-    show: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.1
-        }
+// Main animation settings
+const variants = {
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { 
+      duration: 0.8, 
+      delay: 0.2,
+      ease: [0.2, 0.65, 0.3, 0.9]
     }
+  },
+  hidden: { 
+    opacity: 0, 
+    y: 80,
+    transition: { duration: 0.6 }
+  }
 };
 
+// Container variants for staggered animations
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+// Item variants for staggered animations
 const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  hidden: { opacity: 0, y: 20 },
+  show: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { 
+      duration: 0.8,
+      ease: [0.2, 0.65, 0.3, 0.9]
+    } 
+  }
 };
 
 const fadeIn = {
-    hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { duration: 0.8 } }
+  hidden: { opacity: 0 },
+  show: { 
+    opacity: 1, 
+    transition: { 
+      duration: 0.8,
+      ease: [0.2, 0.65, 0.3, 0.9]
+    } 
+  }
 };
 
 const slideUp = {
-    hidden: { opacity: 0, y: 50 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  hidden: { opacity: 0, y: 50 },
+  show: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { 
+      duration: 0.8,
+      ease: [0.2, 0.65, 0.3, 0.9]
+    } 
+  }
 };
 
 const ISOAuditGuide = () => {
@@ -62,41 +102,80 @@ const ISOAuditGuide = () => {
             {/* Hero Section */}
             <motion.section
                 initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                variants={container}
+                whileInView="visible"
+                viewport={{ once: true, threshold: 0.1 }}
+                variants={variants}
                 className="text-center mb-20 bg-gradient-to-br from-indigo-600 to-purple-700 rounded-3xl p-12 text-white shadow-2xl overflow-hidden relative"
             >
                 <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm"></div>
-                <div className="absolute -top-20 -right-20 w-80 h-80 bg-indigo-500/10 rounded-full filter blur-3xl"></div>
-                <div className="absolute bottom-10 left-0 w-60 h-60 bg-purple-500/10 rounded-full filter blur-3xl"></div>
+                {/* Animated particles */}
+                {[...Array(5)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute w-80 h-80 bg-indigo-500/10 rounded-full filter blur-3xl"
+                    style={{
+                      top: `${Math.random() * 100}%`,
+                      left: `${Math.random() * 100}%`,
+                    }}
+                    animate={{
+                      y: [0, (Math.random() - 0.5) * 100],
+                      x: [0, (Math.random() - 0.5) * 50],
+                      opacity: [0.1, 0.2, 0.1],
+                    }}
+                    transition={{
+                      duration: Math.random() * 10 + 10,
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                      ease: "linear"
+                    }}
+                  />
+                ))}
 
-                <motion.div variants={item} className="relative z-10">
-                    <div className="inline-flex items-center bg-white/20 px-4 py-2 rounded-full mb-6 backdrop-blur-sm">
+                <motion.div variants={variants} className="relative z-10">
+                    <motion.div 
+                      variants={variants}
+                      className="inline-flex items-center bg-white/20 px-4 py-2 rounded-full mb-6 backdrop-blur-sm"
+                    >
                         <BadgeCheck className="mr-2" />
                         <span>ISO Compliance Guide</span>
-                    </div>
-                    <motion.h1 variants={item} className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                    </motion.div>
+                    <motion.h2 variants={variants} className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
                         Master Your <span className="text-yellow-300">ISO Audits</span> <br />With Confidence
-                    </motion.h1>
-                    <motion.p variants={item} className="text-xl md:text-2xl opacity-90 mb-8 max-w-3xl mx-auto">
+                    </motion.h2>
+                    <motion.p variants={variants} className="text-xl md:text-2xl opacity-90 mb-8 max-w-3xl mx-auto">
                         The Complete Framework for ISO 9001, 45001, 14001 & 22000 Compliance
                     </motion.p>
 
-                    <motion.div variants={item} className="flex flex-wrap justify-center gap-4">
+                    <motion.div variants={variants} className="flex flex-wrap justify-center gap-4">
                         <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="flex items-center bg-white text-indigo-700 font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all"
+                            whileHover={{ 
+                              y: -3,
+                              scale: 1.02,
+                              boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)",
+                              transition: { duration: 0.3 }
+                            }}
+                            whileTap={{ 
+                              scale: 0.98,
+                              transition: { duration: 0.1 }
+                            }}
+                            className="flex items-center bg-white text-indigo-700 font-semibold px-6 py-3 rounded-xl shadow-lg"
                         >
                             <ClipboardList className="mr-2" />
                             Get Started
                             <ChevronRight className="ml-2 w-5 h-5" />
                         </motion.button>
                         <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="flex items-center bg-transparent border-2 border-white/30 text-white font-semibold px-6 py-3 rounded-xl hover:bg-white/10 transition-all"
+                            whileHover={{ 
+                              y: -3,
+                              scale: 1.02,
+                              boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)",
+                              transition: { duration: 0.3 }
+                            }}
+                            whileTap={{ 
+                              scale: 0.98,
+                              transition: { duration: 0.1 }
+                            }}
+                            className="flex items-center bg-transparent border-2 border-white/30 text-white font-semibold px-6 py-3 rounded-xl"
                         >
                             <BookOpen className="mr-2" />
                             Learn More
@@ -108,21 +187,24 @@ const ISOAuditGuide = () => {
             {/* What is ISO Audit */}
             <motion.section
                 initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: "-100px" }}
-                variants={container}
+                whileInView="visible"
+                viewport={{ once: true, threshold: 0.1 }}
+                variants={variants}
                 className="mb-24"
             >
                 <div className="flex flex-col md:flex-row gap-8 items-start">
-                    <motion.div variants={item} className="md:w-1/2">
+                    <motion.div variants={variants} className="md:w-1/2">
                         <div className="flex items-center mb-8">
-                            <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-3 rounded-xl shadow-lg mr-4">
+                            <motion.div 
+                              whileHover={{ scale: 1.05 }}
+                              className="bg-gradient-to-r from-blue-500 to-indigo-600 p-3 rounded-xl shadow-lg mr-4"
+                            >
                                 <FileText className="text-white w-6 h-6" />
-                            </div>
+                            </motion.div>
                             <h2 className="text-2xl font-bold text-gray-800">Understanding ISO Audits</h2>
                         </div>
 
-                        <motion.p variants={item} className="text-gray-700 mb-6 text-lg leading-relaxed">
+                        <motion.p variants={variants} className="text-gray-700 mb-6 text-lg leading-relaxed">
                             An <span className="font-semibold text-blue-600">ISO audit</span> is a systematic, independent process that evaluates your organization's compliance with international standards through documented evidence and process verification.
                         </motion.p>
 
@@ -137,6 +219,11 @@ const ISOAuditGuide = () => {
                                 <motion.div
                                     key={i}
                                     variants={item}
+                                    whileHover={{ 
+                                      y: -5,
+                                      boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
+                                      transition: { duration: 0.3 }
+                                    }}
                                     className="flex items-start bg-white p-4 rounded-xl shadow-sm border border-gray-100"
                                 >
                                     <div className="bg-green-100 p-1 rounded-full mr-3 mt-1 flex-shrink-0">
@@ -149,7 +236,12 @@ const ISOAuditGuide = () => {
                     </motion.div>
 
                     <motion.div
-                        variants={item}
+                        variants={variants}
+                        whileHover={{ 
+                          y: -5,
+                          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
+                          transition: { duration: 0.3 }
+                        }}
                         className="md:w-1/2 bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200"
                     >
                         <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white">
@@ -168,7 +260,11 @@ const ISOAuditGuide = () => {
                                 ].map((item, i) => (
                                     <motion.div
                                         key={i}
-                                        whileHover={{ y: -5 }}
+                                        whileHover={{ 
+                                          y: -8,
+                                          boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)",
+                                          transition: { duration: 0.3 }
+                                        }}
                                         className="bg-gray-50 p-4 rounded-lg text-center"
                                     >
                                         <div className="bg-white p-3 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 shadow-sm">
@@ -186,12 +282,12 @@ const ISOAuditGuide = () => {
             {/* Audit Process */}
             <motion.section
                 initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                variants={container}
+                whileInView="visible"
+                viewport={{ once: true, threshold: 0.1 }}
+                variants={variants}
                 className="mb-24 bg-white rounded-3xl shadow-lg p-8 border border-gray-100"
             >
-                <motion.div variants={item} className="text-center mb-12">
+                <motion.div variants={variants} className="text-center mb-12">
                     <div className="inline-flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-full mb-4">
                         <ListChecks className="mr-2" />
                         <span>Systematic Approach</span>
@@ -267,8 +363,13 @@ const ISOAuditGuide = () => {
                         <motion.div
                             key={i}
                             variants={item}
-                            whileHover={{ y: -10, scale: 1.02 }}
-                            className={`${step.color} p-6 rounded-2xl shadow-md hover:shadow-lg transition-all`}
+                            whileHover={{ 
+                              y: -10, 
+                              scale: 1.02,
+                              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
+                              transition: { duration: 0.3 }
+                            }}
+                            className={`${step.color} p-6 rounded-2xl shadow-md transition-all`}
                         >
                             <div className="flex items-center mb-4">
                                 <div className="bg-white p-2 rounded-lg shadow-inner mr-3">
@@ -288,12 +389,12 @@ const ISOAuditGuide = () => {
             {/* Audit Types */}
             <motion.section
                 initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                variants={container}
+                whileInView="visible"
+                viewport={{ once: true, threshold: 0.1 }}
+                variants={variants}
                 className="mb-24"
             >
-                <motion.div variants={item} className="text-center mb-12">
+                <motion.div variants={variants} className="text-center mb-12">
                     <div className="inline-flex items-center bg-purple-100 text-purple-800 px-4 py-2 rounded-full mb-4">
                         <LayoutGrid className="mr-2" />
                         <span>Audit Variations</span>
@@ -334,8 +435,12 @@ const ISOAuditGuide = () => {
                         <motion.div
                             key={i}
                             variants={item}
-                            whileHover={{ y: -5 }}
-                            className={`bg-white p-8 rounded-2xl shadow-lg border-t-4 ${audit.color} hover:shadow-xl transition-all`}
+                            whileHover={{ 
+                              y: -8,
+                              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
+                              transition: { duration: 0.3 }
+                            }}
+                            className={`bg-white p-8 rounded-2xl shadow-lg border-t-4 ${audit.color} transition-all`}
                         >
                             <div className="bg-white p-3 rounded-xl shadow-inner w-16 h-16 flex items-center justify-center mb-6 mx-auto">
                                 {audit.icon}
@@ -354,12 +459,12 @@ const ISOAuditGuide = () => {
             {/* Industry Frequency */}
             <motion.section
                 initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                variants={container}
+                whileInView="visible"
+                viewport={{ once: true, threshold: 0.1 }}
+                variants={variants}
                 className="mb-24 bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-12 text-white"
             >
-                <motion.div variants={item} className="text-center mb-12">
+                <motion.div variants={variants} className="text-center mb-12">
                     <div className="inline-flex items-center bg-white/20 px-4 py-2 rounded-full mb-4 backdrop-blur-sm">
                         <Clock className="mr-2" />
                         <span>Industry Standards</span>
@@ -435,8 +540,12 @@ const ISOAuditGuide = () => {
                         <motion.div
                             key={i}
                             variants={item}
-                            whileHover={{ y: -5 }}
-                            className={`${item.color} p-6 rounded-xl border border-white/10 hover:border-white/20 transition-all`}
+                            whileHover={{ 
+                              y: -8,
+                              boxShadow: "0 10px 25px -5px rgba(255, 255, 255, 0.1)",
+                              transition: { duration: 0.3 }
+                            }}
+                            className={`${item.color} p-6 rounded-xl border border-white/10 transition-all`}
                         >
                             <div className="flex items-center mb-4">
                                 <div className="bg-white/10 p-2 rounded-lg mr-3">
@@ -465,12 +574,12 @@ const ISOAuditGuide = () => {
             {/* ISO Clauses */}
             <motion.section
                 initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                variants={container}
+                whileInView="visible"
+                viewport={{ once: true, threshold: 0.1 }}
+                variants={variants}
                 className="mb-24"
             >
-                <motion.div variants={item} className="text-center mb-12">
+                <motion.div variants={variants} className="text-center mb-12">
                     <div className="inline-flex items-center bg-green-100 text-green-800 px-4 py-2 rounded-full mb-4">
                         <BookOpen className="mr-2" />
                         <span>Standard Requirements</span>
@@ -481,7 +590,7 @@ const ISOAuditGuide = () => {
                     </p>
                 </motion.div>
 
-                <motion.div variants={item} className="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <motion.div variants={variants} className="bg-white rounded-2xl shadow-xl overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
@@ -539,8 +648,12 @@ const ISOAuditGuide = () => {
                                         key={i}
                                         initial={{ opacity: 0, y: 10 }}
                                         whileInView={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: i * 0.05 }}
-                                        viewport={{ once: true }}
+                                        transition={{ 
+                                          duration: 0.8,
+                                          delay: i * 0.1,
+                                          ease: [0.2, 0.65, 0.3, 0.9]
+                                        }}
+                                        viewport={{ once: true, threshold: 0.1 }}
                                         className="hover:bg-gray-50 transition-colors"
                                     >
                                         <td className="px-8 py-4 whitespace-nowrap font-medium text-gray-900">
@@ -570,53 +683,7 @@ const ISOAuditGuide = () => {
             </motion.section>
 
             {/* Final CTA */}
-            <motion.section
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                variants={fadeIn}
-                className="relative bg-gradient-to-br from-indigo-600 to-purple-700 rounded-3xl p-12 text-white shadow-2xl overflow-hidden"
-            >
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm"></div>
-                <div className="absolute -top-20 -right-20 w-80 h-80 bg-indigo-500/10 rounded-full filter blur-3xl"></div>
-                <div className="absolute bottom-10 left-0 w-60 h-60 bg-purple-500/10 rounded-full filter blur-3xl"></div>
-
-                <div className="relative z-10 text-center max-w-3xl mx-auto">
-                    <motion.div
-                        animate={{
-                            rotate: [0, 10, -10, 0],
-                            scale: [1, 1.05, 1]
-                        }}
-                        transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                        className="inline-flex items-center justify-center mb-6"
-                    >
-                        <BadgeCheck className="w-12 h-12 text-yellow-300" />
-                    </motion.div>
-                    <motion.h2 variants={slideUp} className="text-3xl font-bold mb-6">
-                        Ready to Transform Your Audit Process?
-                    </motion.h2>
-                    <motion.p variants={slideUp} className="text-xl opacity-90 mb-8">
-                        Get our complete ISO Audit Toolkit with templates, checklists, and expert guidance.
-                    </motion.p>
-                    <motion.div variants={slideUp} className="flex flex-wrap justify-center gap-4">
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="flex items-center bg-white text-indigo-700 font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all"
-                        >
-                            Download Toolkit
-                            <ArrowRight className="ml-2 w-5 h-5" />
-                        </motion.button>
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="flex items-center bg-transparent border-2 border-white/30 text-white font-semibold px-8 py-4 rounded-xl hover:bg-white/10 transition-all"
-                        >
-                            Contact Our Experts
-                        </motion.button>
-                    </motion.div>
-                </div>
-            </motion.section>
+           
         </div>
     );
 };

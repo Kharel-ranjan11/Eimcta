@@ -23,7 +23,7 @@ const Services = () => {
     "bg-gradient-to-br from-amber-500 to-amber-700"
   ];
 
-  // Animation variants
+  // Main animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -36,23 +36,37 @@ const Services = () => {
   };
 
   const cardVariants = {
-    hidden: { y: 30, opacity: 0 },
+    hidden: { 
+      opacity: 0, 
+      y: 80,
+      transition: { duration: 0.6 }
+    },
     visible: {
-      y: 0,
       opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 15
+      y: 0,
+      transition: { 
+        duration: 0.8, 
+        delay: 0.2,
+        ease: [0.2, 0.65, 0.3, 0.9]
       }
     },
-    hover: {
-      y: -8,
+    hover: { 
+      y: -15,
+      boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
+      transition: { duration: 0.3 }
+    }
+  };
+
+  const buttonVariants = {
+    hover: { 
+      y: -3,
       scale: 1.02,
-      transition: {
-        duration: 0.3,
-        ease: "easeOut"
-      }
+      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)",
+      transition: { duration: 0.3 }
+    },
+    tap: { 
+      scale: 0.98,
+      transition: { duration: 0.1 }
     }
   };
 
@@ -162,20 +176,27 @@ const Services = () => {
   ];
 
   return (
-    <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+    <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}>
       {/* Decorative background element */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-r from-blue-100 to-transparent opacity-20 -z-10"></div>
       
       <div className="max-w-7xl mx-auto relative">
         {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true, margin: "-100px" }}
+          initial={{ opacity: 0, y: 80 }}
+          whileInView={{ 
+            opacity: 1, 
+            y: 0,
+            transition: { 
+              duration: 0.8, 
+              delay: 0.2,
+              ease: [0.2, 0.65, 0.3, 0.9]
+            }
+          }}
+          viewport={{ once: true, threshold: 0.1 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-800">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-800" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif", fontWeight: 'bold' }}>
             Our Premium Services
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -188,7 +209,7 @@ const Services = () => {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, threshold: 0.1 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {services.map((service, index) => (
@@ -203,7 +224,7 @@ const Services = () => {
                 <div className="mb-6 p-3 bg-white bg-opacity-20 rounded-full w-max">
                   {service.icon}
                 </div>
-                <h2 className="text-2xl font-bold mb-4">{service.title}</h2>
+                <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif", fontWeight: 'bold' }}>{service.title}</h2>
                 <p className="mb-6 opacity-90">{service.description}</p>
                 
                 <ul className="space-y-3 mb-8">
@@ -218,11 +239,12 @@ const Services = () => {
                 </ul>
                 
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  variants={buttonVariants}
+                  whileHover="hover"
+                  whileTap="tap"
                   className="mt-auto"
                 >
-                  <button className="w-full py-3 px-6 bg-white bg-opacity-20 hover:bg-opacity-30 backdrop-blur-sm rounded-lg font-medium transition-all duration-300 border border-white border-opacity-30 hover:border-opacity-50 flex items-center justify-between">
+                  <button className="w-full py-3 px-6 bg-white bg-opacity-20 hover:bg-opacity-30 backdrop-blur-sm rounded-lg font-medium transition-all duration-300 border border-white border-opacity-30 hover:border-opacity-50 flex items-center justify-between" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif", fontWeight: 'bold' }}>
                     {service.cta}
                     <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -237,13 +259,18 @@ const Services = () => {
         {/* Benefits section */}
         <motion.div
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          viewport={{ once: true }}
+          whileInView={{ 
+            opacity: 1,
+            transition: { 
+              duration: 0.8, 
+              delay: 0.4,
+              ease: [0.2, 0.65, 0.3, 0.9]
+            }
+          }}
+          viewport={{ once: true, threshold: 0.1 }}
           className="mt-24"
         >
-          <div className="bg-gradient-to-r
-           from-gray-900 to-blue-900 rounded-2xl p-10 text-white relative overflow-hidden">
+          <div className="bg-gradient-to-r from-gray-900 to-blue-900 rounded-2xl p-10 text-white relative overflow-hidden">
             {/* CSS pattern background */}
             <div className="absolute inset-0 opacity-5" 
             style={{
@@ -252,18 +279,29 @@ const Services = () => {
             }}></div>
             
             <div className="relative">
-              <h3 className="text-3xl font-bold mb-8 text-center">Why Choose Us?</h3>
+              <h3 className="text-3xl font-bold mb-8 text-center" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif", fontWeight: 'bold' }}>Why Choose Us?</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {benefits.map((benefit, index) => (
                   <motion.div 
                     key={index}
+                    initial={{ opacity: 0, y: 80 }}
+                    whileInView={{ 
+                      opacity: 1, 
+                      y: 0,
+                      transition: { 
+                        duration: 0.8,
+                        delay: index * 0.1,
+                        ease: [0.2, 0.65, 0.3, 0.9]
+                      }
+                    }}
+                    viewport={{ once: true, threshold: 0.1 }}
                     whileHover={{ y: -5 }}
                     className="bg-white bg-opacity-10 backdrop-blur-sm p-6 rounded-xl border border-white border-opacity-20 hover:border-opacity-40 transition-all"
                   >
                     <div className="p-3 bg-white bg-opacity-20 rounded-full w-max mb-4">
                       {benefit.icon}
                     </div>
-                    <h4 className="text-xl font-semibold mb-2">{benefit.title}</h4>
+                    <h4 className="text-xl font-semibold mb-2" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif", fontWeight: 'bold' }}>{benefit.title}</h4>
                     <p className="opacity-80">{benefit.description}</p>
                   </motion.div>
                 ))}
@@ -271,20 +309,30 @@ const Services = () => {
               
               <motion.div
                 initial={{ scale: 0.95 }}
-                whileInView={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 100 }}
-                viewport={{ once: true }}
+                whileInView={{ 
+                  scale: 1,
+                  transition: { 
+                    type: "spring", 
+                    stiffness: 100,
+                    duration: 0.8,
+                    ease: [0.2, 0.65, 0.3, 0.9]
+                  }
+                }}
+                viewport={{ once: true, threshold: 0.1 }}
                 className="mt-12 text-center"
               >
-                <button className="py-4 px-8 bg-white
-                 text-blue-900 font-bold rounded-lg
-                  hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl flex items-center mx-auto">
+                <motion.button 
+                  variants={buttonVariants}
+                  whileHover="hover"
+                  whileTap="tap"
+                  className="py-4 px-8 bg-white text-blue-900 font-bold rounded-lg hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl flex items-center mx-auto"
+                  style={{ fontFamily: "'Arial Narrow', Arial, sans-serif", fontWeight: 'bold' }}
+                >
                   Get Your Free Consultation
-                  <svg className="w-5 h-5 ml-2"
-                   fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
-                </button>
+                </motion.button>
               </motion.div>
             </div>
           </div>

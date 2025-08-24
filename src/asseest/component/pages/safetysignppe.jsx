@@ -453,26 +453,7 @@ export default function SafetySignPPE() {
       </AnimateOnScroll>
 
       {/* Integrated CTA Section */}
-      <AnimateOnScroll delay={0.5}>
-        <div className="mt-20 text-center">
-          <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-8 text-white">
-            <h2 className="text-2xl font-bold mb-4">Complete Your Workplace Safety Package</h2>
-            <p className="mb-6 max-w-2xl mx-auto text-blue-100">
-              Get expert consultation on combining visual safety signs with appropriate PPE for comprehensive hazard control.
-            </p>
-            <motion.button
-              className="px-8 py-3 bg-white text-blue-700 font-semibold rounded-lg shadow-md"
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.2)"
-              }}
-              whileTap={{ scale: 0.98 }}
-            >
-              Request Safety Audit
-            </motion.button>
-          </div>
-        </div>
-      </AnimateOnScroll>
+     
     </section>
   );
 }
