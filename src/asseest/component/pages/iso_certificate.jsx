@@ -26,76 +26,76 @@ export const ISO_certification = () => {
       title: "Free Consultation",
       description: "Initial discussion to understand your needs and recommend the right ISO standards",
       icon: <FaHandshake className="text-[#6B4F4F]" size={24} />,
-      color: "bg-[#FFF3E4]"
+      color: "bg-[#FFFFFF]"
     },
     {
       title: "ISO GAP Analysis",
       description: "Comprehensive assessment of your current systems against ISO requirements",
       icon: <FaSearch className="text-[#6B4F4F]" size={24} />,
-      color: "bg-[#FFF3E4]"
+      color: "bg-[#FFFFFF]"
     },
     {
       title: "Stage-I ISO Audit",
       description: "Documentation review to verify your preparedness for implementation",
       icon: <FaClipboardCheck className="text-[#6B4F4F]" size={24} />,
-      color: "bg-[#FFF3E4]"
+      color: "bg-[#FFFFFF]"
     },
     {
       title: "Stage-II ISO Audit",
       description: "On-site evaluation of your implemented management system",
       icon: <FaBuilding className="text-[#6B4F4F]" size={24} />,
-      color: "bg-[#FFF3E4]"
+      color: "bg-[#FFFFFF]"
     },
     {
       title: "Closeout of Audit",
       description: "Addressing any non-conformities identified during audits",
       icon: <FaCheckCircle className="text-[#6B4F4F]" size={24} />,
-      color: "bg-[#FFF3E4]"
+      color: "bg-[#FFFFFF]"
     },
     {
       title: "Management Review",
       description: "Executive evaluation of system performance and effectiveness",
       icon: <FaChartLine className="text-[#6B4F4F]" size={24} />,
-      color: "bg-[#FFF3E4]"
+      color: "bg-[#FFFFFF]"
     },
     {
       title: "Registration of ISO Certificate",
       description: "Official certification issued by accredited body",
       icon: <FaCertificate className="text-[#6B4F4F]" size={24} />,
-      color: "bg-[#FFF3E4]"
+      color: "bg-[#FFFFFF]"
     },
     {
       title: "Handover of ISO Certification",
       description: "Delivery of your certificate and supporting documents",
       icon: <FaAward className="text-[#6B4F4F]" size={24} />,
-      color: "bg-[#FFF3E4]"
+      color: "bg-[#FFFFFF]"
     },
     {
       title: "Surveillance Audit",
       description: "Annual audits to maintain certification validity",
       icon: <FaShieldAlt className="text-[#6B4F4F]" size={24} />,
-      color: "bg-[#FFF3E4]"
+      color: "bg-[#FFFFFF]"
     },
     {
       title: "End of Services",
       description: "Completion of 3-year cycle with option for recertification",
       icon: <FaFlagCheckered className="text-[#6B4F4F]" size={24} />,
-      color: "bg-[#FFF3E4]"
+      color: "bg-[#FFFFFF]"
     }
   ];
 
   const isoStandards = [
-    { name: "ISO 9001", description: "Quality Management System", color: "bg-[#FFF3E4] text-[#483434]" },
-    { name: "ISO 14001", description: "Environmental Management", color: "bg-[#FFF3E4] text-[#483434]" },
-    { name: "ISO 45001", description: "Occupational Health & Safety", color: "bg-[#FFF3E4] text-[#483434]" },
-    { name: "ISO 27001", description: "Information Security", color: "bg-[#FFF3E4] text-[#483434]" },
-    { name: "ISO 22000", description: "Food Safety Management", color: "bg-[#FFF3E4] text-[#483434]" },
-    { name: "ISO 50001", description: "Energy Management", color: "bg-[#FFF3E4] text-[#483434]" }
+    { name: "ISO 9001", description: "Quality Management System", color: "bg-[#FFFFFF] text-[#483434]" },
+    { name: "ISO 14001", description: "Environmental Management", color: "bg-[#FFFFFF] text-[#483434]" },
+    { name: "ISO 45001", description: "Occupational Health & Safety", color: "bg-[#FFFFFF] text-[#483434]" },
+    { name: "ISO 27001", description: "Information Security", color: "bg-[#FFFFFF] text-[#483434]" },
+    { name: "ISO 22000", description: "Food Safety Management", color: "bg-[#FFFFFF] text-[#483434]" },
+    { name: "ISO 50001", description: "Energy Management", color: "bg-[#FFFFFF] text-[#483434]" }
   ];
 
   return (
     <motion.div
-      className="p-4 md:p-12 space-y-10 w-full font-['Arial_Narrow'] font-bold bg-[#FFF3E4]"
+      className="p-4 md:p-12 space-y-10 w-full font-['Arial_Narrow'] font-bold bg-[#fbe8d1]"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -126,7 +126,7 @@ export const ISO_certification = () => {
           whileHover={{ scale: 1.02 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
-          <div className="bg-[#483434] p-8 rounded-xl text-[#FFF3E4] text-center">
+          <div className="bg-[#483434] p-8 rounded-xl text-[#fbe8d1] text-center">
             <FaTrophy className="mx-auto text-5xl mb-4" />
             <h3 className="text-2xl md:text-3xl font-bold mb-2">Industry-Leading Certification</h3>
             <p className="text-[#EED6C4]">90% first-time pass rate with our expert guidance</p>
@@ -145,7 +145,7 @@ export const ISO_certification = () => {
           whileHover={{ y: -5 }}
         >
           <div className="flex items-center mb-4">
-            <div className="bg-[#FFF3E4] p-3 rounded-full mr-4">
+            <div className="bg-[#fbe8d1] p-3 rounded-full mr-4">
               <FaLightbulb className="h-6 w-6 text-[#6B4F4F]" />
             </div>
             <h3 className="text-xl md:text-2xl font-bold text-[#483434]">What is ISO Certification?</h3>
@@ -164,7 +164,7 @@ export const ISO_certification = () => {
           whileHover={{ y: -5 }}
         >
           <div className="flex items-center mb-4">
-            <div className="bg-[#FFF3E4] p-3 rounded-full mr-4">
+            <div className="bg-[#fbe8d1] p-3 rounded-full mr-4">
               <FaCheck className="h-6 w-6 text-[#6B4F4F]" />
             </div>
             <h3 className="text-xl md:text-2xl font-bold text-[#483434]">Why Choose Us?</h3>
@@ -226,7 +226,7 @@ export const ISO_certification = () => {
 
       {/* Standards Section */}
       <motion.div
-        className="mt-12 md:mt-20 bg-[#FFF3E4] p-6 md:p-8 rounded-2xl border border-[#EED6C4] max-w-6xl mx-auto"
+        className="mt-12 md:mt-20 bg-[#fbe8d1] p-6 md:p-8 rounded-2xl border border-[#EED6C4] max-w-6xl mx-auto"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.6 }}

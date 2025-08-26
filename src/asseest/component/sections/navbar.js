@@ -117,7 +117,7 @@ const Navbar = () => {
     return items.map((item, idx) => {
       const uniqueKey = `${parentIndex}-${idx}`;
       const hasChildren = item.children && item.children.length > 0;
-      
+
       return (
         <div key={uniqueKey} className="relative group">
           <div className="flex items-center justify-between">
@@ -125,10 +125,10 @@ const Navbar = () => {
               to={item.path}
               onClick={(e) => {
                 if (hasChildren) {
-                  e.preventDefault();
+                  e.preventDefault(); // Prevent navigation if dropdown is toggled
                   toggleItemExpansion(uniqueKey);
                 } else {
-                  closeMobileMenu();
+                  closeMobileMenu(); // Close menu for direct links
                 }
               }}
               className={({ isActive }) =>
@@ -145,7 +145,7 @@ const Navbar = () => {
             {hasChildren && (
               <button
                 onClick={(e) => {
-                  e.stopPropagation();
+                  e.stopPropagation(); // Prevent event bubbling
                   toggleItemExpansion(uniqueKey);
                 }}
                 className="p-1 rounded-md hover:bg-amber-100"
@@ -158,11 +158,13 @@ const Navbar = () => {
               </button>
             )}
           </div>
-          
+
           {hasChildren && expandedItems[uniqueKey] && (
-            <div className={`ml-4 pl-2 border-l-2 border-amber-200 ${
-              level > 0 ? "mt-1" : "mt-0"
-            }`}>
+            <div
+              className={`ml-4 pl-2 border-l-2 border-amber-200 ${
+                level > 0 ? "mt-1" : "mt-0"
+              }`}
+            >
               {renderDropdownItems(item.children, level + 1, uniqueKey)}
             </div>
           )}
