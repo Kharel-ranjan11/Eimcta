@@ -4,7 +4,7 @@
 html, body, #root {
 
   /* Apply the dark navy background directly to html/body */
-  background-color: #fdd170cb;
+  /* background-color: #fdd170cb; */
 }
 
 .will-change-transform {
