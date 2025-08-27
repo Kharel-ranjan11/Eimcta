@@ -373,7 +373,7 @@ export const navbarItems = [
 
 
 
-
+// -------------------------------------------------------------------------------
 
 export const menuitems = [
   {
@@ -405,7 +405,7 @@ export const menuitems = [
 
         children: [{
           title: 'OHS',
-          path: null,
+          path: false,
           icon: icon,
           children: [
             {

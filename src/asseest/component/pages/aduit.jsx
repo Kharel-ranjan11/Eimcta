@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
     ClipboardList,
     ShieldCheck,
@@ -28,75 +28,123 @@ import {
     Clock,
     Lock,
     Globe,
-    Circle
+    Circle,
+    Lightbulb,
+    HelpCircle,
+    Search
 } from "lucide-react";
 
 // Main animation settings
 const variants = {
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { 
-      duration: 0.8, 
-      delay: 0.2,
-      ease: [0.2, 0.65, 0.3, 0.9]
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.8,
+            delay: 0.2,
+            ease: [0.2, 0.65, 0.3, 0.9]
+        }
+    },
+    hidden: {
+        opacity: 0,
+        y: 80,
+        transition: { duration: 0.6 }
     }
-  },
-  hidden: { 
-    opacity: 0, 
-    y: 80,
-    transition: { duration: 0.6 }
-  }
 };
 
 // Container variants for staggered animations
 const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1
+    hidden: { opacity: 0 },
+    show: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1
+        }
     }
-  }
 };
 
 // Item variants for staggered animations
 const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { 
-      duration: 0.8,
-      ease: [0.2, 0.65, 0.3, 0.9]
-    } 
-  }
+    hidden: { opacity: 0, y: 20 },
+    show: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.8,
+            ease: [0.2, 0.65, 0.3, 0.9]
+        }
+    }
 };
 
 const fadeIn = {
-  hidden: { opacity: 0 },
-  show: { 
-    opacity: 1, 
-    transition: { 
-      duration: 0.8,
-      ease: [0.2, 0.65, 0.3, 0.9]
-    } 
-  }
+    hidden: { opacity: 0 },
+    show: {
+        opacity: 1,
+        transition: {
+            duration: 0.8,
+            ease: [0.2, 0.65, 0.3, 0.9]
+        }
+    }
 };
 
 const slideUp = {
-  hidden: { opacity: 0, y: 50 },
-  show: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { 
-      duration: 0.8,
-      ease: [0.2, 0.65, 0.3, 0.9]
-    } 
-  }
+    hidden: { opacity: 0, y: 50 },
+    show: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.8,
+            ease: [0.2, 0.65, 0.3, 0.9]
+        }
+    }
 };
 
 const ISOAuditGuide = () => {
+    // State for the new ISO Standard Finder feature
+    const [goal, setGoal] = useState("");
+    const [industry, setIndustry] = useState("");
+    const [recommendation, setRecommendation] = useState(null);
+
+    // Function to handle the recommendation logic
+    const handleFindStandard = () => {
+        let rec = "";
+        let recReason = "";
+        let recLink = "";
+
+        // Logic to determine the best ISO standard based on user input
+        if (goal === "quality" && industry === "manufacturing") {
+            rec = "ISO 9001:2015 (Quality Management System)";
+            recReason = "This standard helps manufacturing companies ensure consistent quality and customer satisfaction through process-based management.";
+            recLink = "https://www.iso.org/iso-9001-quality-management.html";
+        } else if (goal === "environment" && (industry === "manufacturing" || industry === "construction" || industry === "energy")) {
+            rec = "ISO 14001:2015 (Environmental Management System)";
+            recReason = "This standard is crucial for industries with a significant environmental impact. It provides a framework for managing environmental responsibilities and reducing your ecological footprint.";
+            recLink = "https://www.iso.org/iso-14001-environmental-management.html";
+        } else if (goal === "health" && (industry === "manufacturing" || industry === "construction" || industry === "healthcare")) {
+            rec = "ISO 45001:2018 (Occupational Health & Safety)";
+            recReason = "This standard is essential for ensuring a safe and healthy workplace. It helps you prevent work-related injury and ill health, and proactively improve your OH&S performance.";
+            recLink = "https://www.iso.org/iso-45001-occupational-health-and-safety.html";
+        } else if (goal === "food" && industry === "food") {
+            rec = "ISO 22000:2018 (Food Safety Management)";
+            recReason = "This standard is designed to ensure a food safety management system throughout the food chain, from farm to fork.";
+            recLink = "https://www.iso.org/iso-22000-food-safety-management.html";
+        } else if (goal === "security" && industry === "it") {
+            rec = "ISO 27001:2022 (Information Security Management)";
+            recReason = "This standard helps organizations manage the security of assets such as financial information, intellectual property, employee details, or information entrusted by third parties.";
+            recLink = "https://www.iso.org/iso-27001-information-security.html";
+        } else {
+            rec = "No specific recommendation found.";
+            recReason = "Your selections may not align with a single common standard. Consider exploring the specific standards based on your primary business function.";
+            recLink = null;
+        }
+
+        setRecommendation({
+            name: rec,
+            reason: recReason,
+            link: recLink
+        });
+    };
+
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 font-sans bg-gray-50">
             {/* Hero Section */}
@@ -110,31 +158,31 @@ const ISOAuditGuide = () => {
                 <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm"></div>
                 {/* Animated particles */}
                 {[...Array(5)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="absolute w-80 h-80 bg-indigo-500/10 rounded-full filter blur-3xl"
-                    style={{
-                      top: `${Math.random() * 100}%`,
-                      left: `${Math.random() * 100}%`,
-                    }}
-                    animate={{
-                      y: [0, (Math.random() - 0.5) * 100],
-                      x: [0, (Math.random() - 0.5) * 50],
-                      opacity: [0.1, 0.2, 0.1],
-                    }}
-                    transition={{
-                      duration: Math.random() * 10 + 10,
-                      repeat: Infinity,
-                      repeatType: "reverse",
-                      ease: "linear"
-                    }}
-                  />
+                    <motion.div
+                        key={i}
+                        className="absolute w-80 h-80 bg-indigo-500/10 rounded-full filter blur-3xl"
+                        style={{
+                            top: `${Math.random() * 100}%`,
+                            left: `${Math.random() * 100}%`,
+                        }}
+                        animate={{
+                            y: [0, (Math.random() - 0.5) * 100],
+                            x: [0, (Math.random() - 0.5) * 50],
+                            opacity: [0.1, 0.2, 0.1],
+                        }}
+                        transition={{
+                            duration: Math.random() * 10 + 10,
+                            repeat: Infinity,
+                            repeatType: "reverse",
+                            ease: "linear"
+                        }}
+                    />
                 ))}
 
                 <motion.div variants={variants} className="relative z-10">
-                    <motion.div 
-                      variants={variants}
-                      className="inline-flex items-center bg-white/20 px-4 py-2 rounded-full mb-6 backdrop-blur-sm"
+                    <motion.div
+                        variants={variants}
+                        className="inline-flex items-center bg-white/20 px-4 py-2 rounded-full mb-6 backdrop-blur-sm"
                     >
                         <BadgeCheck className="mr-2" />
                         <span>ISO Compliance Guide</span>
@@ -148,32 +196,33 @@ const ISOAuditGuide = () => {
 
                     <motion.div variants={variants} className="flex flex-wrap justify-center gap-4">
                         <motion.button
-                            whileHover={{ 
-                              y: -3,
-                              scale: 1.02,
-                              boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)",
-                              transition: { duration: 0.3 }
+                            whileHover={{
+                                y: -3,
+                                scale: 1.02,
+                                boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)",
+                                transition: { duration: 0.3 }
                             }}
-                            whileTap={{ 
-                              scale: 0.98,
-                              transition: { duration: 0.1 }
+                            whileTap={{
+                                scale: 0.98,
+                                transition: { duration: 0.1 }
                             }}
                             className="flex items-center bg-white text-indigo-700 font-semibold px-6 py-3 rounded-xl shadow-lg"
+                            onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })}
                         >
                             <ClipboardList className="mr-2" />
                             Get Started
                             <ChevronRight className="ml-2 w-5 h-5" />
                         </motion.button>
                         <motion.button
-                            whileHover={{ 
-                              y: -3,
-                              scale: 1.02,
-                              boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)",
-                              transition: { duration: 0.3 }
+                            whileHover={{
+                                y: -3,
+                                scale: 1.02,
+                                boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)",
+                                transition: { duration: 0.3 }
                             }}
-                            whileTap={{ 
-                              scale: 0.98,
-                              transition: { duration: 0.1 }
+                            whileTap={{
+                                scale: 0.98,
+                                transition: { duration: 0.1 }
                             }}
                             className="flex items-center bg-transparent border-2 border-white/30 text-white font-semibold px-6 py-3 rounded-xl"
                         >
@@ -195,9 +244,9 @@ const ISOAuditGuide = () => {
                 <div className="flex flex-col md:flex-row gap-8 items-start">
                     <motion.div variants={variants} className="md:w-1/2">
                         <div className="flex items-center mb-8">
-                            <motion.div 
-                              whileHover={{ scale: 1.05 }}
-                              className="bg-gradient-to-r from-blue-500 to-indigo-600 p-3 rounded-xl shadow-lg mr-4"
+                            <motion.div
+                                whileHover={{ scale: 1.05 }}
+                                className="bg-gradient-to-r from-blue-500 to-indigo-600 p-3 rounded-xl shadow-lg mr-4"
                             >
                                 <FileText className="text-white w-6 h-6" />
                             </motion.div>
@@ -219,10 +268,10 @@ const ISOAuditGuide = () => {
                                 <motion.div
                                     key={i}
                                     variants={item}
-                                    whileHover={{ 
-                                      y: -5,
-                                      boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
-                                      transition: { duration: 0.3 }
+                                    whileHover={{
+                                        y: -5,
+                                        boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
+                                        transition: { duration: 0.3 }
                                     }}
                                     className="flex items-start bg-white p-4 rounded-xl shadow-sm border border-gray-100"
                                 >
@@ -237,10 +286,10 @@ const ISOAuditGuide = () => {
 
                     <motion.div
                         variants={variants}
-                        whileHover={{ 
-                          y: -5,
-                          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
-                          transition: { duration: 0.3 }
+                        whileHover={{
+                            y: -5,
+                            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
+                            transition: { duration: 0.3 }
                         }}
                         className="md:w-1/2 bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200"
                     >
@@ -260,10 +309,10 @@ const ISOAuditGuide = () => {
                                 ].map((item, i) => (
                                     <motion.div
                                         key={i}
-                                        whileHover={{ 
-                                          y: -8,
-                                          boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)",
-                                          transition: { duration: 0.3 }
+                                        whileHover={{
+                                            y: -8,
+                                            boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)",
+                                            transition: { duration: 0.3 }
                                         }}
                                         className="bg-gray-50 p-4 rounded-lg text-center"
                                     >
@@ -280,11 +329,7 @@ const ISOAuditGuide = () => {
             </motion.section>
 
             {/* Audit Process */}
-            <motion.section
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, threshold: 0.1 }}
-                variants={variants}
+            <section
                 className="mb-24 bg-white rounded-3xl shadow-lg p-8 border border-gray-100"
             >
                 <motion.div variants={variants} className="text-center mb-12">
@@ -363,11 +408,11 @@ const ISOAuditGuide = () => {
                         <motion.div
                             key={i}
                             variants={item}
-                            whileHover={{ 
-                              y: -10, 
-                              scale: 1.02,
-                              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
-                              transition: { duration: 0.3 }
+                            whileHover={{
+                                y: -10,
+                                scale: 1.02,
+                                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
+                                transition: { duration: 0.3 }
                             }}
                             className={`${step.color} p-6 rounded-2xl shadow-md transition-all`}
                         >
@@ -384,14 +429,10 @@ const ISOAuditGuide = () => {
                         </motion.div>
                     ))}
                 </motion.div>
-            </motion.section>
+            </section>
 
             {/* Audit Types */}
-            <motion.section
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, threshold: 0.1 }}
-                variants={variants}
+            <section
                 className="mb-24"
             >
                 <motion.div variants={variants} className="text-center mb-12">
@@ -399,7 +440,7 @@ const ISOAuditGuide = () => {
                         <LayoutGrid className="mr-2" />
                         <span>Audit Variations</span>
                     </div>
-                    <h2 className="text-3xl font-bold text-gray-800 mb-4">Types of ISO Audits</h2>
+                    <h2 className="text-3xl font-bold text-gray-800 mb-4">Types of ISO Audits.</h2>
                     <p className="text-gray-600 max-w-2xl mx-auto">
                         Different audit approaches tailored to specific organizational needs and requirements.
                     </p>
@@ -435,10 +476,10 @@ const ISOAuditGuide = () => {
                         <motion.div
                             key={i}
                             variants={item}
-                            whileHover={{ 
-                              y: -8,
-                              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
-                              transition: { duration: 0.3 }
+                            whileHover={{
+                                y: -8,
+                                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
+                                transition: { duration: 0.3 }
                             }}
                             className={`bg-white p-8 rounded-2xl shadow-lg border-t-4 ${audit.color} transition-all`}
                         >
@@ -454,14 +495,10 @@ const ISOAuditGuide = () => {
                         </motion.div>
                     ))}
                 </motion.div>
-            </motion.section>
+            </section>
 
             {/* Industry Frequency */}
-            <motion.section
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, threshold: 0.1 }}
-                variants={variants}
+            <section
                 className="mb-24 bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-12 text-white"
             >
                 <motion.div variants={variants} className="text-center mb-12">
@@ -540,10 +577,10 @@ const ISOAuditGuide = () => {
                         <motion.div
                             key={i}
                             variants={item}
-                            whileHover={{ 
-                              y: -8,
-                              boxShadow: "0 10px 25px -5px rgba(255, 255, 255, 0.1)",
-                              transition: { duration: 0.3 }
+                            whileHover={{
+                                y: -8,
+                                boxShadow: "0 10px 25px -5px rgba(255, 255, 255, 0.1)",
+                                transition: { duration: 0.3 }
                             }}
                             className={`${item.color} p-6 rounded-xl border border-white/10 transition-all`}
                         >
@@ -560,8 +597,8 @@ const ISOAuditGuide = () => {
                             <div className="flex justify-between items-center">
                                 <span className="text-sm text-gray-300">Risk Level</span>
                                 <span className={`text-xs font-medium px-2 py-1 rounded-full ${item.risk === "Critical" ? "bg-red-500/20 text-red-300" :
-                                        item.risk === "High" ? "bg-amber-500/20 text-amber-300" :
-                                            "bg-green-500/20 text-green-300"
+                                    item.risk === "High" ? "bg-amber-500/20 text-amber-300" :
+                                        "bg-green-500/20 text-green-300"
                                     }`}>
                                     {item.risk}
                                 </span>
@@ -569,7 +606,7 @@ const ISOAuditGuide = () => {
                         </motion.div>
                     ))}
                 </motion.div>
-            </motion.section>
+            </section>
 
             {/* ISO Clauses */}
             <motion.section
@@ -648,10 +685,10 @@ const ISOAuditGuide = () => {
                                         key={i}
                                         initial={{ opacity: 0, y: 10 }}
                                         whileInView={{ opacity: 1, y: 0 }}
-                                        transition={{ 
-                                          duration: 0.8,
-                                          delay: i * 0.1,
-                                          ease: [0.2, 0.65, 0.3, 0.9]
+                                        transition={{
+                                            duration: 0.8,
+                                            delay: i * 0.1,
+                                            ease: [0.2, 0.65, 0.3, 0.9]
                                         }}
                                         viewport={{ once: true, threshold: 0.1 }}
                                         className="hover:bg-gray-50 transition-colors"
@@ -682,8 +719,140 @@ const ISOAuditGuide = () => {
                 </motion.div>
             </motion.section>
 
-            {/* Final CTA */}
-           
+            {/* ISO Standard Finder */}
+            <motion.section
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+                variants={slideUp}
+                className="mb-24"
+            >
+                <div className="bg-white rounded-3xl shadow-lg p-8 md:p-12 border border-gray-100">
+                    <div className="text-center mb-8">
+                        <div className="inline-flex items-center bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full mb-4">
+                            <Search className="mr-2" />
+                            <span>Find Your Standard</span>
+                        </div>
+                        <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                            Which ISO Standard is Right for You?
+                        </h2>
+                        <p className="text-gray-600 max-w-2xl mx-auto">
+                            Answer a few questions to get a personalized recommendation for the most relevant ISO standard for your organization.
+                        </p>
+                    </div>
+
+                    <motion.div variants={container} className="space-y-6">
+                        {/* Question 1: Business Goal */}
+                        <motion.div variants={item} className="flex flex-col md:flex-row items-start md:items-center gap-4">
+                            <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-blue-500 text-white">
+                                <Lightbulb />
+                            </div>
+                            <div className="flex-grow">
+                                <label htmlFor="goal" className="block text-lg font-medium text-gray-700 mb-2">
+                                    1. What is your primary business goal?
+                                </label>
+                                <select
+                                    id="goal"
+                                    name="goal"
+                                    value={goal}
+                                    onChange={(e) => {
+                                        setGoal(e.target.value);
+                                        setRecommendation(null); // Clear recommendation on change
+                                    }}
+                                    className="block w-full rounded-md border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-gray-800"
+                                >
+                                    <option value="" disabled>Select a goal</option>
+                                    <option value="quality">Quality Management</option>
+                                    <option value="health">Health & Safety</option>
+                                    <option value="environment">Environmental Impact</option>
+                                    <option value="food">Food Safety</option>
+                                    <option value="security">Information Security</option>
+                                </select>
+                            </div>
+                        </motion.div>
+
+                        {/* Question 2: Industry */}
+                        <motion.div variants={item} className="flex flex-col md:flex-row items-start md:items-center gap-4">
+                            <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-green-500 text-white">
+                                <Factory />
+                            </div>
+                            <div className="flex-grow">
+                                <label htmlFor="industry" className="block text-lg font-medium text-gray-700 mb-2">
+                                    2. What industry are you in?
+                                </label>
+                                <select
+                                    id="industry"
+                                    name="industry"
+                                    value={industry}
+                                    onChange={(e) => {
+                                        setIndustry(e.target.value);
+                                        setRecommendation(null); // Clear recommendation on change
+                                    }}
+                                    className="block w-full rounded-md border-gray-300 shadow-sm p-3 focus:ring-green-500 focus:border-green-500 text-gray-800"
+                                >
+                                    <option value="" disabled>Select an industry</option>
+                                    <option value="manufacturing">Manufacturing</option>
+                                    <option value="healthcare">Healthcare</option>
+                                    <option value="food">Food Services</option>
+                                    <option value="it">Information Technology</option>
+                                    <option value="construction">Construction</option>
+                                    <option value="energy">Energy</option>
+                                    <option value="education">Education</option>
+                                    <option value="financial">Financial Services</option>
+                                </select>
+                            </div>
+                        </motion.div>
+
+                        {/* Submit Button */}
+                        <motion.div variants={item} className="text-center">
+                            <motion.button
+                                onClick={handleFindStandard}
+                                whileHover={{ scale: 1.02, boxShadow: "0 10px 20px -5px rgba(0, 0, 0, 0.15)" }}
+                                whileTap={{ scale: 0.98 }}
+                                className="inline-flex items-center px-8 py-4 border border-transparent text-base font-medium rounded-xl shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform"
+                            >
+                                Find My Standard
+                                <ArrowRight className="ml-2 w-5 h-5" />
+                            </motion.button>
+                        </motion.div>
+                    </motion.div>
+
+                    {/* Recommendation Result */}
+                    <AnimatePresence>
+                        {recommendation && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                transition={{ duration: 0.5 }}
+                                className="mt-12 p-6 bg-indigo-50 border border-indigo-200 rounded-2xl shadow-inner"
+                            >
+                                <div className="flex items-start mb-4">
+                                    <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-indigo-500 text-white">
+                                        <BadgeCheck />
+                                    </div>
+                                    <div className="ml-4">
+                                        <h3 className="text-xl font-bold text-indigo-800">Your Recommended Standard:</h3>
+                                        <p className="text-2xl font-extrabold text-indigo-600 mt-1">{recommendation.name}</p>
+                                    </div>
+                                </div>
+                                <p className="text-gray-700 mb-4">{recommendation.reason}</p>
+                                {recommendation.link && (
+                                    <a
+                                        href={recommendation.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center text-indigo-600 font-semibold hover:underline"
+                                    >
+                                        Learn More about this standard
+                                        <ArrowRight className="ml-1 w-4 h-4" />
+                                    </a>
+                                )}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+            </motion.section>
         </div>
     );
 };

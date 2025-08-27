@@ -51,7 +51,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="bg-white overflow-hidden" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}>
+    <div className="bg-white overflow-hidden bg-[#f4d58e]" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}>
       {/* ===== HERO SECTION ===== */}
       <Suspense fallback={<LoadingPlaceholder />}>
         <section className="relative w-full">
@@ -60,18 +60,19 @@ const Home = () => {
       </Suspense>
 
       {/* ===== WHY ISO SECTION ===== */}
-      <section className="relative w-full bg-gradient-to-br from-amber-50 to-white">
+      <section className="relative w-full bg-gradient-to-br pt-9 from-amber-50 to-white">
         <div className="container px-4 mx-auto sm:px-6">
           <motion.div
-            className="mb-16 text-center"
+            className="mb-16  text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="mb-4 text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
-              Why <span className="text-amber-600 not-italic">ISO Certification</span> <span className="font-light">Matters?</span>
+            <h2 className="mb-4 text-4xl font-bold tracking-tight text-amber-600 md:text-5xl">
+              Why <span className="text-[#580203] not-italic">ISO Certification</span> <span className="font-light">Matters?</span>
             </h2>
+
             <div className="w-24 h-1 mx-auto mb-8 bg-amber-500"></div>
             <p className="max-w-3xl mx-auto text-lg font-light leading-relaxed text-gray-600">
               <span className="font-normal">Internationally recognized standards</span> that help organizations improve quality, safety, and efficiency while meeting regulatory requirements.

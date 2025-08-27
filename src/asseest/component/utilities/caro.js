@@ -6,21 +6,22 @@ import image4 from '../../img/caro4.jpg';
 import environmentImg from '../../img/environment.jpg';
 import img from '../../img/ISO 210012018.png';
 import img1 from '../../img/1.jpg';
-
 import img2 from '../../img/2.jpg';
 import img3 from '../../img/3.jpg';
 import img4 from '../../img/4.jpg';
 import img5 from '../../img/5.jpg';
+import img6 from '../../img/6.jpg';
+
 
 const ImageCarousel = () => {
     const slides = [
-        { url: img },
-        { url: environmentImg },
         { url: img1 },
         { url: img2 },
         { url: img3 },
         { url: img4 },
         { url: img5 },
+        { url: img6 },
+
     ];
 
     // State management for the carousel
