@@ -89,7 +89,7 @@ const Home = () => {
       <ISO_CREDENTIALS />
 
       {/* ===== GALLERY ===== */}
-      <ImageGallery3D />
+      {/* <ImageGallery3D /> */}
 
       {/* ===== TESTIMONIALS ===== */}
       <Testimonials />
