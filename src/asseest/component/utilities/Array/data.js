@@ -386,9 +386,30 @@ export const menuitems = [
     path: "/services",
     children: [
       {
-        title: 'ISO consultancy',
+        title: 'ISO Consultancy',
         path: '/services/iso-consultancy',
-        icon: icon
+        icon: icon,
+        children: [{
+          id: 1,
+          title: 'ISO 21001:2018(EOMS)',
+          path: '/service/iso/2100',
+          icon: icon
+        }, {
+          id: 2,
+          title: 'ISO ',
+          path: '/service/iso/2200',
+          icon: icon
+        }, {
+          id: 3,
+          title: 'ISO ',
+          path: '/service/iso/9001',
+          icon: icon
+        }, {
+          id: 4,
+          title: 'ISO ',
+          path: '/service/iso/45001',
+          icon: icon
+        },]
       },
       {
         title: 'ISO Audit',

@@ -7,7 +7,6 @@ import Navbar from './asseest/component/sections/navbar';
 import PageTransitionWrapper from './asseest/component/utilities/transition_framer';
 import ScrollToTopButton from './asseest/component/utilities/ScrolllTop';
 import TopHeader from './asseest/component/utilities/topheader';
-import TopContactBar from './asseest/component/utilities/TopContactBar';
 import NotFound from './asseest/component/pages/pagenofound';
 import Blog from './asseest/component/pages/blog';
 import ContentBoosting from './asseest/component/pages/content_boosting.jsx';
@@ -29,11 +28,14 @@ import HealthSafety from './asseest/component/utilities/health&safety.jsx';
 import HSEAwarenessTraining from './asseest/component/utilities/HSE.jsx';
 import HSEAudits from './asseest/component/utilities/hseaduit.jsx';
 import Chat from './asseest/component/utilities/chat';
+import TopContactBar from './asseest/component/utilities/Top_Contact.jsx';
+import ISO21001Guide from './asseest/component/pages/Iso_21001.jsx';
+import Iso_2200 from './asseest/component/pages/ISO_2200.JSX';
+import ISO9001Certification from './asseest/component/pages/ISO_9001.jsx';
+import ISO45001Certification from './asseest/component/pages/iso_45001.jsx';
 // import { Router_link } from './asseest/component/utilities/Array/data.js';
 // import Person_Incharge_PI_2 from './asseest/component/utilities/traning/T_child/Person_Incharge_PI_2.jsx';
 // import Permit_to_Work_System_PTW from './asseest/component/utilities/traning/T_child/Permit_to_Work_System_(PTW).jsx';
-
-
 
 function App() {
   return (
@@ -42,75 +44,81 @@ function App() {
         <TopHeader />
         <TopContactBar />
         <Navbar />
-          <Routes>
-            <Route path="/" element={
-              <PageTransitionWrapper> <Home /></PageTransitionWrapper>} />
+        <Routes>
+          <Route path="/" element={
+            <PageTransitionWrapper> <Home /></PageTransitionWrapper>} />
 
-            <Route path="/Blog-Offers/FB-Titktok-Linkedin-youtube" element={
-              <PageTransitionWrapper>  <Blog /></PageTransitionWrapper>} />
+          <Route path="/Blog-Offers/FB-Titktok-Linkedin-youtube" element={
+            <PageTransitionWrapper>  <Blog /></PageTransitionWrapper>} />
 
-            <Route path="/Blog-Offers/Offers-Contents-Latest-Boosting" element={
-              <PageTransitionWrapper> <ContentBoosting /></PageTransitionWrapper>} />
+          <Route path="/Blog-Offers/Offers-Contents-Latest-Boosting" element={
+            <PageTransitionWrapper> <ContentBoosting /></PageTransitionWrapper>} />
+{/* -------------------------from here */}
+          <Route path="/about-us" element={
+            <PageTransitionWrapper> <About /></PageTransitionWrapper>} />
 
-            <Route path="/about-us" element={
-              <PageTransitionWrapper> <About /></PageTransitionWrapper>} />
+          <Route path="/services" element={
+            <PageTransitionWrapper> <Services /></PageTransitionWrapper>} />
 
-            <Route path="/services" element={
-              <PageTransitionWrapper> <Services /></PageTransitionWrapper>} />
+          <Route path="/form" element={
+            <PageTransitionWrapper> <Quote /></PageTransitionWrapper>} />
 
-            <Route path="/form" element={
-              <PageTransitionWrapper> <Quote /></PageTransitionWrapper>} />
+          <Route path="/contact-us" element={
+            <PageTransitionWrapper> <Contact /></PageTransitionWrapper>} />
 
-            <Route path="/contact-us" element={
-              <PageTransitionWrapper> <Contact /></PageTransitionWrapper>} />
+          <Route path="services/iso-consultancy" element={
+            <PageTransitionWrapper> <ISOConsultancy /></PageTransitionWrapper>} />
 
-            <Route path="services/iso-consultancy" element={
-              <PageTransitionWrapper> <ISOConsultancy /></PageTransitionWrapper>} />
+          <Route path="Blog-Offers/FAQ" element={
+            <PageTransitionWrapper> <Faq /></PageTransitionWrapper>} />
 
-            <Route path="Blog-Offers/FAQ" element={
-              <PageTransitionWrapper> <Faq /></PageTransitionWrapper>} />
+          <Route path="services/iso-certification" element={
+            <PageTransitionWrapper> <ISO_certification /></PageTransitionWrapper>} />
 
-            <Route path="services/iso-certification" element={
-              <PageTransitionWrapper> <ISO_certification /></PageTransitionWrapper>} />
+          <Route path="services/environmental-services-eta-env-monitoring-air-water-soil-etc" element={
+            <PageTransitionWrapper> <EnvironmentalServices /></PageTransitionWrapper>} />
 
-            <Route path="services/environmental-services-eta-env-monitoring-air-water-soil-etc" element={
-              <PageTransitionWrapper> <EnvironmentalServices /></PageTransitionWrapper>} />
+          <Route path="services/iso-training/ohs/health-safety-plan-doc" element={
+            <PageTransitionWrapper> <HealthSafety /></PageTransitionWrapper>} />
 
-            <Route path="services/iso-training/ohs/health-safety-plan-doc" element={
-              <PageTransitionWrapper> <HealthSafety /></PageTransitionWrapper>} />
+          <Route path="services/iso-training/ohs/implementation" element={
+            <PageTransitionWrapper> <HSEAwarenessTraining /></PageTransitionWrapper>} />
 
-            <Route path="services/iso-training/ohs/implementation" element={
-              <PageTransitionWrapper> <HSEAwarenessTraining /></PageTransitionWrapper>} />
+          <Route path="services/iso-training/ohs/audits" element={
+            <PageTransitionWrapper> <HSEAudits /></PageTransitionWrapper>} />
 
-            <Route path="services/iso-training/ohs/audits" element={
-              <PageTransitionWrapper> <HSEAudits /></PageTransitionWrapper>} />
+          <Route path="services/supply-of-sign-quality-safety-env-companies" element={
+            <PageTransitionWrapper> <SafetySignPPE /></PageTransitionWrapper>} />
+{/* bid */}
+          <Route path="services/tender-technical-bid-preparation" element={
+            <PageTransitionWrapper> <TechnicalBidComponent /></PageTransitionWrapper>} />
 
-            {/*  */}
-            <Route path="services/supply-of-sign-quality-safety-env-companies" element={
-              <PageTransitionWrapper> <SafetySignPPE /></PageTransitionWrapper>} />
+          <Route path="services/iso-audit" element={
+            <PageTransitionWrapper> <ISOAuditGuide /></PageTransitionWrapper>} />
 
-            <Route path="services/tender-technical-bid-preparation" element={
-              <PageTransitionWrapper> <TechnicalBidComponent /></PageTransitionWrapper>} />
+          <Route path="service/iso/2100" element={<PageTransitionWrapper> < ISO21001Guide
+          /></PageTransitionWrapper>} />
 
-            <Route path="services/iso-audit" element={
-              <PageTransitionWrapper> <ISOAuditGuide /></PageTransitionWrapper>} />
+          <Route path="service/iso/2200" element={<PageTransitionWrapper> < Iso_2200
+          /></PageTransitionWrapper>} />
 
+          <Route path="service/iso/9001" element={<PageTransitionWrapper> < ISO9001Certification
+          /></PageTransitionWrapper>} />
+          
+          <Route path="service/iso/45001" element={<PageTransitionWrapper> < ISO45001Certification/></PageTransitionWrapper>} />
 
-            <Route path="services/iso-training" element={
-              <PageTransitionWrapper>
-                <Traning />
-              </PageTransitionWrapper>
-            }>
-              {/* {Router_link.map(({ path, element }, index) => (
+          <Route path="services/iso-training" element={<PageTransitionWrapper><Traning /></PageTransitionWrapper>}>
+
+            {/* {Router_link.map(({ path, element }, index) => (
               <Route key={index} path={path.replaceAll("_", "-")} element={element} />
             ))} */}
-            </Route>
-            {/* neboshIgcUk */}
-            {/* <Route path="/neboshDiplomaUk" element={<Permit_to_Work_System_PTW />} />  */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          </Route>
+          {/* neboshIgcUk */}
+          {/* <Route path="/neboshDiplomaUk" element={<Permit_to_Work_System_PTW />} />  */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
 
-          <Quote />
+        <Quote />
 
         <Chat />
         <ScrollToTopButton />

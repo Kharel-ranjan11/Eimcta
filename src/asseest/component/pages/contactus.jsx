@@ -1,14 +1,10 @@
 import { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
 import { Parallax } from "react-parallax";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
-import { useInView } from "framer-motion";
 
 export default function Contact() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const mapRef = useRef(null);
-  const isMapInView = useInView(mapRef, { threshold: 0.1, once: true });
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -20,26 +16,8 @@ export default function Contact() {
     await loadFull(engine);
   };
 
-  // Main animation settings
-  const variants = {
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { 
-        duration: 0.8, 
-        delay: 0.2,
-        ease: [0.2, 0.65, 0.3, 0.9]
-      }
-    },
-    hidden: { 
-      opacity: 0, 
-      y: 80,
-      transition: { duration: 0.6 }
-    }
-  };
-
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-hidden bg-gradient-to-br from-amber-50 to-amber-100" style={{ fontFamily: 'Arial Narrow, sans-serif' }}>
       {/* Particle background */}
       <div className="absolute inset-0 -z-10">
         <Particles
@@ -61,17 +39,17 @@ export default function Contact() {
                   opacity: 0.8,
                   size: 6,
                   color: {
-                    value: "#3b82f6",
+                    value: "#f59e0b",
                   },
                 },
               },
             },
             particles: {
               color: {
-                value: "#3b82f6",
+                value: "#f59e0b",
               },
               links: {
-                color: "#3b82f6",
+                color: "#f59e0b",
                 distance: 150,
                 enable: true,
                 opacity: 0.3,
@@ -119,52 +97,29 @@ export default function Contact() {
           bgImageAlt="Contact us background"
           strength={300}
         >
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={variants}
-            className="h-64 md:h-96 flex items-center justify-center bg-black bg-opacity-50"
-          >
+          <div className="h-64 md:h-96 flex items-center justify-center bg-black bg-opacity-50">
             <div className="text-center px-4">
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4">
-                <span className="bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
-                  Contact Us
-                </span>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-amber-900 mb-3 md:mb-4 relative inline-block after:absolute after:w-full after:h-2 after:bg-yellow-400 after:left-0 after:-bottom-2 after:rounded-full">
+                Contact Us
               </h1>
-              <p className="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto">
+              <p className="text-lg md:text-xl text-amber-800 max-w-3xl mx-auto mt-6">
                 Get in touch with our team for any questions about our services
                 or to schedule a consultation.
               </p>
             </div>
-          </motion.div>
+          </div>
         </Parallax>
 
         {/* Map Location */}
         <div className="container mx-auto px-4 sm:px-6 py-12 md:py-20">
-          <motion.div
-            ref={mapRef}
-            initial="hidden"
-            animate={isMapInView ? "visible" : "hidden"}
-            variants={variants}
-            className="mt-16 md:mt-20"
-          >
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 md:mb-8 text-center">
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                Find Us on the Map
-              </span>
+          <div className="mt-16 md:mt-20">
+            <h2 className="text-2xl md:text-3xl font-bold text-amber-900 mb-6 md:mb-8 text-center relative inline-block after:absolute after:w-full after:h-2 after:bg-yellow-400 after:left-0 after:-bottom-2 after:rounded-full">
+              Find Us on the Map
             </h2>
-            <motion.div 
-              className="w-full h-64 sm:h-80 md:h-96 rounded-xl overflow-hidden shadow-2xl relative"
-              whileHover={{ 
-                y: -15,
-                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
-                transition: { duration: 0.3 }
-              }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-600 opacity-20 z-10 pointer-events-none"></div>
+            <div className="w-full h-64 sm:h-80 md:h-96 rounded-xl overflow-hidden shadow-lg border border-yellow-300 bg-white transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
               <iframe
                 title="EIMCTA Location"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.0343517296677!2d85.32424907450653!3d27.714929776190727!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb18f6c16d7f67%3A0xfdbb4aa7d74814f!2sKathmandu%2C%20Nepal!5e0!3m2!1sen!2snp!4v1693831942422!5m2!1sen!2snp"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.647673399961!2d85.36863727607958!3d27.72157447568726!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1968cee7500d%3A0x260f11a4a2e7c416!2sEIMCTA!5e0!3m2!1sen!2snp!4v1693831942422!5m2!1sen!2snp"
                 width="100%"
                 height="100%"
                 allowFullScreen=""
@@ -172,8 +127,8 @@ export default function Contact() {
                 referrerPolicy="no-referrer-when-downgrade"
                 className="border-0 w-full h-full"
               ></iframe>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import logo from "../../img/eimcta.png";
 import { menuitems } from "../utilities/Array/data.js";
 import {
@@ -25,6 +25,7 @@ import {
   MailCheck,
 } from "lucide-react";
 
+
 const defaultIconMap = {
   about: <Info size={20} className="mr-2" />,
   services: <Layers size={20} className="mr-2" />,
@@ -43,11 +44,31 @@ const defaultIconMap = {
   quote: <MailCheck size={18} className="mr-2" />,
 };
 
+const NavLink = ({ to, children, className, onClick }) => {
+    // Mock NavLink behavior
+    const handleClick = (e) => {
+        if (onClick) onClick(e);
+        // In a real app, this would navigate. Here we just log it.
+        console.log(`Navigating to ${to}`);
+    };
+
+    // Determine if the link is "active"
+    // For this mock, let's just say the first item is active
+    const isActive = to === '#about'; 
+    const finalClassName = typeof className === 'function' ? className({ isActive }) : className;
+
+    return (
+        <a href={to} className={finalClassName} onClick={handleClick}>
+            {children}
+        </a>
+    );
+};
+
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [expandedItems, setExpandedItems] = useState({});
-  const navigate = useNavigate();
+  // const navigate = useNavigate(); // Not used in this standalone component
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -110,10 +131,9 @@ const Navbar = () => {
                 else closeMobileMenu(); // allow navigation for actual links
               }}
               className={({ isActive }) =>
-                `flex items-center flex-grow px-4 py-2 text-sm ${
-                  isActive && !hasChildren
-                    ? "bg-amber-100 text-amber-700"
-                    : "text-gray-700 hover:bg-amber-50 hover:text-amber-700"
+                `flex items-center flex-grow px-4 py-2 text-sm rounded-md ${isActive && !hasChildren
+                  ? "bg-amber-700 text-white"
+                  : "text-gray-700 hover:bg-amber-50 hover:text-amber-700"
                 }`
               }
             >
@@ -124,7 +144,7 @@ const Navbar = () => {
             {hasChildren && (
               <button
                 onClick={() => toggleItemExpansion(key)}
-                className="p-1 rounded-md hover:bg-amber-100"
+                className="p-1 rounded-md hover:bg-amber-100 mr-2"
               >
                 {expandedItems[key] ? <ChevronUp size={16} /> : <ChevronRight size={16} />}
               </button>
@@ -143,28 +163,19 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`sticky top-0 z-50 transition-all duration-300 font-['Arial_Narrow'] font-bold ${
-        scrolled ? "bg-white shadow-lg py-0" : "bg-white shadow-md py-2"
-      }`}
+      className={`sticky top-0 z-50 transition-all duration-300 font-['Arial_Narrow'] font-bold ${scrolled ? "bg-amber-600 shadow-lg py-0" : "bg-amber-600 shadow-md py-2"
+        }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex-shrink-0 transition-transform duration-300 hover:scale-105">
-            <NavLink to="/" onClick={closeMobileMenu}>
-              <img src={logo} alt="Logo" className="h-12 w-auto object-contain" />
-            </NavLink>
-          </div>
-
+        <div className="flex items-center justify-end md:justify-center h-16">
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden md:flex items-center space-x-8">
             {menuitems.map((item, idx) => (
               <div key={idx} className="relative group">
                 <NavLink
                   to={item.path}
                   className={({ isActive }) =>
-                    `flex items-center px-3 py-2 rounded-md text-sm transition-all duration-200 ${
-                      isActive ? "text-amber-700 bg-amber-50" : "text-gray-700 hover:text-amber-700 hover:bg-amber-50"
+                    `flex items-center px-4 py-2 rounded-md text-lg transition-all duration-200 ${isActive ? "text-white bg-amber-700" : "text-white hover:text-amber-100"
                     }`
                   }
                   onClick={(e) => {
@@ -178,7 +189,7 @@ const Navbar = () => {
                 </NavLink>
 
                 {item.children && (
-                  <div className="absolute left-1/2 transform -translate-x-1/2 mt-1 w-70 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top z-50">
+                  <div className="absolute left-1/2 transform -translate-x-1/2 mt-1 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top z-50">
                     <div className="py-1">{renderDropdownItems(item.children, 1, `d-${idx}`)}</div>
                   </div>
                 )}
@@ -190,7 +201,7 @@ const Navbar = () => {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-amber-600 hover:bg-amber-50 focus:outline-none transition duration-150"
+              className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-amber-100 hover:bg-amber-700 focus:outline-none transition duration-150"
               aria-label="Main menu"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -201,14 +212,11 @@ const Navbar = () => {
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed inset-y-0 right-0 w-64 bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out ${
-          mobileMenuOpen ? "translate-x-0" : "translate-x-full"
-        } md:hidden`}
+        className={`fixed inset-y-0 right-0 w-64 bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          } md:hidden`}
       >
         <div className="flex items-center justify-between px-4 pt-4 pb-2 border-b border-gray-200">
-          <NavLink to="/" onClick={closeMobileMenu} className="flex-shrink-0 transition-transform duration-300 hover:scale-105">
-            <img src={logo} alt="Logo" className="h-10 w-auto object-contain" />
-          </NavLink>
+          <span className="font-bold text-gray-700">Menu</span>
           <button onClick={closeMobileMenu} className="p-1 rounded-md text-gray-700 hover:text-amber-600 hover:bg-amber-50 focus:outline-none">
             <X size={24} />
           </button>
@@ -224,10 +232,16 @@ const Navbar = () => {
                 <div className="flex items-center justify-between">
                   <NavLink
                     to={item.path}
-                    onClick={!hasChildren ? closeMobileMenu : undefined}
+                    onClick={(e) => {
+                        if (hasChildren) {
+                            e.preventDefault();
+                            toggleItemExpansion(key);
+                        } else {
+                            closeMobileMenu();
+                        }
+                    }}
                     className={({ isActive }) =>
-                      `flex items-center flex-grow px-3 py-2 rounded-md text-base ${
-                        isActive ? "bg-amber-50 text-amber-700" : "text-gray-700 hover:bg-amber-50 hover:text-amber-700"
+                      `flex items-center flex-grow px-3 py-2 rounded-md text-base ${isActive && !hasChildren ? "bg-amber-50 text-amber-700" : "text-gray-700 hover:bg-amber-50 hover:text-amber-700"
                       }`
                     }
                   >
@@ -236,14 +250,14 @@ const Navbar = () => {
                   </NavLink>
 
                   {hasChildren && (
-                    <button onClick={() => toggleItemExpansion(key)} className="p-1 rounded-md hover:bg-amber-100">
+                    <button onClick={() => toggleItemExpansion(key)} className="p-1 rounded-md hover:bg-amber-100 mr-2">
                       {expandedItems[key] ? <ChevronUp size={20} /> : <ChevronRight size={20} />}
                     </button>
                   )}
                 </div>
 
                 {hasChildren && expandedItems[key] && (
-                  <div className="mt-1 ml-8 pl-2 space-y-1 border-l-2 border-amber-200">
+                  <div className="mt-1 ml-4 pl-2 space-y-1 border-l-2 border-amber-200">
                     {renderDropdownItems(item.children, 1, key)}
                   </div>
                 )}
@@ -258,5 +272,6 @@ const Navbar = () => {
     </nav>
   );
 };
+
 
 export default Navbar;

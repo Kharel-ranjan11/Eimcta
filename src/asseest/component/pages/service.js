@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { 
   FaChartLine, 
   FaFlask, 
@@ -13,67 +12,10 @@ import {
 } from "react-icons/fa";
 
 const Services = () => {
-  // Gradient backgrounds for service cards
-  const cardGradients = [
-    "bg-gradient-to-br from-blue-500 to-blue-700",
-    "bg-gradient-to-br from-emerald-500 to-emerald-700",
-    "bg-gradient-to-br from-purple-500 to-purple-700",
-    "bg-gradient-to-br from-rose-500 to-rose-700",
-    "bg-gradient-to-br from-teal-500 to-teal-700",
-    "bg-gradient-to-br from-amber-500 to-amber-700"
-  ];
-
-  // Main animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        when: "beforeChildren"
-      }
-    }
-  };
-
-  const cardVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 80,
-      transition: { duration: 0.6 }
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { 
-        duration: 0.8, 
-        delay: 0.2,
-        ease: [0.2, 0.65, 0.3, 0.9]
-      }
-    },
-    hover: { 
-      y: -15,
-      boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
-      transition: { duration: 0.3 }
-    }
-  };
-
-  const buttonVariants = {
-    hover: { 
-      y: -3,
-      scale: 1.02,
-      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)",
-      transition: { duration: 0.3 }
-    },
-    tap: { 
-      scale: 0.98,
-      transition: { duration: 0.1 }
-    }
-  };
-
   // Services data
   const services = [
     {
-      icon: <FaChartLine className="text-4xl" />,
+      icon: <FaChartLine className="text-2xl text-amber-600" />,
       title: "ISO Consultancy Services",
       description: "We guide your organization through every stage of ISO implementation from gap analysis to certification readiness.",
       items: [
@@ -86,7 +28,7 @@ const Services = () => {
       cta: "Get Certified"
     },
     {
-      icon: <FaFlask className="text-4xl" />,
+      icon: <FaFlask className="text-2xl text-amber-600" />,
       title: "Accredited Testing & Calibration",
       description: "Precision services including equipment calibration and comprehensive testing per ISO/IEC 17025 standards.",
       items: [
@@ -99,7 +41,7 @@ const Services = () => {
       cta: "Schedule Testing"
     },
     {
-      icon: <FaChalkboardTeacher className="text-4xl" />,
+      icon: <FaChalkboardTeacher className="text-2xl text-amber-600" />,
       title: "Professional Training Programs",
       description: "Specialized training to build competence aligned with ISO requirements and industry standards.",
       items: [
@@ -112,7 +54,7 @@ const Services = () => {
       cta: "View Courses"
     },
     {
-      icon: <FaShieldAlt className="text-4xl" />,
+      icon: <FaShieldAlt className="text-2xl text-amber-600" />,
       title: "Occupational Health & Safety",
       description: "Creating proactive safety cultures that reduce risk and enhance workplace productivity.",
       items: [
@@ -125,7 +67,7 @@ const Services = () => {
       cta: "Improve Safety"
     },
     {
-      icon: <FaLeaf className="text-4xl" />,
+      icon: <FaLeaf className="text-2xl text-amber-600" />,
       title: "Environmental Management",
       description: "Comprehensive solutions supporting your environmental responsibility and sustainability goals.",
       items: [
@@ -138,7 +80,7 @@ const Services = () => {
       cta: "Go Green"
     },
     {
-      icon: <FaIndustry className="text-4xl" />,
+      icon: <FaIndustry className="text-2xl text-amber-600" />,
       title: "Industry-Specific Solutions",
       description: "Tailored approaches addressing unique challenges across various sectors.",
       items: [
@@ -154,189 +96,119 @@ const Services = () => {
 
   const benefits = [
     {
-      icon: <FaUserTie className="text-3xl" />,
+      icon: <FaUserTie className="text-2xl text-amber-600" />,
       title: "Experienced Consultants",
       description: "Seasoned professionals with 10+ years in ISO implementation"
     },
     {
-      icon: <FaCertificate className="text-3xl" />,
+      icon: <FaCertificate className="text-2xl text-amber-600" />,
       title: "Customized Solutions",
       description: "Tailored to your organization's specific needs"
     },
     {
-      icon: <FaHandsHelping className="text-3xl" />,
+      icon: <FaHandsHelping className="text-2xl text-amber-600" />,
       title: "End-to-End Support",
       description: "From documentation to certification and beyond"
     },
     {
-      icon: <FaAward className="text-3xl" />,
+      icon: <FaAward className="text-2xl text-amber-600" />,
       title: "Commitment to Excellence",
       description: "Driving continual improvement and sustainable compliance"
     }
   ];
 
   return (
-    <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}>
+    <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-amber-50 to-amber-100 overflow-hidden" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}>
       {/* Decorative background element */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-r from-blue-100 to-transparent opacity-20 -z-10"></div>
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-r from-amber-200/30 to-transparent -z-10"></div>
       
       <div className="max-w-7xl mx-auto relative">
         {/* Section header */}
-        <motion.div
-          initial={{ opacity: 0, y: 80 }}
-          whileInView={{ 
-            opacity: 1, 
-            y: 0,
-            transition: { 
-              duration: 0.8, 
-              delay: 0.2,
-              ease: [0.2, 0.65, 0.3, 0.9]
-            }
-          }}
-          viewport={{ once: true, threshold: 0.1 }}
-          className="text-center mb-16"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-800" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif", fontWeight: 'bold' }}>
+        <div className="text-center mb-16">
+          <h1 className="text-4xl md:text-5xl font-bold text-amber-900 mb-4 relative inline-block pb-2">
             Our Premium Services
+            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-yellow-400"></span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Empowering your organization with <span className="font-semibold text-blue-600">international standards compliance</span> and operational excellence.
+          <p className="text-xl text-amber-800 max-w-3xl mx-auto">
+            Empowering your organization with international standards compliance and operational excellence.
           </p>
-        </motion.div>
+        </div>
 
         {/* Services grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, threshold: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <motion.div
+            <div
               key={index}
-              variants={cardVariants}
-              whileHover="hover"
-              className={`relative group overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 ${cardGradients[index]}`}
+              className="relative group overflow-hidden rounded-xl bg-white border border-amber-200 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
             >
-              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-              <div className="relative p-8 h-full flex flex-col text-white">
-                <div className="mb-6 p-3 bg-white bg-opacity-20 rounded-full w-max">
+              <div className="relative p-6 h-full flex flex-col">
+                <div className="mb-4 p-3 bg-amber-100 rounded-full w-max">
                   {service.icon}
                 </div>
-                <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif", fontWeight: 'bold' }}>{service.title}</h2>
-                <p className="mb-6 opacity-90">{service.description}</p>
+                <h2 className="text-xl font-bold mb-3 text-amber-900" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}>{service.title}</h2>
+                <p className="mb-4 text-gray-700">{service.description}</p>
                 
-                <ul className="space-y-3 mb-8">
+                <ul className="space-y-2 mb-6">
                   {service.items.map((item, i) => (
-                    <li key={i} className="flex items-start">
-                      <svg className="flex-shrink-0 h-5 w-5 text-white opacity-80 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <li key={i} className="flex items-start text-gray-600">
+                      <svg className="flex-shrink-0 h-5 w-5 text-amber-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
-                      <span className="opacity-90">{item}</span>
+                      <span>{item}</span>
                     </li>
                   ))}
                 </ul>
                 
-                <motion.div
-                  variants={buttonVariants}
-                  whileHover="hover"
-                  whileTap="tap"
-                  className="mt-auto"
-                >
-                  <button className="w-full py-3 px-6 bg-white bg-opacity-20 hover:bg-opacity-30 backdrop-blur-sm rounded-lg font-medium transition-all duration-300 border border-white border-opacity-30 hover:border-opacity-50 flex items-center justify-between" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif", fontWeight: 'bold' }}>
-                    {service.cta}
-                    <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="mt-auto">
+                  <button className="w-full py-3 px-4 bg-amber-100 hover:bg-amber-200 rounded-lg font-medium transition-all duration-300 border border-amber-200 hover:border-amber-300 flex items-center justify-between group-hover:bg-amber-200">
+                    <span className="text-amber-900">{service.cta}</span>
+                    <svg className="w-5 h-5 ml-2 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
                   </button>
-                </motion.div>
+                </div>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* Benefits section */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ 
-            opacity: 1,
-            transition: { 
-              duration: 0.8, 
-              delay: 0.4,
-              ease: [0.2, 0.65, 0.3, 0.9]
-            }
-          }}
-          viewport={{ once: true, threshold: 0.1 }}
-          className="mt-24"
-        >
-          <div className="bg-gradient-to-r from-gray-900 to-blue-900 rounded-2xl p-10 text-white relative overflow-hidden">
-            {/* CSS pattern background */}
-            <div className="absolute inset-0 opacity-5" 
-            style={{
-              backgroundImage: 'linear-gradient(135deg, #ffffff 10%, transparent 10%, transparent 50%, #ffffff 50%, #ffffff 60%, transparent 60%, transparent 100%)',
-              backgroundSize: '15px 15px'
-            }}></div>
-            
+        <div className="mt-24">
+          <div className="bg-amber-100/50 rounded-xl p-8 relative overflow-hidden border border-amber-200">
             <div className="relative">
-              <h3 className="text-3xl font-bold mb-8 text-center" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif", fontWeight: 'bold' }}>Why Choose Us?</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <h3 className="text-3xl font-bold mb-8 text-center text-amber-900 relative inline-block pb-2">
+                Why Choose Us?
+                <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-yellow-400"></span>
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {benefits.map((benefit, index) => (
-                  <motion.div 
+                  <div 
                     key={index}
-                    initial={{ opacity: 0, y: 80 }}
-                    whileInView={{ 
-                      opacity: 1, 
-                      y: 0,
-                      transition: { 
-                        duration: 0.8,
-                        delay: index * 0.1,
-                        ease: [0.2, 0.65, 0.3, 0.9]
-                      }
-                    }}
-                    viewport={{ once: true, threshold: 0.1 }}
-                    whileHover={{ y: -5 }}
-                    className="bg-white bg-opacity-10 backdrop-blur-sm p-6 rounded-xl border border-white border-opacity-20 hover:border-opacity-40 transition-all"
+                    className="bg-white p-5 rounded-lg border border-amber-200 shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
                   >
-                    <div className="p-3 bg-white bg-opacity-20 rounded-full w-max mb-4">
+                    <div className="p-3 bg-amber-100 rounded-full w-max mb-4">
                       {benefit.icon}
                     </div>
-                    <h4 className="text-xl font-semibold mb-2" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif", fontWeight: 'bold' }}>{benefit.title}</h4>
-                    <p className="opacity-80">{benefit.description}</p>
-                  </motion.div>
+                    <h4 className="text-lg font-semibold mb-2 text-amber-900" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}>{benefit.title}</h4>
+                    <p className="text-gray-700">{benefit.description}</p>
+                  </div>
                 ))}
               </div>
               
-              <motion.div
-                initial={{ scale: 0.95 }}
-                whileInView={{ 
-                  scale: 1,
-                  transition: { 
-                    type: "spring", 
-                    stiffness: 100,
-                    duration: 0.8,
-                    ease: [0.2, 0.65, 0.3, 0.9]
-                  }
-                }}
-                viewport={{ once: true, threshold: 0.1 }}
-                className="mt-12 text-center"
-              >
-                <motion.button 
-                  variants={buttonVariants}
-                  whileHover="hover"
-                  whileTap="tap"
-                  className="py-4 px-8 bg-white text-blue-900 font-bold rounded-lg hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl flex items-center mx-auto"
-                  style={{ fontFamily: "'Arial Narrow', Arial, sans-serif", fontWeight: 'bold' }}
+              <div className="mt-12 text-center">
+                <button 
+                  className="py-3 px-6 bg-amber-600 text-white font-bold rounded-lg hover:bg-amber-700 transition-colors duration-300 shadow-md hover:shadow-lg flex items-center mx-auto border border-amber-700"
+                  style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}
                 >
                   Get Your Free Consultation
                   <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
-                </motion.button>
-              </motion.div>
+                </button>
+              </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

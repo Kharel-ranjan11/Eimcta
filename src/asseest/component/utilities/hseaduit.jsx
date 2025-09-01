@@ -4,47 +4,21 @@ import {
   Video, HelpCircle, ChevronDown, Search, AlertTriangle,
   HardHat, Factory, Hospital, Droplet, CheckCircle
 } from 'lucide-react';
-import { motion } from 'framer-motion';
-
-// Main animation settings
-const variants = {
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      delay: 0.2,
-      ease: [0.2, 0.65, 0.3, 0.9]
-    }
-  },
-  hidden: {
-    opacity: 0,
-    y: 80,
-    transition: { duration: 0.6 }
-  }
-};
 
 const HSEAudits = () => {
   // Helper component for section headers
   const SectionHeader = ({ icon, title, subtitle }) => {
     const Icon = icon;
     return (
-      <motion.div
-        className="mb-8 text-center relative"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, threshold: 0.1 }}
-        variants={variants}
-      >
+      <div className="mb-8 text-center relative">
         <div className="inline-flex items-center justify-center w-16 h-16 mb-4 bg-amber-100 rounded-full">
-          <Icon className="w-8 h-8 text-amber-700" />
+          <Icon className="w-8 h-8 text-amber-400" />
         </div>
-        <h2 className="text-3xl font-bold text-amber-900 mb-2 relative inline-block">
+        <h2 className="text-3xl font-bold text-amber-900 mb-2 relative inline-block after:absolute after:-bottom-1 after:left-0 after:w-full after:h-1 after:bg-yellow-400 after:scale-x-100">
           {title}
-          <span className="absolute -bottom-1 left-0 w-full h-1 bg-amber-200 transform scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-300"></span>
         </h2>
-        {subtitle && <p className="text-lg text-amber-700 max-w-2xl mx-auto relative after:content-[''] after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-16 after:h-1 after:bg-amber-200 after:rounded-full">{subtitle}</p>}
-      </motion.div>
+        {subtitle && <p className="text-lg text-amber-800 max-w-2xl mx-auto relative after:content-[''] after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-16 after:h-1 after:bg-amber-200 after:rounded-full">{subtitle}</p>}
+      </div>
     );
   };
 
@@ -52,41 +26,22 @@ const HSEAudits = () => {
   const FaqItem = ({ question, answer }) => {
     const [isOpen, setIsOpen] = useState(false);
     return (
-      <motion.div
-        className="border-b border-amber-200 py-4"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, threshold: 0.1 }}
-        variants={variants}
-      >
-        <motion.button
+      <div className="border-b border-amber-200 py-4">
+        <button
           className="w-full flex justify-between items-center text-left font-semibold text-lg text-amber-800 hover:text-amber-900"
           onClick={() => setIsOpen(!isOpen)}
-          whileHover={{
-            x: 5,
-            transition: { duration: 0.2 }
-          }}
         >
           <span>{question}</span>
-          <motion.div
-            animate={{ rotate: isOpen ? 180 : 0 }}
-            transition={{ duration: 0.3 }}
-          >
+          <div className={`transform transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
             <ChevronDown className="w-5 h-5" />
-          </motion.div>
-        </motion.button>
+          </div>
+        </button>
         {isOpen && (
-          <motion.div
-            className="mt-3 text-amber-700 pl-2"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-          >
+          <div className="mt-3 text-amber-700 pl-2">
             <p>{answer}</p>
-          </motion.div>
+          </div>
         )}
-      </motion.div>
+      </div>
     );
   };
 
@@ -94,61 +49,34 @@ const HSEAudits = () => {
   const IndustryTag = ({ icon, name }) => {
     const Icon = icon;
     return (
-      <motion.div
-        className="flex items-center bg-amber-100 px-4 py-3 rounded-lg hover:bg-amber-200 transition-colors"
-        whileHover={{
-          y: -5,
-          boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)",
-          transition: { duration: 0.3 }
-        }}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, threshold: 0.1 }}
-        variants={variants}
-      >
+      <div className="flex items-center bg-amber-100 px-4 py-3 rounded-lg hover:bg-amber-200 transition-colors duration-300 shadow-sm hover:shadow-md">
         <Icon className="w-5 h-5 mr-2 text-amber-700" />
         <span className="font-medium text-amber-800">{name}</span>
-      </motion.div>
+      </div>
     );
   };
 
   // Audit Step Component
   const AuditStep = ({ number, title, description }) => (
-    <motion.div
-      className="bg-white p-6 rounded-xl shadow-sm border border-amber-100 hover:shadow-md transition-shadow group"
-      whileHover={{
-        y: -15,
-        boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
-        transition: { duration: 0.3 }
-      }}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, threshold: 0.1 }}
-      variants={variants}
-    >
+    <div className="bg-white p-6 rounded-xl shadow-sm border border-amber-100 hover:shadow-md transition-shadow duration-300 group">
       <div className="flex items-start">
-        <div className="flex-shrink-0 bg-amber-100 w-10 h-10 rounded-full flex items-center justify-center mr-4 mt-1 group-hover:bg-amber-200 transition-colors">
+        <div className="flex-shrink-0 bg-amber-100 w-10 h-10 rounded-full flex items-center justify-center mr-4 mt-1 group-hover:bg-amber-200 transition-colors duration-300">
           <span className="font-bold text-amber-800">{number}</span>
         </div>
         <div>
-          <h3 className="text-xl font-bold text-amber-900 mb-2 group-hover:text-amber-700 transition-colors">{title}</h3>
+          <h3 className="text-xl font-bold text-amber-900 mb-2 group-hover:text-amber-700 transition-colors duration-300">{title}</h3>
           <p className="text-amber-700">{description}</p>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 
   return (
     <>
-      {/* Style tag for custom font and effects */}
+      {/* Style tag for custom font */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Arial+Narrow:wght@400;700&display=swap');
         body {
           font-family: 'Arial Narrow', sans-serif;
-        }
-        .hero-pattern {
-          background-image: radial-gradient(#f9f5f0 1px, transparent 1px);
-          background-size: 20px 20px;
         }
         .hero-image::after {
           content: '';
@@ -160,45 +88,23 @@ const HSEAudits = () => {
           background: linear-gradient(to bottom, rgba(254,243,199,0) 0%, rgba(254,243,199,1) 100%);
           z-index: 1;
         }
-        .highlight-text::after {
-          content: '';
-          position: absolute;
-          bottom: 0.1em;
-          left: 0;
-          right: 0;
-          height: 0.4em;
-          background-color: rgba(253,230,138,0.5);
-          z-index: -1;
-          transform: rotate(-1deg);
-        }
       `}</style>
 
-      <div className="hero-pattern bg-amber-50 text-amber-900">
+      <div className="bg-gradient-to-br from-amber-50 to-amber-100 text-amber-900">
         {/* Hero Image Section */}
         <main>
-          <motion.div
-            className="hero-image relative h-96 w-full"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
+          <div className="hero-image relative h-96 w-full">
             <img
               src="https://images.unsplash.com/photo-1605152276897-4f618f831968?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80"
               alt="Safety inspection at workplace"
               className="w-full h-full object-cover"
               onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/1600x600/f9f5f0/8B5A2B?text=Safety+Inspection'; }}
             />
-          </motion.div>
+          </div>
 
           {/* Content Section */}
           <div className="content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 -mt-20 relative z-10">
-            <motion.div
-              className="bg-white rounded-2xl shadow-xl overflow-hidden"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, threshold: 0.1 }}
-              variants={variants}
-            >
+            <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
               {/* What is an HSE Audit? Section */}
               <section className="px-6 py-12 sm:px-12 md:px-16">
                 <SectionHeader
@@ -207,36 +113,11 @@ const HSEAudits = () => {
                   subtitle="A systematic evaluation of your organization's health, safety, and environmental management systems"
                 />
                 <div className="grid md:grid-cols-2 gap-8">
-                  <motion.div
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, threshold: 0.1 }}
-                    variants={variants}
-                  >
-                    <p className="text-lg text-amber-800 mb-6 relative highlight-text">
+                  <div>
+                    <p className="text-lg text-amber-800 mb-6 relative">
                       HSE audits provide a structured approach to assessing workplace safety, identifying risks, and ensuring compliance with regulations. They serve as a critical tool for continuous improvement in occupational health and safety.
                     </p>
-                    <motion.div
-                      className="bg-amber-50 p-6 rounded-xl border-l-4 border-amber-500 relative overflow-hidden"
-                      whileHover={{
-                        y: -5,
-                        transition: { duration: 0.3 }
-                      }}
-                    >
-                      <motion.div
-                        className="absolute -right-4 -top-4 w-24 h-24 bg-amber-100 rounded-full opacity-20"
-                        animate={{
-                          y: [0, (Math.random() - 0.5) * 20],
-                          x: [0, (Math.random() - 0.5) * 10],
-                          opacity: [0.1, 0.2, 0.1],
-                        }}
-                        transition={{
-                          duration: Math.random() * 10 + 10,
-                          repeat: Infinity,
-                          repeatType: "reverse",
-                          ease: "linear"
-                        }}
-                      />
+                    <div className="bg-amber-100/50 p-6 rounded-xl border-l-4 border-amber-500 relative overflow-hidden hover:shadow-md transition-shadow duration-300">
                       <h3 className="font-bold text-xl text-amber-900 mb-3">Key Objectives:</h3>
                       <ul className="space-y-3">
                         {[
@@ -246,42 +127,25 @@ const HSEAudits = () => {
                           "Measure performance against standards",
                           "Recommend corrective actions"
                         ].map((item, index) => (
-                          <motion.li
+                          <li
                             key={index}
                             className="flex items-start"
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true, threshold: 0.1 }}
-                            variants={{
-                              ...variants,
-                              transition: {
-                                duration: 0.8,
-                                delay: index * 0.1,
-                                ease: [0.2, 0.65, 0.3, 0.9]
-                              }
-                            }}
                           >
                             <CheckCircle className="w-5 h-5 text-green-600 mr-2 mt-0.5 flex-shrink-0" />
                             <span className="text-amber-800">{item}</span>
-                          </motion.li>
+                          </li>
                         ))}
                       </ul>
-                    </motion.div>
-                  </motion.div>
-                  <motion.div
-                    className="bg-amber-50 rounded-xl overflow-hidden relative group"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, threshold: 0.1 }}
-                    variants={variants}
-                  >
+                    </div>
+                  </div>
+                  <div className="bg-amber-50 rounded-xl overflow-hidden relative group">
                     <img
                       src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
                       alt="Safety documents"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-amber-900 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-                  </motion.div>
+                  </div>
                 </div>
               </section>
 
@@ -315,46 +179,16 @@ const HSEAudits = () => {
                       desc: "Improve operational efficiency through safer processes"
                     }
                   ].map((benefit, index) => (
-                    <motion.div
+                    <div
                       key={index}
-                      className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow group relative overflow-hidden"
-                      whileHover={{
-                        y: -15,
-                        boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
-                        transition: { duration: 0.3 }
-                      }}
-                      initial="hidden"
-                      whileInView="visible"
-                      viewport={{ once: true, threshold: 0.1 }}
-                      variants={{
-                        ...variants,
-                        transition: {
-                          duration: 0.8,
-                          delay: index * 0.1,
-                          ease: [0.2, 0.65, 0.3, 0.9]
-                        }
-                      }}
+                      className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 group relative overflow-hidden"
                     >
-                      <motion.div
-                        className="absolute -right-6 -bottom-6 w-24 h-24 bg-amber-100 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"
-                        animate={{
-                          y: [0, (Math.random() - 0.5) * 20],
-                          x: [0, (Math.random() - 0.5) * 10],
-                          opacity: [0.1, 0.2, 0.1],
-                        }}
-                        transition={{
-                          duration: Math.random() * 10 + 10,
-                          repeat: Infinity,
-                          repeatType: "reverse",
-                          ease: "linear"
-                        }}
-                      />
-                      <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-amber-200 transition-colors">
-                        <benefit.icon className="w-6 h-6 text-amber-700" />
+                      <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-amber-200 transition-colors duration-300">
+                        <benefit.icon className="w-6 h-6 text-amber-400" />
                       </div>
-                      <h3 className="text-xl font-bold text-amber-900 mb-2 group-hover:text-amber-700 transition-colors">{benefit.title}</h3>
+                      <h3 className="text-xl font-bold text-amber-900 mb-2 group-hover:text-amber-700 transition-colors duration-300">{benefit.title}</h3>
                       <p className="text-amber-700">{benefit.desc}</p>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               </section>
@@ -424,82 +258,36 @@ const HSEAudits = () => {
                   subtitle="Watch our experts explain HSE audit best practices"
                 />
                 <div className="grid md:grid-cols-2 gap-8">
-                  <motion.div
-                    className="bg-amber-100 rounded-xl overflow-hidden aspect-w-16 aspect-h-9 relative group"
-                    whileHover={{
-                      y: -10,
-                      boxShadow: "0 20px 40px -10px rgba(0, 0, 0, 0.15)",
-                      transition: { duration: 0.3 }
-                    }}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, threshold: 0.1 }}
-                    variants={variants}
-                  >
+                  <div className="bg-amber-100 rounded-xl overflow-hidden aspect-w-16 aspect-h-9 relative group hover:shadow-lg transition-shadow duration-300">
                     <div className="w-full h-full flex items-center justify-center">
                       <div className="text-center p-6 relative z-10">
-                        <div className="w-16 h-16 bg-amber-200 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-amber-300 transition-colors">
+                        <div className="w-16 h-16 bg-amber-200 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-amber-300 transition-colors duration-300">
                           <Video className="w-8 h-8 text-amber-700" />
                         </div>
-                        <h3 className="text-xl font-bold text-amber-900 mb-2 group-hover:text-amber-700 transition-colors">Conducting Effective Audits</h3>
+                        <h3 className="text-xl font-bold text-amber-900 mb-2 group-hover:text-amber-700 transition-colors duration-300">Conducting Effective Audits</h3>
                         <p className="text-amber-700 mb-4">15 min tutorial</p>
-                        <motion.button
-                          className="bg-amber-700 hover:bg-amber-800 text-white font-bold py-2 px-4 rounded-lg transition-colors"
-                          whileHover={{
-                            y: -3,
-                            scale: 1.02,
-                            boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)",
-                            transition: { duration: 0.3 }
-                          }}
-                          whileTap={{
-                            scale: 0.98,
-                            transition: { duration: 0.1 }
-                          }}
-                        >
+                        <button className="bg-amber-700 hover:bg-amber-800 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 shadow-md hover:shadow-lg">
                           Watch Now
-                        </motion.button>
+                        </button>
                       </div>
                     </div>
                     <div className="absolute inset-0 bg-amber-900 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-                  </motion.div>
-                  <motion.div
-                    className="bg-amber-100 rounded-xl overflow-hidden aspect-w-16 aspect-h-9 relative group"
-                    whileHover={{
-                      y: -10,
-                      boxShadow: "0 20px 40px -10px rgba(0, 0, 0, 0.15)",
-                      transition: { duration: 0.3 }
-                    }}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, threshold: 0.1 }}
-                    variants={variants}
-                  >
+                  </div>
+                  <div className="bg-amber-100 rounded-xl overflow-hidden aspect-w-16 aspect-h-9 relative group hover:shadow-lg transition-shadow duration-300">
                     <div className="w-full h-full flex items-center justify-center">
                       <div className="text-center p-6 relative z-10">
-                        <div className="w-16 h-16 bg-amber-200 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-amber-300 transition-colors">
+                        <div className="w-16 h-16 bg-amber-200 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-amber-300 transition-colors duration-300">
                           <ClipboardList className="w-8 h-8 text-amber-700" />
                         </div>
-                        <h3 className="text-xl font-bold text-amber-900 mb-2 group-hover:text-amber-700 transition-colors">Audit Checklist Guide</h3>
+                        <h3 className="text-xl font-bold text-amber-900 mb-2 group-hover:text-amber-700 transition-colors duration-300">Audit Checklist Guide</h3>
                         <p className="text-amber-700 mb-4">Downloadable PDF</p>
-                        <motion.button
-                          className="bg-amber-700 hover:bg-amber-800 text-white font-bold py-2 px-4 rounded-lg transition-colors"
-                          whileHover={{
-                            y: -3,
-                            scale: 1.02,
-                            boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)",
-                            transition: { duration: 0.3 }
-                          }}
-                          whileTap={{
-                            scale: 0.98,
-                            transition: { duration: 0.1 }
-                          }}
-                        >
+                        <button className="bg-amber-700 hover:bg-amber-800 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 shadow-md hover:shadow-lg">
                           Download
-                        </motion.button>
+                        </button>
                       </div>
                     </div>
                     <div className="absolute inset-0 bg-amber-900 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-                  </motion.div>
+                  </div>
                 </div>
               </section>
 
@@ -528,10 +316,7 @@ const HSEAudits = () => {
                   />
                 </div>
               </section>
-
-              {/* CTA Section */}
-
-            </motion.div>
+            </div>
           </div>
         </main>
       </div>
