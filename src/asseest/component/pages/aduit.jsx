@@ -1,632 +1,349 @@
-import React, { useState } from "react";
-import {
-    ClipboardList,
-    ShieldCheck,
-    FileText,
-    ListChecks,
-    Users,
-    Factory,
-    HeartPulse,
-    Utensils,
-    Server,
-    Truck,
-    Zap,
-    School,
-    CalendarCheck,
-    AlertCircle,
-    CheckCircle,
-    Eye,
-    TrendingUp,
-    LayoutGrid,
-    BookOpen,
-    RefreshCw,
-    ChevronRight,
-    ArrowRight,
-    BadgeCheck,
-    BarChart2,
-    Clock,
-    Lock,
-    Globe,
-    Circle,
-    Lightbulb,
-    HelpCircle,
-    Search
-} from "lucide-react";
+import React, { useRef } from 'react';
+import { motion, useInView } from "framer-motion";
 
+// --- Self-Contained Lucide Icon Components ---
+const IconWrapper = ({ children }) => <div className="w-6 h-6">{children}</div>;
+const ClipboardList = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg></IconWrapper>;
+const ShieldCheck = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></IconWrapper>;
+const FileText = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg></IconWrapper>;
+const ListChecks = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg></IconWrapper>;
+const Users = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></IconWrapper>;
+const Factory = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg></IconWrapper>;
+const HeartPulse = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.7-1.5L13.5 14l.5-2H21"/></svg></IconWrapper>;
+const Utensils = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Z"/></svg></IconWrapper>;
+const Server = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></IconWrapper>;
+const Truck = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg></IconWrapper>;
+const Zap = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></IconWrapper>;
+const School = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 22v-4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v4"/><path d="M18 10v6"/><path d="M22 10v6"/><path d="M2 10h16"/><path d="m2 10 8-6 8 6"/><path d="M6 10v6"/><path d="M10 10v6"/></svg></IconWrapper>;
+const CalendarCheck = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="m9 16 2 2 4-4"/></svg></IconWrapper>;
+const AlertCircle = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg></IconWrapper>;
+const CheckCircle = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></IconWrapper>;
+const Eye = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></IconWrapper>;
+const TrendingUp = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></IconWrapper>;
+const LayoutGrid = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></IconWrapper>;
+const RefreshCw = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg></IconWrapper>;
+const BarChart2 = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg></IconWrapper>;
+const Clock = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></IconWrapper>;
+const Lock = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></IconWrapper>;
+const Globe = () => <IconWrapper><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></IconWrapper>;
+
+// --- Animation Wrapper Component ---
+const AnimatedWrapper = ({ children, variants, transition }) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, amount: 0.3 });
+
+    return (
+        <motion.div
+            ref={ref}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={variants}
+            transition={transition}
+        >
+            {children}
+        </motion.div>
+    );
+};
+
+
+// --- Main Component ---
 const ISOAuditGuide = () => {
-    // State for the new ISO Standard Finder feature
-    const [goal, setGoal] = useState("");
-    const [industry, setIndustry] = useState("");
-    const [recommendation, setRecommendation] = useState(null);
 
-    // Function to handle the recommendation logic
-    const handleFindStandard = () => {
-        let rec = "";
-        let recReason = "";
-        let recLink = "";
+    const easeCurve = [0.25, 0.46, 0.45, 0.94];
 
-        // Logic to determine the best ISO standard based on user input
-        if (goal === "quality" && industry === "manufacturing") {
-            rec = "ISO 9001:2015 (Quality Management System)";
-            recReason = "This standard helps manufacturing companies ensure consistent quality and customer satisfaction through process-based management.";
-            recLink = "https://www.iso.org/iso-9001-quality-management.html";
-        } else if (goal === "environment" && (industry === "manufacturing" || industry === "construction" || industry === "energy")) {
-            rec = "ISO 14001:2015 (Environmental Management System)";
-            recReason = "This standard is crucial for industries with a significant environmental impact. It provides a framework for managing environmental responsibilities and reducing your ecological footprint.";
-            recLink = "https://www.iso.org/iso-14001-environmental-management.html";
-        } else if (goal === "health" && (industry === "manufacturing" || industry === "construction" || industry === "healthcare")) {
-            rec = "ISO 45001:2018 (Occupational Health & Safety)";
-            recReason = "This standard is essential for ensuring a safe and healthy workplace. It helps you prevent work-related injury and ill health, and proactively improve your OH&S performance.";
-            recLink = "https://www.iso.org/iso-45001-occupational-health-and-safety.html";
-        } else if (goal === "food" && industry === "food") {
-            rec = "ISO 22000:2018 (Food Safety Management)";
-            recReason = "This standard is designed to ensure a food safety management system throughout the food chain, from farm to fork.";
-            recLink = "https://www.iso.org/iso-22000-food-safety-management.html";
-        } else if (goal === "security" && industry === "it") {
-            rec = "ISO 27001:2022 (Information Security Management)";
-            recReason = "This standard helps organizations manage the security of assets such as financial information, intellectual property, employee details, or information entrusted by third parties.";
-            recLink = "https://www.iso.org/iso-27001-information-security.html";
-        } else {
-            rec = "No specific recommendation found.";
-            recReason = "Your selections may not align with a single common standard. Consider exploring the specific standards based on your primary business function.";
-            recLink = null;
+    // --- Animation Variants ---
+    const slideInRight = { hidden: { x: 80, opacity: 0 }, visible: { x: 0, opacity: 1 } };
+    const slideInLeft = { hidden: { x: -80, opacity: 0 }, visible: { x: 0, opacity: 1 } };
+    const slideInUp = { hidden: { y: 60, opacity: 0 }, visible: { y: 0, opacity: 1 } };
+    const scaleUp = { hidden: { scale: 0.92, opacity: 0 }, visible: { scale: 1, opacity: 1 } };
+    const sectionHeaderVariant = { hidden: { y: 40, opacity: 0 }, visible: { y: 0, opacity: 1 } };
+    const underlineVariant = { hidden: { scaleX: 0 }, visible: { scaleX: 1 } };
+    const paragraphVariant = { hidden: { y: 30, opacity: 0 }, visible: { y: 0, opacity: 1 } };
+    
+    const cardHover = { y: -8, rotateX: 2, rotateY: -1 };
+    
+    const listContainer = {
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: {
+            staggerChildren: 0.2
+          }
         }
-
-        setRecommendation({
-            name: rec,
-            reason: recReason,
-            link: recLink
-        });
     };
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 font-['Arial_Narrow'] bg-gradient-to-br from-amber-50 to-amber-100">
-            {/* Hero Section */}
-            <section className="text-center mb-20 bg-gradient-to-br from-amber-400 to-amber-600 rounded-3xl p-12 text-amber-900 shadow-2xl overflow-hidden relative">
-                <div className="relative z-10">
-                    <div className="inline-flex items-center bg-white/30 px-4 py-2 rounded-full mb-6">
-                        <BadgeCheck className="mr-2 text-amber-700" />
-                        <span className="font-bold">ISO Compliance Guide</span>
-                    </div>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight  
-                     relative after:content-[''] after:absolute after:w-48 after:h-1 
-                      after:bg-yellow-400 after:left-1/2 after:rounded-lg  after:-translate-x-1/2 after:-bottom-2">
-                        Master Your <span className="text-amber-800">ISO Audits</span> <br />With Confidence
-                    </h2>
-                    <p className="text-xl md:text-2xl text-amber-800 mb-8 max-w-3xl mx-auto">
-                        The Complete Framework for ISO 9001, 45001, 14001 & 22000 Compliance
-                    </p>
+        <div style={{ fontFamily: "'Arial Narrow', sans-serif" }} className="antialiased bg-gradient-to-br from-amber-50 to-amber-100 text-amber-800 font-bold">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
 
-                    <div className="flex flex-wrap justify-center gap-4">
-                        <button className="flex items-center bg-white text-amber-700 font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                            <ClipboardList className="mr-2" />
-                            Get Started
-                            <ChevronRight className="ml-2 w-5 h-5" />
-                        </button>
-                        <button className="flex items-center bg-transparent border-2 border-amber-800/30 text-amber-800 font-semibold px-6 py-3 rounded-xl hover:bg-amber-800/10 transition-all duration-300">
-                            <BookOpen className="mr-2" />
-                            Learn More
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            {/* What is ISO Audit */}
-            <section className="mb-24">
-                <div className="flex flex-col md:flex-row gap-8 items-start">
-                    <div className="md:w-1/2">
-                        <div className="flex items-center mb-8">
-                            <div className="bg-yellow-100 p-3 rounded-full shadow-lg mr-4">
-                                <FileText className="text-yellow-500 w-6 h-6" />
-                            </div>
-                            <h2 className="text-2xl font-bold text-amber-900 relative after:content-[''] after:absolute 
-                            after:rounded-lg after:w-32 after:h-1 after:bg-yellow-400 after:left-0 after:-bottom-2">Understanding ISO Audits</h2>
-                        </div>
-
-                        <p className="text-amber-800 mb-6 text-lg leading-relaxed">
-                            An <span className="font-semibold text-amber-700">ISO audit</span> is a systematic, independent process that evaluates your organization's compliance with international standards through documented evidence and process verification.
+                {/* Hero Section */}
+                <section className="text-center mb-24 overflow-hidden">
+                     <AnimatedWrapper variants={slideInRight} transition={{ duration: 0.8, ease: easeCurve }}>
+                        <h1 className="text-4xl md:text-6xl font-extrabold text-amber-900 mb-4 tracking-tight">
+                            The definitive Guide to <span className="text-amber-600">ISO Audits</span>
+                        </h1>
+                    </AnimatedWrapper>
+                    <AnimatedWrapper variants={slideInLeft} transition={{ duration: 0.8, ease: easeCurve }}>
+                        <p className="max-w-3xl mx-auto text-lg md:text-xl text-amber-700 mb-8 font-medium">
+                            Unlock operational excellence. Understand the purpose, processes, and profound benefits of conducting thorough ISO audits in your organization.
                         </p>
-
-                        <div className="space-y-4">
-                            {[
-                                "Verification of process effectiveness",
-                                "Identification of improvement opportunities",
-                                "Assessment of regulatory compliance",
-                                "Evaluation of risk management practices",
-                                "Validation of continuous improvement"
-                            ].map((point, i) => (
-                                <div key={i} className="flex items-start bg-white p-4 rounded-xl shadow-sm border border-amber-200 hover:shadow-md hover:border-amber-300 transition-all duration-300">
-                                    <div className="bg-yellow-100 p-1 rounded-full mr-3 mt-1 flex-shrink-0">
-                                        <CheckCircle className="w-4 h-4 text-yellow-500" />
-                                    </div>
-                                    <span className="text-amber-800">{point}</span>
-                                </div>
-                            ))}
-                        </div>
+                    </AnimatedWrapper>
+                    <div className="rounded-2xl overflow-hidden shadow-2xl max-w-5xl mx-auto border-4 border-white">
+                        <img 
+                            src="https://placehold.co/1200x600/eab308/451a0e?text=ISO+9001+Compliance" 
+                            alt="A team collaborating on ISO 9001 Certification documents"
+                            className="w-full object-cover"
+                        />
                     </div>
+                </section>
+                
+                {/* What is ISO Audit */}
+                <section className="mb-24">
+                    <div className="grid md:grid-cols-2 gap-12 items-center">
+                        <div>
+                             <AnimatedWrapper variants={sectionHeaderVariant} transition={{ duration: 0.7, ease: easeCurve }}>
+                                <div className="flex items-center mb-6">
+                                    <div className="bg-yellow-100 p-3 rounded-full shadow-lg mr-4">
+                                        <FileText className="text-yellow-500 w-6 h-6" />
+                                    </div>
+                                    <h2 className="text-3xl font-bold text-amber-900">Understanding ISO Audits</h2>
+                                </div>
+                            </AnimatedWrapper>
+                            <div className="w-24 h-1.5 bg-yellow-400 rounded-full mb-6"></div>
+                            
+                            <AnimatedWrapper variants={paragraphVariant} transition={{ duration: 0.8, delay: 0.3, ease: easeCurve }}>
+                                <p className="text-amber-800 mb-8 text-lg leading-relaxed font-medium">
+                                    An <span className="font-semibold text-amber-900">ISO audit</span> is a systematic, independent process that evaluates your organization's compliance with international standards through documented evidence and process verification.
+                                </p>
+                            </AnimatedWrapper>
 
-                    <div className="md:w-1/2 bg-white rounded-2xl shadow-xl overflow-hidden border border-amber-200 hover:shadow-2xl hover:border-amber-300 transition-all duration-300">
-                        <div className="bg-gradient-to-r from-amber-500 to-amber-600 p-6 text-white">
-                            <div className="flex items-center">
-                                <ShieldCheck className="w-8 h-8 mr-3" />
-                                <h3 className="text-xl font-bold">Audit Benefits</h3>
-                            </div>
-                        </div>
-                        <div className="p-6">
-                            <div className="grid grid-cols-2 gap-4">
+                            <motion.div variants={listContainer} initial="hidden" animate="visible">
                                 {[
-                                    { icon: <TrendingUp className="w-6 h-6 text-amber-600" />, text: "Performance Improvement" },
-                                    { icon: <Lock className="w-6 h-6 text-amber-600" />, text: "Risk Mitigation" },
-                                    { icon: <Globe className="w-6 h-6 text-amber-600" />, text: "Regulatory Compliance" },
-                                    { icon: <Users className="w-6 h-6 text-amber-600" />, text: "Stakeholder Confidence" }
-                                ].map((item, i) => (
-                                    <div key={i} className="bg-amber-50 p-4 rounded-lg text-center hover:bg-amber-100 transition-all duration-300">
-                                        <div className="bg-white p-3 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 shadow-sm">
-                                            {item.icon}
+                                    "Verification of process effectiveness",
+                                    "Identification of improvement opportunities",
+                                    "Assessment of regulatory compliance",
+                                    "Evaluation of risk management practices",
+                                    "Validation of continuous improvement"
+                                ].map((point, i) => (
+                                    <motion.div key={i} variants={paragraphVariant}>
+                                        <div className="flex items-start bg-white p-4 rounded-xl shadow-sm border border-amber-200 hover:shadow-md hover:border-amber-300 transition-all duration-300 mb-4">
+                                            <div className="bg-yellow-100 p-1 rounded-full mr-4 mt-1 flex-shrink-0">
+                                                <CheckCircle className="w-4 h-4 text-yellow-500" />
+                                            </div>
+                                            <span className="text-amber-800 font-medium">{point}</span>
                                         </div>
-                                        <p className="font-medium text-amber-800">{item.text}</p>
+                                    </motion.div>
+                                ))}
+                            </motion.div>
+                        </div>
+                        <AnimatedWrapper variants={slideInUp} transition={{ duration: 0.7, ease: easeCurve }}>
+                            <motion.div whileHover={cardHover} transition={{ duration: 0.3, ease: 'easeOut' }}>
+                                <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-amber-200 hover:shadow-2xl transition-shadow duration-300">
+                                    <div className="bg-gradient-to-r from-amber-500 to-amber-600 p-6 text-white">
+                                        <div className="flex items-center">
+                                            <ShieldCheck className="w-8 h-8 mr-3" />
+                                            <h3 className="text-xl font-bold">Key Benefits of Auditing</h3>
+                                        </div>
                                     </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Audit Process */}
-            <section className="mb-24 bg-white rounded-3xl shadow-lg p-8 border border-amber-200">
-                <div className="text-center mb-12">
-                    <div className="inline-flex items-center bg-amber-100 text-amber-800 px-4 py-2 rounded-full mb-4">
-                        <ListChecks className="mr-2 text-amber-600" />
-                        <span>Systematic Approach</span>
-                    </div>
-                    <h2 className="text-3xl font-bold text-amber-900 mb-4 relative after:content-[''] after:absolute after:w-48   after after:h-1 after:bg-yellow-400 after:left-1/2 after:-translate-x-1/2 after:-bottom-3">The ISO Audit Process</h2>
-                    <p className="text-amber-800 max-w-2xl mx-auto">
-                        A structured methodology to ensure comprehensive evaluation and continuous improvement.
-                    </p>
-                </div>
-
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {[
-                        {
-                            step: 1,
-                            title: "Planning Phase",
-                            description: "Define scope, objectives, and criteria",
-                            icon: <CalendarCheck className="w-6 h-6 text-amber-600" />,
-                            color: "bg-amber-100"
-                        },
-                        {
-                            step: 2,
-                            title: "Preparation",
-                            description: "Review documents and prepare checklists",
-                            icon: <FileText className="w-6 h-6 text-amber-600" />,
-                            color: "bg-amber-100"
-                        },
-                        {
-                            step: 3,
-                            title: "Opening Meeting",
-                            description: "Align expectations with auditees",
-                            icon: <Users className="w-6 h-6 text-amber-600" />,
-                            color: "bg-amber-100"
-                        },
-                        {
-                            step: 4,
-                            title: "Execution",
-                            description: "Conduct interviews and collect evidence",
-                            icon: <Eye className="w-6 h-6 text-amber-600" />,
-                            color: "bg-amber-100"
-                        },
-                        {
-                            step: 5,
-                            title: "Findings Analysis",
-                            description: "Identify non-conformities",
-                            icon: <AlertCircle className="w-6 h-6 text-amber-600" />,
-                            color: "bg-amber-100"
-                        },
-                        {
-                            step: 6,
-                            title: "Closing Meeting",
-                            description: "Present findings and agree on actions",
-                            icon: <CheckCircle className="w-6 h-6 text-amber-600" />,
-                            color: "bg-amber-100"
-                        },
-                        {
-                            step: 7,
-                            title: "Reporting",
-                            description: "Document comprehensive audit report",
-                            icon: <ClipboardList className="w-6 h-6 text-amber-600" />,
-                            color: "bg-amber-100"
-                        },
-                        {
-                            step: 8,
-                            title: "Follow-up",
-                            description: "Verify corrective actions",
-                            icon: <RefreshCw className="w-6 h-6 text-amber-600" />,
-                            color: "bg-amber-100"
-                        }
-                    ].map((step, i) => (
-                        <div key={i} className={`${step.color} p-6 rounded-2xl shadow-md border border-amber-200 transition-all hover:shadow-lg hover:-translate-y-1`}>
-                            <div className="flex items-center mb-4">
-                                <div className="bg-white p-2 rounded-lg shadow-inner mr-3">
-                                    {step.icon}
+                                    <div className="p-6">
+                                        <div className="grid grid-cols-2 gap-4">
+                                            {[
+                                                { icon: <TrendingUp className="w-6 h-6 text-amber-600" />, text: "Performance Improvement" },
+                                                { icon: <Lock className="w-6 h-6 text-amber-600" />, text: "Risk Mitigation" },
+                                                { icon: <Globe className="w-6 h-6 text-amber-600" />, text: "Regulatory Compliance" },
+                                                { icon: <Users className="w-6 h-6 text-amber-600" />, text: "Stakeholder Confidence" }
+                                            ].map((item, i) => (
+                                                <div key={i} className="bg-amber-50 p-4 rounded-lg text-center hover:bg-amber-100 transition-all duration-300 transform hover:-translate-y-1">
+                                                    <div className="bg-white p-3 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3 shadow-sm">
+                                                        {item.icon}
+                                                    </div>
+                                                    <p className="font-medium text-amber-800 text-sm">{item.text}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="bg-amber-200 text-amber-800 text-xs font-bold px-2 py-1 rounded-full">
-                                    Step {step.step}
-                                </div>
-                            </div>
-                            <h3 className="font-bold text-lg mb-2 text-amber-900">{step.title}</h3>
-                            <p className="text-amber-800">{step.description}</p>
-                        </div>
-                    ))}
-                </div>
-            </section>
-
-            {/* Audit Types */}
-            <section className="mb-24">
-                <div className="text-center mb-12">
-                    <div className="inline-flex items-center bg-amber-100 text-amber-800 px-4 py-2 rounded-full mb-4">
-                        <LayoutGrid className="mr-2 text-amber-600" />
-                        <span>Audit Variations</span>
+                            </motion.div>
+                        </AnimatedWrapper>
                     </div>
-                    <h2 className="text-3xl font-bold text-amber-900 mb-4 relative after:content-[''] after:absolute after:w-48 after:h-1 after:rounded-lg after:bg-yellow-400 after:left-1/2 after:-translate-x-1/2 after:-bottom-3">Types of ISO Audits.</h2>
-                    <p className="text-amber-800 max-w-2xl mx-auto">
-                        Different audit approaches tailored to specific organizational needs and requirements.
-                    </p>
-                </div>
+                </section>
 
-                <div className="grid md:grid-cols-3 gap-6">
-                    {[
-                        {
-                            type: "Internal Audits",
-                            description: "First-party evaluations conducted by your own organization to assess compliance and identify improvement areas.",
-                            icon: <Users className="w-8 h-8 text-amber-600" />,
-                            frequency: "6-12 months",
-                            color: "border-amber-300"
-                        },
-                        {
-                            type: "Supplier Audits",
-                            description: "Second-party assessments performed by customers on their vendors to ensure quality standards are met.",
-                            icon: <FileText className="w-8 h-8 text-amber-600" />,
-                            frequency: "As per contract",
-                            color: "border-amber-300"
-                        },
-                        {
-                            type: "Certification Audits",
-                            description: "Third-party evaluations by accredited bodies to grant official ISO certification.",
-                            icon: <ShieldCheck className="w-8 h-8 text-amber-600" />,
-                            frequency: "Every 3 years",
-                            color: "border-amber-300"
-                        }
-                    ].map((audit, i) => (
-                        <div key={i} className={`bg-white p-8 rounded-2xl shadow-lg border-t-4 ${audit.color} transition-all hover:shadow-xl hover:-translate-y-1`}>
-                            <div className="bg-amber-100 p-3 rounded-full w-16 h-16 flex items-center justify-center mb-6 mx-auto">
-                                {audit.icon}
+                {/* Audit Process */}
+                <section className="mb-24 bg-white rounded-3xl shadow-lg p-8 lg:p-12 border border-amber-200">
+                    <div className="text-center mb-12">
+                        <AnimatedWrapper variants={sectionHeaderVariant} transition={{ duration: 0.7, ease: easeCurve }}>
+                            <div className="inline-flex items-center bg-amber-100 text-amber-800 px-4 py-2 rounded-full mb-4 font-semibold text-sm">
+                                <ListChecks className="mr-2 text-amber-600 w-5 h-5" />
+                                Systematic Approach
                             </div>
-                            <h3 className="text-xl font-bold text-center mb-4 text-amber-900">{audit.type}</h3>
-                            <p className="text-amber-800 mb-6 text-center">{audit.description}</p>
-                            <div className="flex items-center justify-center text-sm font-medium text-amber-700">
-                                <Clock className="w-4 h-4 mr-2" />
-                                Recommended frequency: {audit.frequency}
+                             <div className="relative inline-block">
+                                <h2 className="text-3xl md:text-4xl font-bold text-amber-900 mb-2">The ISO Audit Process</h2>
+                                <motion.div 
+                                    className="h-1 bg-yellow-400 rounded-full absolute"
+                                    style={{ left: '50%', translateX: '-50%', bottom: '-0.5rem', originX: 0.5, width: '25%' }}
+                                    variants={underlineVariant}
+                                    transition={{ duration: 0.8, delay: 0.3, ease: easeCurve }}
+                                />
                             </div>
-                        </div>
-                    ))}
-                </div>
-            </section>
-
-            {/* Industry Frequency */}
-            <section className="mb-24 bg-gradient-to-br from-amber-800 to-amber-900 rounded-3xl p-12 text-white">
-                <div className="text-center mb-12">
-                    <div className="inline-flex items-center bg-amber-700/30 px-4 py-2 rounded-full mb-4">
-                        <Clock className="mr-2" />
-                        <span>Industry Standards</span>
-                    </div>
-                    <h2 className="text-3xl font-bold text-white mb-4 relative after:content-[''] after:absolute 
-after:rounded-lg  after:w-48 after:h-1 after:bg-yellow-400 after:left-1/2 after:-translate-x-1/2 after:-bottom-2">Audit Frequency by Industry</h2>
-                    <p className="text-amber-200 max-w-2xl mx-auto">
-                        Recommended audit intervals based on industry risk profiles and regulatory requirements.
-                    </p>
-                </div>
-
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {[
-                        {
-                            industry: "Manufacturing",
-                            frequency: "Bi-annually",
-                            risk: "High",
-                            icon: <Factory className="w-6 h-6" />,
-                            color: "bg-amber-700/20"
-                        },
-                        {
-                            industry: "Healthcare",
-                            frequency: "Quarterly",
-                            risk: "Critical",
-                            icon: <HeartPulse className="w-6 h-6" />,
-                            color: "bg-amber-700/20"
-                        },
-                        {
-                            industry: "Food Services",
-                            frequency: "Monthly",
-                            risk: "Critical",
-                            icon: <Utensils className="w-6 h-6" />,
-                            color: "bg-amber-700/20"
-                        },
-                        {
-                            industry: "Information Technology",
-                            frequency: "Annually",
-                            risk: "Medium",
-                            icon: <Server className="w-6 h-6" />,
-                            color: "bg-amber-700/20"
-                        },
-                        {
-                            industry: "Construction",
-                            frequency: "Quarterly",
-                            risk: "High",
-                            icon: <Truck className="w-6 h-6" />,
-                            color: "bg-amber-700/20"
-                        },
-                        {
-                            industry: "Energy",
-                            frequency: "Quarterly",
-                            risk: "Critical",
-                            icon: <Zap className="w-6 h-6" />,
-                            color: "bg-amber-700/20"
-                        },
-                        {
-                            industry: "Education",
-                            frequency: "Annually",
-                            risk: "Medium",
-                            icon: <School className="w-6 h-6" />,
-                            color: "bg-amber-700/20"
-                        },
-                        {
-                            industry: "Financial Services",
-                            frequency: "Semi-annually",
-                            risk: "High",
-                            icon: <BarChart2 className="w-6 h-6" />,
-                            color: "bg-amber-700/20"
-                        }
-                    ].map((item, i) => (
-                        <div key={i} className={`${item.color} p-6 rounded-xl border border-amber-700/30 transition-all hover:bg-amber-700/30`}>
-                            <div className="flex items-center mb-4">
-                                <div className="bg-amber-700/30 p-2 rounded-lg mr-3">
-                                    {item.icon}
-                                </div>
-                                <h3 className="font-bold text-lg">{item.industry}</h3>
-                            </div>
-                            <div className="flex justify-between items-center mb-2">
-                                <span className="text-sm text-amber-200">Frequency</span>
-                                <span className="font-medium text-white">{item.frequency}</span>
-                            </div>
-                            <div className="flex justify-between items-center">
-                                <span className="text-sm text-amber-200">Risk Level</span>
-                                <span className={`text-xs font-medium px-2 py-1 rounded-full ${item.risk === "Critical" ? "bg-red-500/30 text-red-100" :
-                                    item.risk === "High" ? "bg-amber-500/30 text-amber-100" :
-                                        "bg-green-500/30 text-green-100"
-                                    }`}>
-                                    {item.risk}
-                                </span>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </section>
-
-            {/* ISO Clauses */}
-            <section className="mb-24">
-                <div className="text-center mb-12">
-                    <div className="inline-flex items-center bg-amber-100 text-amber-800 px-4 py-2 rounded-full mb-4">
-                        <BookOpen className="mr-2 text-amber-600" />
-                        <span>Standard Requirements</span>
-                    </div>
-                    <h2 className="text-3xl font-bold text-amber-900 mb-4 relative after:content-[''] after:absolute 
-                after:rounded-lg     after:w-48 after:h-1 after:bg-yellow-400 after:left-1/2 after:-translate-x-1/2 after:-bottom-2">Key ISO Clauses</h2>
-                    <p className="text-amber-800 max-w-2xl mx-auto">
-                        Essential sections across major ISO standards that govern audit requirements.
-                    </p>
-                </div>
-
-                <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-amber-200">
-                    <div className="overflow-x-auto">
-                        <table className="min-w-full divide-y divide-amber-200">
-                            <thead className="bg-amber-100">
-                                <tr>
-                                    <th className="px-8 py-4 text-left text-sm font-medium text-amber-800 uppercase tracking-wider">Standard</th>
-                                    <th className="px-6 py-4 text-left text-sm font-medium text-amber-800 uppercase tracking-wider">Internal Audit</th>
-                                    <th className="px-6 py-4 text-left text-sm font-medium text-amber-800 uppercase tracking-wider">Improvement</th>
-                                    <th className="px-6 py-4 text-left text-sm font-medium text-amber-800 uppercase tracking-wider">Documentation</th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-amber-200">
-                                {[
-                                    {
-                                        standard: "ISO 9001:2015 (QMS)",
-                                        clauses: {
-                                            audit: "9.2",
-                                            improvement: "10.2",
-                                            documentation: "7.5"
-                                        }
-                                    },
-                                    {
-                                        standard: "ISO 45001:2018 (OHS)",
-                                        clauses: {
-                                            audit: "9.2",
-                                            improvement: "10.2",
-                                            documentation: "7.5"
-                                        }
-                                    },
-                                    {
-                                        standard: "ISO 14001:2015 (EMS)",
-                                        clauses: {
-                                            audit: "9.2",
-                                            improvement: "10.2",
-                                            documentation: "7.5"
-                                        }
-                                    },
-                                    {
-                                        standard: "ISO 22000:2018 (FSMS)",
-                                        clauses: {
-                                            audit: "9.2.1",
-                                            improvement: "10.3",
-                                            documentation: "7.5"
-                                        }
-                                    },
-                                    {
-                                        standard: "ISO 27001:2022 (ISMS)",
-                                        clauses: {
-                                            audit: "9.2",
-                                            improvement: "10.1",
-                                            documentation: "7.5"
-                                        }
-                                    }
-                                ].map((row, i) => (
-                                    <tr key={i} className="hover:bg-amber-50/50 transition-colors">
-                                        <td className="px-8 py-4 whitespace-nowrap font-medium text-amber-900">
-                                            {row.standard}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className="bg-amber-100 text-amber-800 text-xs font-medium px-3 py-1 rounded-full">
-                                                {row.clauses.audit}
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className="bg-amber-100 text-amber-800 text-xs font-medium px-3 py-1 rounded-full">
-                                                {row.clauses.improvement}
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className="bg-amber-100 text-amber-800 text-xs font-medium px-3 py-1 rounded-full">
-                                                {row.clauses.documentation}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            {/* ISO Standard Finder */}
-            <section className="mb-24">
-                <div className="bg-white rounded-3xl shadow-lg p-8 md:p-12 border border-amber-200">
-                    <div className="text-center mb-8">
-                        <div className="inline-flex items-center bg-amber-100 text-amber-800 px-4 py-2 rounded-full mb-4">
-                            <Search className="mr-2 text-amber-600" />
-                            <span>Find Your Standard</span>
-                        </div>
-                        <h2 className="text-3xl font-bold text-amber-900 mb-4 relative after:content-[''] after:absolute  
-after:rounded-lg after:w-64 after:h-1 after:bg-yellow-400 after:left-1/2 after:-translate-x-1/2 after:-bottom-2">
-                            Which ISO Standard is Right for You?
-                        </h2>
-                        <p className="text-amber-800 max-w-2xl mx-auto">
-                            Answer a few questions to get a personalized recommendation for the most relevant ISO standard for your organization.
-                        </p>
+                        </AnimatedWrapper>
+                        <AnimatedWrapper variants={paragraphVariant} transition={{ duration: 0.8, delay: 0.3, ease: easeCurve }}>
+                            <p className="text-amber-800 max-w-2xl mx-auto text-lg pt-4 font-medium">
+                                A structured methodology to ensure comprehensive evaluation and continuous improvement.
+                            </p>
+                        </AnimatedWrapper>
                     </div>
 
-                    <div className="space-y-6">
-                        {/* Question 1: Business Goal */}
-                        <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
-                            <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-amber-500 text-white">
-                                <Lightbulb />
-                            </div>
-                            <div className="flex-grow">
-                                <label htmlFor="goal" className="block text-lg font-medium text-amber-800 mb-2">
-                                    1. What is your primary business goal?
-                                </label>
-                                <select
-                                    id="goal"
-                                    name="goal"
-                                    value={goal}
-                                    onChange={(e) => {
-                                        setGoal(e.target.value);
-                                        setRecommendation(null);
-                                    }}
-                                    className="block w-full rounded-md border-amber-300 shadow-sm p-3 focus:ring-amber-500 focus:border-amber-500 text-amber-800 hover:border-amber-400 transition-colors"
-                                >
-                                    <option value="" disabled>Select a goal</option>
-                                    <option value="quality">Quality Management</option>
-                                    <option value="health">Health & Safety</option>
-                                    <option value="environment">Environmental Impact</option>
-                                    <option value="food">Food Safety</option>
-                                    <option value="security">Information Security</option>
-                                </select>
-                            </div>
-                        </div>
+                    <motion.div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" variants={listContainer} initial="hidden" animate="visible">
+                        {[
+                            { step: 1, title: "Planning Phase", description: "Define scope, objectives, and criteria", icon: <CalendarCheck className="w-6 h-6 text-amber-600" /> },
+                            { step: 2, title: "Preparation", description: "Review documents and prepare checklists", icon: <FileText className="w-6 h-6 text-amber-600" /> },
+                            { step: 3, title: "Opening Meeting", description: "Align expectations with auditees", icon: <Users className="w-6 h-6 text-amber-600" /> },
+                            { step: 4, title: "Execution", description: "Conduct interviews and collect evidence", icon: <Eye className="w-6 h-6 text-amber-600" /> },
+                            { step: 5, title: "Findings Analysis", description: "Identify non-conformities", icon: <AlertCircle className="w-6 h-6 text-amber-600" /> },
+                            { step: 6, title: "Closing Meeting", description: "Present findings and agree on actions", icon: <CheckCircle className="w-6 h-6 text-amber-600" /> },
+                            { step: 7, title: "Reporting", description: "Document comprehensive audit report", icon: <ClipboardList className="w-6 h-6 text-amber-600" /> },
+                            { step: 8, title: "Follow-up", description: "Verify corrective actions are implemented", icon: <RefreshCw className="w-6 h-6 text-amber-600" /> }
+                        ].map((s) => (
+                           <AnimatedWrapper key={s.step} variants={slideInUp} transition={{ duration: 0.7, ease: easeCurve }}>
+                               <motion.div whileHover={cardHover} transition={{ duration: 0.3, ease: 'easeOut' }} className="h-full">
+                                    <div className="bg-amber-100 p-6 rounded-2xl shadow-md border border-amber-200 h-full">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <div className="bg-white p-3 rounded-lg shadow-inner">{s.icon}</div>
+                                            <div className="bg-amber-200 text-amber-800 text-xs font-bold px-3 py-1 rounded-full">STEP {s.step}</div>
+                                        </div>
+                                        <h3 className="font-bold text-lg mb-2 text-amber-900">{s.title}</h3>
+                                        <p className="text-amber-800 text-sm font-medium">{s.description}</p>
+                                    </div>
+                                </motion.div>
+                           </AnimatedWrapper>
+                        ))}
+                    </motion.div>
+                </section>
 
-                        {/* Question 2: Industry */}
-                        <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
-                            <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-amber-500 text-white">
-                                <Factory />
+                {/* Audit Types */}
+                <section className="mb-24">
+                   <div className="text-center mb-12">
+                        <AnimatedWrapper variants={sectionHeaderVariant} transition={{ duration: 0.7, ease: easeCurve }}>
+                            <div className="inline-flex items-center bg-amber-100 text-amber-800 px-4 py-2 rounded-full mb-4 font-semibold text-sm">
+                                <LayoutGrid className="mr-2 text-amber-600 w-5 h-5" />
+                                Audit Variations
                             </div>
-                            <div className="flex-grow">
-                                <label htmlFor="industry" className="block text-lg font-medium text-amber-800 mb-2">
-                                    2. What industry are you in?
-                                </label>
-                                <select
-                                    id="industry"
-                                    name="industry"
-                                    value={industry}
-                                    onChange={(e) => {
-                                        setIndustry(e.target.value);
-                                        setRecommendation(null);
-                                    }}
-                                    className="block w-full rounded-md border-amber-300 shadow-sm p-3 focus:ring-amber-500 focus:border-amber-500 text-amber-800 hover:border-amber-400 transition-colors"
-                                >
-                                    <option value="" disabled>Select an industry</option>
-                                    <option value="manufacturing">Manufacturing</option>
-                                    <option value="healthcare">Healthcare</option>
-                                    <option value="food">Food Services</option>
-                                    <option value="it">Information Technology</option>
-                                    <option value="construction">Construction</option>
-                                    <option value="energy">Energy</option>
-                                    <option value="education">Education</option>
-                                    <option value="financial">Financial Services</option>
-                                </select>
+                             <div className="relative inline-block">
+                                <h2 className="text-3xl md:text-4xl font-bold text-amber-900 mb-2">Types of ISO Audits</h2>
+                                <motion.div 
+                                    className="h-1 bg-yellow-400 rounded-full absolute"
+                                    style={{ left: '50%', translateX: '-50%', bottom: '-0.5rem', originX: 0.5, width: '25%' }}
+                                    variants={underlineVariant}
+                                    transition={{ duration: 0.8, delay: 0.3, ease: easeCurve }}
+                                />
                             </div>
-                        </div>
-
-                        {/* Submit Button */}
-                        <div className="text-center">
-                            <button
-                                onClick={handleFindStandard}
-                                className="inline-flex items-center px-8 py-4 border border-transparent text-base font-medium rounded-xl shadow-sm text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-all hover:shadow-md hover:-translate-y-0.5"
-                            >
-                                Find My Standard
-                                <ArrowRight className="ml-2 w-5 h-5" />
-                            </button>
-                        </div>
+                        </AnimatedWrapper>
+                        <AnimatedWrapper variants={paragraphVariant} transition={{ duration: 0.8, delay: 0.3, ease: easeCurve }}>
+                            <p className="text-amber-800 max-w-2xl mx-auto text-lg pt-4 font-medium">
+                                Different audit approaches tailored to specific organizational needs and requirements.
+                            </p>
+                        </AnimatedWrapper>
                     </div>
 
-                    {/* Recommendation Result */}
-                    {recommendation && (
-                        <div className="mt-12 p-6 bg-amber-100/50 border border-amber-300 rounded-2xl shadow-inner">
-                            <div className="flex items-start mb-4">
-                                <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-amber-500 text-white">
-                                    <BadgeCheck />
-                                </div>
-                                <div className="ml-4">
-                                    <h3 className="text-xl font-bold text-amber-800">Your Recommended Standard:</h3>
-                                    <p className="text-2xl font-extrabold text-amber-700 mt-1">{recommendation.name}</p>
-                                </div>
+                    <motion.div className="grid md:grid-cols-3 gap-8" variants={listContainer} initial="hidden" animate="visible">
+                        {[
+                            { type: "Internal Audits", description: "First-party evaluations conducted by your own organization to assess compliance and identify improvement areas.", icon: <Users className="w-8 h-8 text-amber-600" />, frequency: "6-12 months", color: "border-amber-300" },
+                            { type: "Supplier Audits", description: "Second-party assessments performed by customers on their vendors to ensure quality standards are met.", icon: <FileText className="w-8 h-8 text-amber-600" />, frequency: "As per contract", color: "border-amber-300" },
+                            { type: "Certification Audits", description: "Third-party evaluations by accredited bodies to grant official ISO certification.", icon: <ShieldCheck className="w-8 h-8 text-amber-600" />, frequency: "Every 3 years", color: "border-amber-300" }
+                        ].map((audit, i) => (
+                           <AnimatedWrapper key={i} variants={slideInUp} transition={{ duration: 0.8, ease: easeCurve }}>
+                               <motion.div whileHover={cardHover} transition={{ duration: 0.3, ease: 'easeOut' }} className="h-full">
+                                    <div className={`bg-white p-8 rounded-2xl shadow-lg border-t-4 ${audit.color} h-full`}>
+                                        <div className="bg-amber-100 p-4 rounded-full w-20 h-20 flex items-center justify-center mb-6 mx-auto">
+                                            {audit.icon}
+                                        </div>
+                                        <h3 className="text-xl font-bold text-center mb-4 text-amber-900">{audit.type}</h3>
+                                        <p className="text-amber-800 mb-6 text-center text-base font-medium">{audit.description}</p>
+                                        <div className="text-center bg-amber-100 py-2 px-4 rounded-full w-fit mx-auto">
+                                            <div className="flex items-center justify-center text-sm font-medium text-amber-700">
+                                                <Clock className="w-4 h-4 mr-2" />
+                                                <span>Frequency: <strong>{audit.frequency}</strong></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                           </AnimatedWrapper>
+                        ))}
+                    </motion.div>
+                </section>
+                
+                {/* Industry Frequency */}
+                <section className="bg-gradient-to-br from-amber-800 to-amber-900 rounded-3xl p-8 lg:p-12 text-white">
+                    <div className="text-center mb-12">
+                         <AnimatedWrapper variants={sectionHeaderVariant} transition={{ duration: 0.7, ease: easeCurve }}>
+                            <div className="inline-flex items-center bg-amber-700/30 px-4 py-2 rounded-full mb-4 font-semibold text-sm">
+                                <Clock className="mr-2 w-5 h-5" />
+                                Industry Standards
                             </div>
-                            <p className="text-amber-800 mb-4">{recommendation.reason}</p>
-                            {recommendation.link && (
-                                <a
-                                    href={recommendation.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center text-amber-700 font-semibold hover:underline"
-                                >
-                                    Learn More about this standard
-                                    <ArrowRight className="ml-1 w-4 h-4" />
-                                </a>
-                            )}
-                        </div>
-                    )}
-                </div>
-            </section>
+                             <div className="relative inline-block">
+                                <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">Audit Frequency by Industry</h2>
+                                <motion.div 
+                                    className="h-1 bg-yellow-400 rounded-full absolute"
+                                    style={{ left: '50%', translateX: '-50%', bottom: '-0.5rem', originX: 0.5, width: '25%' }}
+                                    variants={underlineVariant}
+                                    transition={{ duration: 0.8, delay: 0.3, ease: easeCurve }}
+                                />
+                            </div>
+                        </AnimatedWrapper>
+                        <AnimatedWrapper variants={paragraphVariant} transition={{ duration: 0.8, delay: 0.3, ease: easeCurve }}>
+                            <p className="text-amber-200 max-w-2xl mx-auto text-lg pt-4 font-medium">
+                                Recommended audit intervals based on industry risk profiles and regulatory requirements.
+                            </p>
+                        </AnimatedWrapper>
+                    </div>
+
+                    <motion.div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" variants={listContainer} initial="hidden" animate="visible">
+                        {[
+                            { industry: "Manufacturing", frequency: "Bi-annually", risk: "High", icon: <Factory className="w-6 h-6" /> },
+                            { industry: "Healthcare", frequency: "Quarterly", risk: "Critical", icon: <HeartPulse className="w-6 h-6" /> },
+                            { industry: "Food Services", frequency: "Monthly", risk: "Critical", icon: <Utensils className="w-6 h-6" /> },
+                            { industry: "Info Technology", frequency: "Annually", risk: "Medium", icon: <Server className="w-6 h-6" /> },
+                            { industry: "Construction", frequency: "Quarterly", risk: "High", icon: <Truck className="w-6 h-6" /> },
+                            { industry: "Energy", frequency: "Quarterly", risk: "Critical", icon: <Zap className="w-6 h-6" /> },
+                            { industry: "Education", frequency: "Annually", risk: "Medium", icon: <School className="w-6 h-6" /> },
+                            { industry: "Financial Services", frequency: "Semi-annually", risk: "High", icon: <BarChart2 className="w-6 h-6" /> }
+                        ].map((item, i) => (
+                           <AnimatedWrapper key={i} variants={scaleUp} transition={{ duration: 0.7, ease: easeCurve }}>
+                               <motion.div whileHover={cardHover} transition={{ duration: 0.3, ease: 'easeOut' }} className="h-full">
+                                    <div className="bg-amber-700/20 p-6 rounded-xl border border-amber-700/30 h-full transition-colors hover:bg-amber-700/30 hover:border-yellow-400">
+                                        <div className="flex items-center mb-4">
+                                            <div className="bg-amber-700/30 p-3 rounded-lg mr-4">
+                                                {item.icon}
+                                            </div>
+                                            <h3 className="font-bold text-lg text-white">{item.industry}</h3>
+                                        </div>
+                                        <div className="space-y-3 text-sm">
+                                            <div className="flex justify-between items-center">
+                                                <span className="text-amber-200 font-medium">Frequency</span>
+                                                <span className="font-medium text-white">{item.frequency}</span>
+                                            </div>
+                                            <div className="flex justify-between items-center">
+                                                <span className="text-amber-200 font-medium">Risk Level</span>
+                                                <span className={`font-semibold px-2.5 py-1 rounded-full text-xs ${
+                                                    item.risk === "Critical" ? "bg-red-500/20 text-red-300" :
+                                                    item.risk === "High" ? "bg-amber-500/20 text-amber-300" :
+                                                    "bg-green-500/20 text-green-300"
+                                                }`}>
+                                                    {item.risk}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                               </motion.div>
+                           </AnimatedWrapper>
+                        ))}
+                    </motion.div>
+                </section>
+
+            </div>
         </div>
     );
 };
 
 export default ISOAuditGuide;
+

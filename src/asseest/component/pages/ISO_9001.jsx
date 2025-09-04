@@ -1,179 +1,385 @@
-import isoBanner from "../../img/eimcta.png";
-import VideoPlayer from "../utilities/Video";
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+
+// This is a self-contained component with Framer Motion animations.
+// All necessary SVG icons are included inline.
 
 export default function ISO9001Certification() {
+    const introRef = useRef(null);
+    const isIntroInView = useInView(introRef, { once: true, amount: 0.3 });
+
+    const gridHeaderRef = useRef(null);
+    const isGridHeaderInView = useInView(gridHeaderRef, { once: true, amount: 0.5 });
+
+    const gridRef = useRef(null);
+    const isGridInView = useInView(gridRef, { once: true, amount: 0.2 });
+    
+    const videoHeaderRef = useRef(null);
+    const isVideoHeaderInView = useInView(videoHeaderRef, { once: true, amount: 0.5 });
+
+    const videoRef = useRef(null);
+    const isVideoInView = useInView(videoRef, { once: true, amount: 0.3 });
+
+
+    // Animation Variants
+    const transition = { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] };
+
+    const heroVariants = {
+        slideInRight: {
+            hidden: { opacity: 0, x: 80 },
+            visible: { opacity: 1, x: 0, transition },
+        },
+        slideInLeft: {
+            hidden: { opacity: 0, x: -80 },
+            visible: { opacity: 1, x: 0, transition },
+        },
+    };
+
+    const sectionHeaderVariants = {
+        hidden: { opacity: 0, y: 40 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.7, ...transition } },
+    };
+    
+    const underlineVariant = {
+        hidden: { width: "0%" },
+        visible: { width: "25%", transition: { duration: 0.8, delay: 0.3, ...transition } },
+    };
+
+    const paragraphVariant = {
+        hidden: { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0, transition: { ...transition, delay: 0.3 } },
+    };
+
+    const gridContainerVariants = {
+        hidden: { opacity: 1 }, // Parent is always visible
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.15,
+            },
+        },
+    };
+    
+    const cardVariant = {
+        hidden: { opacity: 0, y: 60, scale: 0.98 },
+        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ...transition } },
+    };
+    
+    const videoVariant = {
+        hidden: { opacity: 0, scale: 0.92 },
+        visible: { opacity: 1, scale: 1, transition: { duration: 0.8, ...transition } },
+    };
+
     return (
-        <div className="bg-gradient-to-br from-amber-50 to-amber-100 py-12 px-6 md:px-20 font-[Arial_Narrow]">
-            {/* Top Banner Image */}
-            <div className="max-w-5xl mx-auto mb-10">
-                <img
-                    src={isoBanner}
-                    alt="ISO 9001 Certification"
-                    className="w-full rounded-2xl shadow-lg object-cover h-64 md:h-80"
-                />
+        <div className="bg-gradient-to-br from-amber-50 to-orange-100 py-16 px-4 sm:px-6 lg:px-8 font-sans text-gray-800 overflow-x-hidden">
+            <div className="max-w-7xl mx-auto">
+
+                {/* --- Header Section --- */}
+                <header className="text-center mb-16">
+                    <motion.h1
+                        initial="hidden"
+                        animate="visible"
+                        variants={heroVariants.slideInRight}
+                        className="text-4xl md:text-5xl font-extrabold text-amber-900 tracking-tight mb-4 relative pb-4"
+                    >
+                        ISO 9001 Certification
+                        {/* NOTE: A motion.div is used for the animated underline, a powerful pattern in Framer Motion for dynamic "pseudo-elements". */}
+                        <motion.div
+                            initial="hidden"
+                            animate="visible"
+                            variants={{
+                                hidden: { width: "0%" },
+                                visible: { width: "25%", transition: { duration: 0.8, delay: 0.8, ease: [0.25, 0.46, 0.45, 0.94] } }
+                            }}
+                            style={{ originX: 0.5 }}
+                            className="absolute bottom-0 left-1/2 -translate-x-1/2 h-1.5 bg-amber-500 rounded-full"
+                        />
+                    </motion.h1>
+                    <motion.p
+                        initial="hidden"
+                        animate="visible"
+                        variants={heroVariants.slideInLeft}
+                        className="text-lg text-amber-800 max-w-3xl mx-auto leading-relaxed"
+                    >
+                        Elevating Your Business Through Excellence in Quality Management
+                    </motion.p>
+                </header>
+
+                {/* --- Top Banner Image --- */}
+                <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8, delay: 0.4 }}
+                    className="max-w-5xl mx-auto mb-20 shadow-2xl rounded-2xl overflow-hidden">
+                    <img
+                        src="https://placehold.co/1200x500/FFF7ED/B45309?text=Excellence+in+Quality+Management"
+                        alt="A banner representing ISO 9001 quality standards and certification"
+                        className="w-full h-auto object-cover"
+                    />
+                </motion.div>
+                
+                {/* --- Introduction Text --- */}
+                <motion.div
+                    ref={introRef}
+                    initial="hidden"
+                    animate={isIntroInView ? "visible" : "hidden"}
+                    variants={paragraphVariant}
+                    className="max-w-4xl mx-auto text-center mb-20"
+                >
+                     <p className="text-xl text-gray-700 leading-relaxed">
+                        ISO 9001 is the globally recognized standard for Quality Management Systems (QMS). It provides a framework designed to help businesses consistently deliver high-quality products and services, enhance operational efficiency, and boost customer satisfaction.
+                    </p>
+                </motion.div>
+                
+                {/* --- Grid Header --- */}
+                <div ref={gridHeaderRef} className="text-center mb-12">
+                     <motion.h2 
+                        initial="hidden"
+                        animate={isGridHeaderInView ? "visible" : "hidden"}
+                        variants={sectionHeaderVariants}
+                        className="text-3xl md:text-4xl font-bold text-amber-900 mb-4 relative pb-4"
+                    >
+                        A Framework for Success
+                        <motion.div
+                            initial="hidden"
+                            animate={isGridHeaderInView ? "visible" : "hidden"}
+                            variants={underlineVariant}
+                            style={{ originX: 0.5 }}
+                            className="absolute bottom-0 left-1/2 -translate-x-1/2 h-1 bg-amber-500 rounded-full"
+                        />
+                    </motion.h2>
+                </div>
+
+                {/* --- Content Grid --- */}
+                <motion.div
+                    ref={gridRef}
+                    className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+                    initial="hidden"
+                    animate={isGridInView ? "visible" : "hidden"}
+                    variants={gridContainerVariants}
+                >
+
+                    {/* Card: About ISO 9001 */}
+                    <InfoCard
+                        icon={<InfoIcon />}
+                        title="About ISO 9001"
+                        description="ISO 9001 is the most widely adopted quality management standard worldwide. It outlines the requirements for a QMS, helping organizations establish consistent processes that meet customer needs. This standard is flexible and applicable to any industry, making it essential for businesses focused on delivering quality while improving operational effectiveness."
+                        variants={cardVariant}
+                    />
+
+                    {/* Card: Benefits */}
+                    <InfoCard
+                        icon={<BenefitsIcon />}
+                        title="Benefits of ISO 9001:2015"
+                        content={
+                            <ul className="space-y-3">
+                                <BenefitItem text="Improved Customer Satisfaction" detail="Focus on customer needs for higher satisfaction and retention." />
+                                <BenefitItem text="Enhanced Operational Efficiency" detail="Reduce waste, streamline processes, and save costs." />
+                                <BenefitItem text="Better Risk Management" detail="Identify risks early and take preventive actions." />
+                                <BenefitItem text="Global Market Access" detail="Gain credibility and access international markets." />
+                            </ul>
+                        }
+                        variants={cardVariant}
+                    />
+
+                    {/* Card: Who Can Apply? */}
+                    <InfoCard
+                        icon={<UsersIcon />}
+                        title="Who Can Apply?"
+                        content={
+                            <>
+                                <p className="text-gray-700 leading-relaxed mb-4">
+                                    Any organization, regardless of size or industry, can apply. It is especially beneficial for:
+                                </p>
+                                <div className="flex flex-wrap gap-2">
+                                    <Tag label="Manufacturing" />
+                                    <Tag label="Healthcare" />
+                                    <Tag label="IT Services" />
+                                    <Tag label="Education" />
+                                    <Tag label="Construction" />
+                                    <Tag label="Government" />
+                                </div>
+                            </>
+                        }
+                         variants={cardVariant}
+                    />
+                    
+                    {/* Card: How to Apply? */}
+                    <InfoCard
+                        icon={<ClipboardIcon />}
+                        title="How Can You Apply?"
+                        content={
+                           <ol className="space-y-4">
+                                <StepItem number="1" text="Conduct a Gap Analysis to assess current processes." />
+                                <StepItem number="2" text="Process Improvement and Documentation." />
+                                <StepItem number="3" text="Employee Training on quality standards." />
+                                <StepItem number="4" text="Internal Audits to verify compliance." />
+                                <StepItem number="5" text="Certification Audit by an accredited body." />
+                            </ol>
+                        }
+                         variants={cardVariant}
+                    />
+
+                    {/* Card: Why Choose Us? */}
+                    <InfoCard
+                        icon={<SparklesIcon />}
+                        title="Why Choose Everest Consultrain?"
+                        content={
+                            <>
+                                <p className="text-gray-700 leading-relaxed mb-4">
+                                    Navigating ISO certification can be complex. We offer expert consultancy and training to equip your team with the skills needed to implement and maintain an effective QMS.
+                                </p>
+                                <div className="bg-amber-100/60 p-4 rounded-lg border-l-4 border-amber-500">
+                                    <p className="text-sm text-amber-900 italic font-medium">
+                                        "Our expertise ensures your certification journey is smooth, efficient, and tailored to your business needs."
+                                    </p>
+                                </div>
+                            </>
+                        }
+                         variants={cardVariant}
+                    />
+
+                    {/* Card: Continuous Improvement */}
+                    <InfoCard
+                        icon={<RefreshIcon />}
+                        title="Continuous Improvement"
+                        content={
+                            <>
+                                <p className="text-gray-700 leading-relaxed mb-4">
+                                    Achieving certification is just the beginning. The standard requires ongoing improvement through regular audits and updates to maintain excellence and drive growth.
+                                </p>
+                                <div className="mt-4 p-3 bg-amber-100/60 rounded-lg">
+                                    <p className="text-sm text-amber-900">
+                                        <strong>Key to success:</strong> Regular internal audits, management reviews, and continual improvement cycles.
+                                    </p>
+                                </div>
+                            </>
+                        }
+                         variants={cardVariant}
+                    />
+                </motion.div>
+                
+                {/* --- Video Section --- */}
+                <div className="max-w-4xl mx-auto mt-24 text-center">
+                    <div ref={videoHeaderRef}>
+                         <motion.h2 
+                            initial="hidden"
+                            animate={isVideoHeaderInView ? "visible" : "hidden"}
+                            variants={sectionHeaderVariants}
+                            className="text-3xl font-bold text-amber-900 mb-4 relative pb-4">
+                            Learn More in 2 Minutes
+                             <motion.div
+                                initial="hidden"
+                                animate={isVideoHeaderInView ? "visible" : "hidden"}
+                                variants={underlineVariant}
+                                style={{ originX: 0.5 }}
+                                className="absolute bottom-0 left-1/2 -translate-x-1/2 h-1 bg-amber-500 rounded-full"
+                            />
+                        </motion.h2>
+                         <motion.p 
+                            initial="hidden"
+                            animate={isVideoHeaderInView ? "visible" : "hidden"}
+                            variants={paragraphVariant}
+                            className="text-lg text-amber-800 mb-8">
+                            Watch this short video for a quick overview of what ISO 9001 is all about.
+                         </motion.p>
+                    </div>
+                     <motion.div 
+                        ref={videoRef}
+                        initial="hidden"
+                        animate={isVideoInView ? "visible" : "hidden"}
+                        variants={videoVariant}
+                        className="aspect-w-16 aspect-h-9 overflow-hidden rounded-2xl shadow-xl border-4 border-white">
+                        <iframe 
+                            className="w-full h-full"
+                            style={{aspectRatio: '16 / 9'}}
+                            src="https://www.youtube.com/embed/kiDe9QhUpDM" 
+                            title="YouTube video player: What is ISO 9001?" 
+                            frameBorder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowFullScreen
+                        ></iframe>
+                     </motion.div>
+                </div>
+
             </div>
-
-            {/* Main Heading */}
-            <div className="max-w-3xl mx-auto text-center mb-12">
-                <h1 className="text-3xl md:text-4xl font-bold text-amber-900 mb-4 relative after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:w-20 after:h-1 after:bg-yellow-400 after:rounded-full">
-                    ISO 9001 Certification: Elevating Your Business Through Quality Management Excellence
-                </h1>
-                <p className="text-lg text-amber-800 leading-relaxed mt-6">
-                    ISO 9001 is the globally recognized standard for Quality Management Systems (QMS),
-                    designed to help businesses consistently deliver high-quality products or services,
-                    enhance operational efficiency, and boost customer satisfaction.
-                </p>
-            </div>
-
-            {/* Content Grid */}
-            <div className="grid gap-8 md:grid-cols-2 max-w-6xl mx-auto">
-                {/* About Section */}
-                <div className="bg-white rounded-2xl p-6 shadow-lg border border-yellow-300 transition-shadow duration-300 hover:shadow-xl">
-                    <div className="flex items-center mb-4">
-                        <div className="bg-yellow-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <h2 className="text-xl font-semibold text-amber-900">About ISO 9001 Certification</h2>
-                    </div>
-                    <p className="text-gray-700 leading-relaxed">
-                        ISO 9001 is the most widely adopted quality management standard worldwide. It outlines
-                        the requirements for a quality management system, helping organizations establish consistent
-                        processes that meet customer needs. This standard is flexible and applicable to any industry,
-                        making it essential for businesses focused on delivering high-quality products and services
-                        while improving operational effectiveness.
-                    </p>
-                </div>
-
-                {/* Benefits Section */}
-                <div className="bg-white rounded-2xl p-6 shadow-lg border border-yellow-300 transition-shadow duration-300 hover:shadow-xl">
-                    <div className="flex items-center mb-4">
-                        <div className="bg-yellow-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                            </svg>
-                        </div>
-                        <h2 className="text-xl font-semibold text-amber-900">Benefits of ISO 9001:2015 Certification</h2>
-                    </div>
-                    <ul className="text-gray-700 space-y-3">
-                        <li className="flex items-start">
-                            <span className="bg-yellow-400 text-white rounded-full h-6 w-6 flex items-center justify-center mr-3 flex-shrink-0">✓</span>
-                            <span><strong className="text-amber-900">Improved Customer Satisfaction:</strong> Focus on customer needs for higher satisfaction and retention.</span>
-                        </li>
-                        <li className="flex items-start">
-                            <span className="bg-yellow-400 text-white rounded-full h-6 w-6 flex items-center justify-center mr-3 flex-shrink-0">✓</span>
-                            <span><strong className="text-amber-900">Enhanced Operational Efficiency:</strong> Reduce waste, streamline processes, and save costs.</span>
-                        </li>
-                        <li className="flex items-start">
-                            <span className="bg-yellow-400 text-white rounded-full h-6 w-6 flex items-center justify-center mr-3 flex-shrink-0">✓</span>
-                            <span><strong className="text-amber-900">Better Risk Management:</strong> Identify risks early and take preventive actions.</span>
-                        </li>
-                        <li className="flex items-start">
-                            <span className="bg-yellow-400 text-white rounded-full h-6 w-6 flex items-center justify-center mr-3 flex-shrink-0">✓</span>
-                            <span><strong className="text-amber-900">Global Market Access:</strong> Gain credibility and access to international markets.</span>
-                        </li>
-                    </ul>
-                </div>
-
-                {/* Who Can Apply Section */}
-                <div className="bg-white rounded-2xl p-6 shadow-lg border border-yellow-300 transition-shadow duration-300 hover:shadow-xl">
-                    <div className="flex items-center mb-4">
-                        <div className="bg-yellow-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                        </div>
-                        <h2 className="text-xl font-semibold text-amber-900">Who Can Apply for ISO 9001:2015 Certification?</h2>
-                    </div>
-                    <p className="text-gray-700 leading-relaxed">
-                        Any organization, regardless of size or industry, can apply. It is especially beneficial for:
-                    </p>
-                    <div className="grid grid-cols-2 gap-2 mt-3">
-                        <span className="bg-amber-100 text-amber-900 px-3 py-1 rounded-full text-sm text-center">Manufacturing</span>
-                        <span className="bg-amber-100 text-amber-900 px-3 py-1 rounded-full text-sm text-center">Healthcare</span>
-                        <span className="bg-amber-100 text-amber-900 px-3 py-1 rounded-full text-sm text-center">IT Services</span>
-                        <span className="bg-amber-100 text-amber-900 px-3 py-1 rounded-full text-sm text-center">Education</span>
-                    </div>
-                </div>
-
-                {/* How to Apply Section */}
-                <div className="bg-white rounded-2xl p-6 shadow-lg border border-yellow-300 transition-shadow duration-300 hover:shadow-xl">
-                    <div className="flex items-center mb-4">
-                        <div className="bg-yellow-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                            </svg>
-                        </div>
-                        <h2 className="text-xl font-semibold text-amber-900">How Can You Apply?</h2>
-                    </div>
-                    <ol className="text-gray-700 space-y-4">
-                        <li className="flex">
-                            <span className="bg-amber-900 text-white rounded-full h-7 w-7 flex items-center justify-center mr-3 flex-shrink-0">1</span>
-                            <span className="pt-0.5">Conduct a Gap Analysis to assess current processes</span>
-                        </li>
-                        <li className="flex">
-                            <span className="bg-amber-900 text-white rounded-full h-7 w-7 flex items-center justify-center mr-3 flex-shrink-0">2</span>
-                            <span className="pt-0.5">Process Improvement and Documentation</span>
-                        </li>
-                        <li className="flex">
-                            <span className="bg-amber-900 text-white rounded-full h-7 w-7 flex items-center justify-center mr-3 flex-shrink-0">3</span>
-                            <span className="pt-0.5">Employee Training on quality standards</span>
-                        </li>
-                        <li className="flex">
-                            <span className="bg-amber-900 text-white rounded-full h-7 w-7 flex items-center justify-center mr-3 flex-shrink-0">4</span>
-                            <span className="pt-0.5">Internal Audits to verify compliance</span>
-                        </li>
-                        <li className="flex">
-                            <span className="bg-amber-900 text-white rounded-full h-7 w-7 flex items-center justify-center mr-3 flex-shrink-0">5</span>
-                            <span className="pt-0.5">Certification Audit by accredited body</span>
-                        </li>
-                    </ol>
-                </div>
-
-                {/* Why Choose Everest Consultrain */}
-                <div className="bg-white rounded-2xl p-6 shadow-lg border border-yellow-300 transition-shadow duration-300 hover:shadow-xl">
-                    <div className="flex items-center mb-4">
-                        <div className="bg-yellow-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
-                        </div>
-                        <h2 className="text-xl font-semibold text-amber-900">Why Choose Everest Consultrain?</h2>
-                    </div>
-                    <p className="text-gray-700 leading-relaxed mb-4">
-                        Navigating ISO certification can be complex, but Everest Consultrain offers expert consultancy and training services.
-                        Our programs equip your team with the knowledge and skills needed to implement and maintain an effective quality management system.
-                    </p>
-                    <div className="bg-amber-100/50 p-4 rounded-lg border-l-4 border-yellow-400">
-                        <p className="text-sm text-amber-900 italic">
-                            "Our expertise ensures your certification journey is smooth, efficient, and tailored to your specific business needs."
-                        </p>
-                    </div>
-                </div>
-
-                {/* Continuous Improvement */}
-                <div className="bg-white rounded-2xl p-6 shadow-lg border border-yellow-300 transition-shadow duration-300 hover:shadow-xl">
-                    <div className="flex items-center mb-4">
-                        <div className="bg-yellow-100 p-2 rounded-full mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                            </svg>
-                        </div>
-                        <h2 className="text-xl font-semibold text-amber-900">Continuous Improvement with ISO 9001:2015</h2>
-                    </div>
-                    <p className="text-gray-700 leading-relaxed">
-                        Achieving certification is only the beginning. The standard requires ongoing improvement through regular audits and updates.
-                        Everest Consultrain helps your organization not only achieve but also maintain ISO certification, opening opportunities for growth and excellence.
-                    </p>
-                    <div className="mt-4 p-3 bg-amber-100/50 rounded-lg">
-                        <p className="text-sm text-amber-900">
-                            <strong>Key to success:</strong> Regular internal audits, management reviews, and continual improvement cycles
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <VideoPlayer title="" src="" link=""/>
         </div>
     );
 }
+
+// --- Reusable Sub-components ---
+
+const InfoCard = ({ icon, title, description, content, variants }) => (
+    <motion.div 
+        variants={variants}
+        whileHover={{ y: -8, rotateX: "2deg", rotateY: "-1deg" }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200/50 h-full flex flex-col"
+    >
+        <div className="flex items-center mb-4">
+            <div className="bg-amber-100 p-3 rounded-full mr-4">
+                {icon}
+            </div>
+            <h2 className="text-xl font-bold text-amber-900">{title}</h2>
+        </div>
+        <div className="flex flex-col flex-grow">
+            {description && <p className="text-gray-700 leading-relaxed flex-grow">{description}</p>}
+            {content}
+        </div>
+    </motion.div>
+);
+
+const BenefitItem = ({ text, detail }) => (
+    <li className="flex items-start">
+        <span className="bg-green-500 text-white rounded-full h-6 w-6 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5 font-bold">✓</span>
+        <span>
+            <strong className="text-amber-900">{text}:</strong> {detail}
+        </span>
+    </li>
+);
+
+const StepItem = ({ number, text }) => (
+    <li className="flex items-center">
+        <span className="bg-amber-800 text-white rounded-full h-8 w-8 flex items-center justify-center mr-4 flex-shrink-0 font-bold text-md">{number}</span>
+        <span className="text-gray-700">{text}</span>
+    </li>
+);
+
+const Tag = ({ label }) => (
+    <span className="bg-amber-100 text-amber-900 px-3 py-1 rounded-full text-sm font-semibold">{label}</span>
+);
+
+// --- SVG Icons (Unchanged) ---
+
+const InfoIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+);
+const BenefitsIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+    </svg>
+);
+const UsersIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+    </svg>
+);
+const ClipboardIcon = () => (
+     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+    </svg>
+);
+const SparklesIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.293 2.293a1 1 0 010 1.414L10 16l-4-4 6.293-6.293a1 1 0 011.414 0z" />
+    </svg>
+);
+const RefreshIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+    </svg>
+);
+
+

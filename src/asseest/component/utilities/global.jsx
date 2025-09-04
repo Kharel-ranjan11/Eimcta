@@ -1,11 +1,11 @@
-import { FaAward, FaShieldAlt, FaUtensils, FaGraduationCap } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Award, ShieldCheck, Utensils, GraduationCap } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const AboutCard = () => {
   const services = [
     {
       id: 1,
-      icon: <FaAward className="text-4xl text-[#5a2a2a]" />,
+      icon: <Award className="text-2xl text-amber-600" />,
       title: "ISO 9001:2015",
       subtitle: "Quality Management System",
       path: "service/iso/9001",
@@ -14,7 +14,7 @@ const AboutCard = () => {
     },
     {
       id: 2,
-      icon: <FaShieldAlt className="text-4xl text-[#5a2a2a]" />,
+      icon: <ShieldCheck className="text-2xl text-amber-600" />,
       title: "ISO 45001:2018",
       subtitle: "Occupational Health, Safety & Environment",
       path: "service/iso/45001",
@@ -23,7 +23,7 @@ const AboutCard = () => {
     },
     {
       id: 3,
-      icon: <FaUtensils className="text-4xl text-[#5a2a2a]" />,
+      icon: <Utensils className="text-2xl text-amber-600" />,
       title: "ISO 22000 & HACCP",
       subtitle: "Food Safety Standard",
       path: "service/iso/2200",
@@ -32,7 +32,7 @@ const AboutCard = () => {
     },
     {
       id: 4,
-      icon: <FaGraduationCap className="text-4xl text-[#5a2a2a]" />,
+      icon: <GraduationCap className="text-2xl text-amber-600" />,
       title: "ISO 21001:2018",
       subtitle: "Educational Organization Management System",
       path: "service/iso/2100",
@@ -41,48 +41,94 @@ const AboutCard = () => {
     }
   ];
 
+  // Variants for the container to orchestrate animations of children
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2, // Each child will animate 0.2s after the previous one
+      },
+    },
+  };
+
+  // Variants for each card animation
+  const cardVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 120,
+      },
+    },
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-amber-100 py-12 px-4 sm:px-6 lg:px-8 font-['Arial_Narrow'] overflow-x-hidden">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-[#5a2a2a] mb-4">ISO Consultancy Services</h1>
-          <p className="text-xl text-[#333333] max-w-3xl mx-auto">
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <h1 className="text-4xl font-bold text-amber-900 mb-4 relative inline-block">
+            ISO Consultancy Services
+            <motion.div 
+              className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-2/3 h-1 bg-yellow-400 rounded-lg"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.7, ease: "easeOut", delay: 0.4 }}
+              style={{ transformOrigin: 'center' }}
+            />
+          </h1>
+          <p className="text-xl text-amber-800 font-normal max-w-3xl mx-auto mt-6">
             We are one of the leading global providers of accredited ISO certification. We offer a broad portfolio of services within management system ISO certification and related services.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           {services.map((service) => (
-            <Link to={service.path}>
-              <div key={service.id} className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105">
-                <div className="h-48 overflow-hidden">
-                  <img
-                    src={service.image}
-                    alt={service.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center mb-4">
-                    {service.icon}
-                    <h3 className="ml-3 text-xl font-semibold text-[#5a2a2a]">{service.title}</h3>
+            <motion.div
+              key={service.id}
+              variants={cardVariants}
+              whileHover={{ scale: 1.05, y: -5 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+              className="h-full"
+            >
+              <a href={service.path} className="h-full block" onClick={(e) => e.preventDefault()}>
+                <div className="bg-white rounded-lg shadow-lg overflow-hidden transition-shadow duration-300 hover:shadow-xl border border-yellow-300 h-full flex flex-col">
+                  <div className="h-48 overflow-hidden relative flex-shrink-0">
+                    <img
+                      src={service.image}
+                      alt={service.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute top-4 right-4 w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center shadow-md">
+                      {service.icon}
+                    </div>
                   </div>
-                  <h4 className="text-lg font-medium text-[#5f7eb5] mb-2">{service.subtitle}</h4>
-                  <p className="text-[#333333]">{service.description}</p>
+                  <div className="p-6 flex flex-col flex-grow">
+                    <h3 className="text-xl font-semibold text-amber-900 mb-2">{service.title}</h3>
+                    <h4 className="text-lg font-medium text-amber-800 mb-3">{service.subtitle}</h4>
+                    <p className="text-gray-700 bg-amber-100/50 p-3 rounded-lg flex-grow">{service.description}</p>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </a>
+            </motion.div>
           ))}
-        </div>
-
-        <div className="mt-16 text-center">
-          <button className="bg-[#5a2a2a] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#4a2323] transition-colors duration-300">
-            Contact Us for Certification
-          </button>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
 };
 
 export default AboutCard;
+

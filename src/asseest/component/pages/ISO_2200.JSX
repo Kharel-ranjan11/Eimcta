@@ -1,129 +1,290 @@
 import React from 'react';
-import VideoPlayer from '../utilities/Video';
+import { motion } from 'framer-motion';
 
-// Simple icons as React components for visual enhancement
-const IconCheck = () => (
-  <div className="rounded-full bg-amber-100 p-1 mr-3 flex-shrink-0">
-    <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-    </svg>
-  </div>
-);
-
-const IconArrow = () => (
-  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-  </svg>
-);
-
-const Iso_2200 = () => {
-  // --- Data for sections to keep the JSX clean ---
-  const benefits = [
-    { title: 'Enhanced Food Safety', description: 'Implements a systematic approach to manage food safety risks, ensuring products meet the highest standards.' },
-    { title: 'Compliance with Regulations', description: 'Helps you comply with international food safety regulations and local laws, minimizing legal risks.' },
-    { title: 'Improved Consumer Trust', description: 'Demonstrates your commitment to quality, enhancing your reputation and building long-term customer trust.' },
-    { title: 'Reduction in Risks', description: 'Reduces the risk of foodborne illnesses and contamination, leading to fewer product recalls and less waste.' },
-    { title: 'Increased Market Opportunities', description: 'Gain access to new markets and business opportunities, as many large retailers require certification.' },
-    { title: 'Streamlined Processes', description: 'Promotes a structured approach to management, helping you optimize processes and improve efficiency.' },
-  ];
-
-  const applicationSteps = [
-    { title: 'Conduct a Gap Analysis', description: 'Assess your current food safety practices to identify areas for improvement against ISO 22000 requirements.' },
-    { title: 'Develop a Food Safety Policy', description: 'Establish and communicate a clear policy that outlines your organization’s commitment to food safety.' },
-    { title: 'Implement HACCP Principles', description: 'Integrate HACCP to identify hazards, establish critical control points, and implement controls.' },
-    { title: 'Train Employees', description: 'Ensure all employees understand their roles in maintaining food safety and compliance with the standard.' },
-    { title: 'Conduct Internal Audits', description: 'Perform regular internal audits to evaluate the effectiveness of your FSMS and correct non-conformities.' },
-    { title: 'Certification Audit', description: 'Engage an accredited body to conduct the final audit. Upon compliance, you will receive certification.' },
-  ];
-
+// A simple reusable Image component
+const Image = ({ src, alt }) => {
   return (
-    <main style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }} className="bg-gradient-to-br from-amber-50 to-amber-100 text-amber-900">
-      {/* 1. Hero Section */}
-      <header className="relative bg-gradient-to-r from-amber-700 to-amber-800 text-white py-16 sm:py-20 px-4 text-center">
-        <div className="absolute inset-0 bg-black/30"></div>
-        <div className="max-w-4xl mx-auto relative z-10">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-            ISO 22000 Certification
-          </h1>
-          <p className="mt-4 text-lg text-amber-200">
-            A Comprehensive Food Safety Management System (FSMS) with HACCP
-          </p>
-        </div>
-      </header>
-
-      <div className="max-w-5xl mx-auto p-6 md:p-10 space-y-16">
-        {/* 2. About ISO 22000 Section */}
-        <section aria-labelledby="about-iso" className="hover:shadow-lg transition-shadow duration-300 p-6 rounded-lg">
-          <h2 id="about-iso" className="text-3xl font-bold text-amber-900 mb-4 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-1 after:w-16 after:bg-amber-400 after:rounded-full">
-            About ISO 22000 Certification
-          </h2>
-          <div className="space-y-4 text-lg text-amber-800 leading-relaxed">
-            <p>
-              As consumer awareness and regulatory demands increase, ensuring food safety has become more critical than ever. Implementing <strong>ISO 22000 Certification</strong> demonstrates your organization’s commitment to delivering safe, high-quality food products. It also helps you meet global food safety regulations and maintain trust with customers and stakeholders.
-            </p>
-            <p>
-              ISO 22000 integrates the principles of <strong>HACCP (Hazard Analysis and Critical Control Points)</strong>, a risk management system that identifies, evaluates, and controls hazards related to food safety. By combining ISO 22000 and HACCP, your organization can establish a robust FSMS that minimizes risks and ensures safe food handling at all stages.
-            </p>
-          </div>
-        </section>
-
-        {/* 3. Key Benefits Section */}
-        <section aria-labelledby="benefits-iso" className="hover:shadow-lg transition-shadow duration-300 p-6 rounded-lg">
-          <h2 id="benefits-iso" className="text-3xl font-bold text-amber-900 mb-8 text-center relative after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:h-1 after:w-16 after:bg-amber-400 after:rounded-full">
-            Key Benefits of ISO 22000 Certification
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {benefits.map((benefit, index) => (
-              <div key={index} className="bg-white p-6 rounded-lg shadow-md border border-amber-200 transform hover:-translate-y-2 transition-all duration-300 hover:shadow-xl">
-                <div className="flex items-center mb-3">
-                  <div className="rounded-full bg-amber-100 p-2 mr-3 flex-shrink-0">
-                    <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                  </div>
-                  <h3 className="font-bold text-xl text-amber-900">{benefit.title}</h3>
-                </div>
-                <p className="text-amber-800">{benefit.description}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 4. How to Apply Section */}
-        <section aria-labelledby="apply-iso" className="hover:shadow-lg transition-shadow duration-300 p-6 rounded-lg">
-          <h2 id="apply-iso" className="text-3xl font-bold text-amber-900 mb-8 text-center relative after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:h-1 after:w-16 after:bg-amber-400 after:rounded-full">
-            How to Apply for ISO 22000 Certification
-          </h2>
-          <ol className="space-y-6">
-            {applicationSteps.map((step, index) => (
-              <li key={index} className="flex items-start hover:bg-amber-50/50 p-3 rounded-lg transition-colors duration-300">
-                <div className="flex-shrink-0 bg-amber-900 text-amber-100 font-bold rounded-full w-10 h-10 flex items-center justify-center text-lg">
-                  {index + 1}
-                </div>
-                <div className="ml-4">
-                  <h3 className="font-bold text-xl text-amber-900">{step.title}</h3>
-                  <p className="mt-1 text-amber-800">{step.description}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </section>
-
-        {/* 5. Call to Action (CTA) Section */}
-      
-        {/* 6. Conclusion */}
-        <section aria-labelledby="conclusion-iso" className="hover:shadow-lg transition-shadow duration-300 p-6 rounded-lg bg-amber-100/50">
-          <h2 id="conclusion-iso" className="text-2xl font-bold text-amber-900 mb-4 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-1 after:w-16 after:bg-amber-400 after:rounded-full">
-            A Commitment to Global Food Safety
-          </h2>
-          <p className="text-lg text-amber-800 leading-relaxed">
-            Achieving <strong>ISO 22000 Certification</strong> is crucial for businesses that want to ensure the safety of their food products and meet global regulatory requirements. For additional information, you can visit the official <a href="https://www.iso.org" target="_blank" rel="noopener noreferrer" className="text-amber-600 font-semibold hover:underline">ISO website</a> to learn more about global food safety standards.
-          </p>
-        </section>
-      </div>
-       <VideoPlayer title="" src="" link=""/>
-    </main>
+    <motion.img 
+      src={src} 
+      alt={alt} 
+      className="w-full h-auto object-cover rounded-lg shadow-md" 
+      onError={(e) => {
+          e.target.onerror = null; 
+          e.target.src='https://placehold.co/1024x400/fde68a/78350f?text=ISO+22000';
+      }}
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.8 }}
+    />
   );
 };
 
-export default Iso_2200;
+// A component to embed a YouTube video player
+const VideoPlayer = ({ src, title }) => {
+  // Convert YouTube watch URL to an embeddable URL
+  const getEmbedUrl = (url) => {
+    try {
+      const urlObj = new URL(url);
+      const videoId = urlObj.searchParams.get("v");
+      if (videoId) {
+        return `https://www.youtube.com/embed/${videoId}`;
+      }
+      // Handle youtu.be links
+      const pathSegments = urlObj.pathname.split('/');
+      if (pathSegments.length > 1 && pathSegments[1]) {
+        return `https://www.youtube.com/embed/${pathSegments[1]}`;
+      }
+    } catch (error) {
+      console.error("Invalid video URL:", error);
+      return "";
+    }
+    return url;
+  };
+
+  const embedUrl = getEmbedUrl(src);
+
+  const slideInUp = {
+      hidden: { y: 60, opacity: 0 },
+      visible: { y: 0, opacity: 1, transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] } }
+  };
+
+  return (
+    <motion.div 
+        className="max-w-4xl mx-auto my-10"
+        variants={slideInUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+    >
+        <div className="aspect-w-16 aspect-h-9 relative" style={{ paddingBottom: '56.25%' }}>
+            <iframe
+                className="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg"
+                src={embedUrl}
+                title={title || "YouTube video player"}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+            ></iframe>
+        </div>
+    </motion.div>
+  );
+};
+
+
+const ISO22000Certification = () => {
+
+  // Animation Variants based on instructions
+  const slideIn = (direction, delay = 0) => ({
+    hidden: {
+      x: direction === 'left' ? -80 : direction === 'right' ? 80 : 0,
+      y: direction === 'up' ? 60 : 0,
+      opacity: 0,
+    },
+    visible: {
+      x: 0,
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.8,
+        delay,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      },
+    },
+  });
+
+  const sectionHeaderVariant = {
+      hidden: { y: 40, opacity: 0 },
+      visible: { y: 0, opacity: 1, transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] } }
+  };
+  
+  const underlineVariant = (width = '50%') => ({
+      hidden: { width: '0%' },
+      visible: { width, transition: { duration: 0.8, delay: 0.3, ease: 'easeInOut' } }
+  });
+
+  const cardHover = {
+      y: -8,
+      rotateX: 2,
+      rotateY: -1,
+      transition: { duration: 0.3, ease: 'easeOut' },
+  };
+
+  const AnimatedHeader = ({ title, width }) => (
+    <motion.div 
+      className="relative inline-block mb-4"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.5 }}
+    >
+        <motion.h2 variants={sectionHeaderVariant} className="text-3xl font-bold text-amber-900 pb-2">
+            {title}
+        </motion.h2>
+        <motion.div 
+            variants={underlineVariant(width)} 
+            className="absolute bottom-[-0.5rem] left-1/2 -translate-x-1/2 h-1 bg-yellow-400"
+        />
+    </motion.div>
+  );
+
+  return (
+    <div className="bg-gradient-to-br from-amber-50 to-amber-100 font-sans min-h-screen p-4 sm:p-6">
+      <div className="max-w-6xl mx-auto">
+        
+        <div className="max-w-5xl mx-auto mb-10">
+          <Image
+            src="https://images.unsplash.com/photo-1579047205734-d3c631a4e521?q=80&w=2070&auto=format&fit=crop"
+            alt="Food safety and quality control"
+          />
+        </div>
+
+        <div className="mb-10 text-center sm:text-left">
+          <motion.h1 
+            className="text-4xl md:text-5xl font-bold text-amber-900 relative inline-block pb-2 mb-4"
+            variants={slideIn('right')}
+            initial="hidden"
+            animate="visible"
+          >
+            ISO 22000 Certification
+            <motion.span 
+              className="absolute left-1/2 -translate-x-1/2 bottom-0 h-1 bg-yellow-400 rounded-lg"
+              initial={{ width: "0%" }}
+              animate={{ width: "25%" }}
+              transition={{ duration: 0.8, delay: 0.5, ease: 'easeInOut' }}
+            />
+          </motion.h1>
+          <motion.p 
+            className="text-amber-800 text-lg"
+            variants={slideIn('left')}
+            initial="hidden"
+            animate="visible"
+          >
+            Food Safety Management System: ISO 22000 & HACCP
+          </motion.p>
+        </div>
+
+        <motion.div 
+            className="bg-white border border-yellow-300 rounded-lg shadow-md p-6 mb-8 hover:shadow-lg transition-shadow duration-300"
+            variants={slideIn('up')}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+        >
+          <p className="text-gray-700 leading-relaxed">
+            In today's globalized world, food safety is a top priority for businesses involved in food production, processing, packaging, and distribution. ISO 22000 is an internationally recognized standard that sets out the requirements for a comprehensive Food Safety Management System (FSMS), helping organizations ensure food safety across the entire supply chain. Together with HACCP (Hazard Analysis and Critical Control Points), ISO 22000 Certification ensures that food products are safe for consumption and meet regulatory and customer expectations.
+          </p>
+        </motion.div>
+
+        <div className="mb-8">
+          <AnimatedHeader title="About ISO 22000 Certification" width="25%" />
+          <motion.div 
+            className="bg-white border border-yellow-300 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
+            variants={slideIn('up')}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <p className="text-gray-700 mb-4 leading-relaxed">
+              As consumer awareness and regulatory demands increase, ensuring food safety has become more critical than ever. Implementing ISO 22000 Certification demonstrates your organization's commitment to delivering safe, high-quality food products. It also helps you meet global food safety regulations and maintain trust with customers and stakeholders.
+            </p>
+            <p className="text-gray-700 leading-relaxed">
+              ISO 22000 integrates the principles of HACCP, a risk management system that identifies, evaluates, and controls hazards related to food safety. By combining ISO 22000 and HACCP, your organization can establish a robust FSMS that minimizes risks, prevents contamination, and ensures the safe handling of food at all stages of the supply chain.
+            </p>
+          </motion.div>
+        </div>
+
+        <div className="mb-8">
+          <AnimatedHeader title="Key Benefits of ISO 22000 Certification" width="25%" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { title: "Enhanced Food Safety", desc: "Implement a systematic approach to managing food safety risks, ensuring products meet the highest safety standards and are free from contamination." },
+              { title: "Compliance with Regulations", desc: "Globally recognized, ISO 22000 helps you comply with international and local food safety laws, minimizing legal risks." },
+              { title: "Improved Consumer Trust", desc: "Demonstrate your commitment to food safety and quality, enhancing your brand reputation and building long-term customer trust." },
+              { title: "Reduction in Food Safety Risks", desc: "Implementing HACCP and ISO 22000 reduces foodborne illnesses and contamination, leading to fewer recalls and less waste." },
+              { title: "Increased Market Opportunities", desc: "Gain access to new markets and business opportunities, as many large retailers require suppliers to be ISO 22000 certified." },
+              { title: "Streamlined Processes", desc: "Promote a structured approach to food safety management, helping you optimize processes, reduce costs, and improve efficiency." },
+            ].map((benefit, index) => (
+              <motion.div 
+                key={index} 
+                className="bg-white border border-yellow-300 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300 flex flex-col"
+                variants={slideIn('up', index * 0.1)}
+                initial="hidden"
+                whileInView="visible"
+                whileHover={cardHover}
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <div className="flex items-center mb-3">
+                  <div className="bg-yellow-100 rounded-full p-2 mr-4 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-semibold text-amber-900">{benefit.title}</h3>
+                </div>
+                <p className="text-gray-700 leading-relaxed">{benefit.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <AnimatedHeader title="How to Apply for ISO 22000" width="25%" />
+          <motion.div 
+            className="bg-amber-100/50 rounded-lg p-6 mb-6"
+            variants={slideIn('up')} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }}
+          >
+            <p className="text-amber-800 font-semibold">Note: Implementing ISO 22000 Certification involves several key steps to meet the standard's requirements:</p>
+          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[
+              { title: "Conduct a Gap Analysis", desc: "Assess your current food safety practices to identify areas for improvement and determine the changes needed to meet ISO 22000 requirements." },
+              { title: "Develop a Food Safety Policy", desc: "Establish a clear policy outlining your organization's commitment to food safety, and communicate it to all employees and stakeholders." },
+              { title: "Implement HACCP Principles", desc: "Integrate HACCP by identifying hazards, establishing critical control points, and implementing controls to prevent contamination." },
+              { title: "Train Employees", desc: "Ensure all employees understand their roles in maintaining food safety and compliance with the ISO 22000 and HACCP standards." },
+              { title: "Conduct Internal Audits", desc: "Perform regular internal audits to evaluate the effectiveness of your FSMS and identify any non-conformities before the main audit." },
+              { title: "Certification Audit", desc: "Select an accredited body to conduct the certification audit. Upon successful compliance, you will receive ISO 22000 Certification." },
+            ].map((step, index) => (
+              <motion.div 
+                key={index} 
+                className="bg-white border border-yellow-300 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
+                variants={slideIn('up', index * 0.1)}
+                initial="hidden"
+                whileInView="visible"
+                whileHover={cardHover}
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <div className="flex items-center mb-3">
+                  <div className="bg-yellow-100 rounded-full h-10 w-10 flex items-center justify-center mr-4 flex-shrink-0">
+                    <span className="text-yellow-500 text-lg font-bold">{index + 1}</span>
+                  </div>
+                  <h3 className="text-lg font-semibold text-amber-900">{step.title}</h3>
+                </div>
+                <p className="text-gray-700 leading-relaxed">{step.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        <VideoPlayer 
+            title="What is ISO 22000?" 
+            src="https://www.youtube.com/watch?v=urED3XEGOuc"
+        />
+
+        <div className="mb-8">
+          <AnimatedHeader title="Conclusion" width="35%" />
+          <motion.div 
+            className="bg-white border border-yellow-300 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
+            variants={slideIn('up')}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <p className="text-gray-700 leading-relaxed">
+              ISO 22000 Certification provides a comprehensive framework for managing food safety risks and ensuring compliance with global food safety regulations. Achieving certification demonstrates a strong commitment to safety and quality, enhancing your organization's reputation and competitiveness in the food industry.
+            </p>
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  );
+};
+export default ISO22000Certification;

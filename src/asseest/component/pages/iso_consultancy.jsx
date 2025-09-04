@@ -1,102 +1,223 @@
-import { useState, useRef } from "react";
-import { FiChevronRight, FiMail, FiPhone, FiGlobe, FiCheckCircle, FiAward, FiFileText, FiUsers, FiShield, FiGlobe as FiEarth, FiTrendingUp, FiClock, FiLayers } from "react-icons/fi";
+import React from 'react';
+import { motion, useAnimation, useInView } from "framer-motion";
 
-// Import an ISO-related image (you'll need to add this to your project)
-// import isoHeaderImage from './path-to-your-image.jpg';
+// --- HELPER COMPONENTS (to remove external dependencies) ---
+
+/**
+ * An Icon component to render SVG icons based on a name.
+ * This replaces the need for the 'react-icons' library.
+ */
+const Icon = ({ name, className }) => {
+  const icons = {
+    award: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <circle cx="12" cy="8" r="7"></circle>
+        <polyline points="8.21 13.89 7 23 12 17 17 23 15.79 13.88"></polyline>
+      </svg>
+    ),
+    earth: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d="M21.5 12c0-5.25-4.25-9.5-9.5-9.5S2.5 6.75 2.5 12s4.25 9.5 9.5 9.5s9.5-4.25 9.5-9.5z"></path>
+        <path d="M12 2.5c-2.76 0-5 2.24-5 5s2.24 5 5 5s5-2.24 5-5s-2.24-5-5-5z"></path>
+        <path d="M12 12c-5.25 0-9.5 4.25-9.5 9.5"></path>
+      </svg>
+    ),
+    shield: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+      </svg>
+    ),
+    fileText: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <polyline points="10 9 9 9 8 9"></polyline>
+      </svg>
+    ),
+    trendingUp: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+        <polyline points="17 6 23 6 23 12"></polyline>
+      </svg>
+    ),
+    checkCircle: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </svg>
+    ),
+    users: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
+    ),
+    layers: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+        <polyline points="2 17 12 22 22 17"></polyline>
+        <polyline points="2 12 12 17 22 12"></polyline>
+      </svg>
+    ),
+    clock: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+    ),
+    globe: (
+       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="2" y1="12" x2="22" y2="12"></line>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+      </svg>
+    ),
+  };
+
+  return icons[name] || null;
+};
+
+const Image = ({ alt }) => (
+  <div className="bg-white p-4 rounded-2xl shadow-lg border border-amber-200">
+    <motion.img
+      src="https://placehold.co/1200x600/fef3c7/a16207?text=ISO+Consultancy"
+      alt={alt}
+      className="rounded-xl w-full h-auto object-cover"
+      initial={{ scale: 0.95, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ duration: 0.8, delay: 0.5 }}
+    />
+  </div>
+);
+
+const VideoPlayer = () => (
+  <div className="my-20 p-8 bg-white rounded-3xl shadow-md border border-amber-200">
+     <h2 className="text-3xl font-bold text-center mb-8 text-amber-900">
+        Our Process Explained
+     </h2>
+    <div className="aspect-w-16 aspect-h-9 bg-amber-100 rounded-2xl flex items-center justify-center">
+       <div className="text-center text-amber-700">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20 mx-auto" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+            </svg>
+            <p className="mt-2 font-semibold">Video Placeholder</p>
+       </div>
+    </div>
+  </div>
+);
+
+// --- ANIMATION VARIANTS & COMPONENTS ---
+const heroTitleVariant = {
+    hidden: { x: 80, opacity: 0 },
+    show: { x: 0, opacity: 1, transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] } }
+};
+
+const heroParagraphVariant = {
+    hidden: { x: -80, opacity: 0 },
+    show: { x: 0, opacity: 1, transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] } }
+};
+
+const sectionHeaderVariant = {
+    hidden: { y: 40, opacity: 0 },
+    show: { y: 0, opacity: 1, transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] } }
+};
+
+const underlineVariant = {
+    hidden: { width: '0%', opacity: 0 },
+    show: { width: '25%', opacity: 1, transition: { duration: 0.8, delay: 0.3, ease: 'easeOut' } }
+};
+
+const paragraphVariant = {
+    hidden: { y: 30, opacity: 0 },
+    show: { y: 0, opacity: 1, transition: { duration: 0.8, delay: 0.3 } }
+};
+
+const cardVariants = {
+    slideInUp: { hidden: { y: 60, opacity: 0 }, show: { y: 0, opacity: 1, transition: { duration: 0.7 } } },
+    slideInLeft: { hidden: { x: -80, opacity: 0 }, show: { x: 0, opacity: 1, transition: { duration: 0.8 } } },
+    slideInRight: { hidden: { x: 80, opacity: 0 }, show: { x: 0, opacity: 1, transition: { duration: 0.8 } } },
+    rotate3D: { hidden: { y: 30, opacity: 0, rotateX: -10 }, show: { y: 0, opacity: 1, rotateX: 0, transition: { duration: 0.8 } } },
+    scaleUp: { hidden: { scale: 0.92, opacity: 0 }, show: { scale: 1, opacity: 1, transition: { duration: 0.7 } } }
+};
+
+const cardHover = { y: -8, rotateX: 2, rotateY: -1, transition: { duration: 0.3, ease: "easeOut" } };
+
+// Wrapper for triggering animations on scroll
+const AnimatedWhenVisible = ({ children, variants, className, tag = 'div', hoverEffect }) => {
+  const controls = useAnimation();
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.2 });
+
+  React.useEffect(() => {
+    if (inView) { controls.start("show"); }
+  }, [controls, inView]);
+
+  const MotionComponent = motion[tag];
+  return (
+    <MotionComponent ref={ref} variants={variants} initial="hidden" animate={controls} whileHover={hoverEffect} className={className}>
+      {children}
+    </MotionComponent>
+  );
+};
+
+// Component for section headers with animated underline
+const AnimatedHeader = ({ children, className }) => {
+    const controls = useAnimation();
+    const ref = React.useRef(null);
+    const inView = useInView(ref, { once: true, amount: 0.5 });
+
+    React.useEffect(() => {
+        if (inView) { controls.start("show"); }
+    }, [controls, inView]);
+
+    return (
+        <div ref={ref} className={`w-full text-center ${className}`}>
+             <motion.div
+                initial="hidden"
+                animate={controls}
+                variants={{ show: { transition: { staggerChildren: 0.1 } } }}
+                className="relative inline-block" 
+            >
+                <motion.h2 variants={sectionHeaderVariant} className="text-3xl font-bold text-amber-900">
+                    {children}
+                </motion.h2>
+                <motion.div
+                    className="absolute left-1/2 -translate-x-1/2 -bottom-2 h-1 bg-amber-500 rounded-lg"
+                    style={{ originX: 0.5 }}
+                    variants={underlineVariant}
+                />
+            </motion.div>
+        </div>
+    );
+};
+
+
+// --- MAIN APP COMPONENT ---
 
 const ISOConsultancy = () => {
+  const { useState } = React;
   const [activeTab, setActiveTab] = useState(0);
   const [hoveredTab, setHoveredTab] = useState(null);
 
-  // Standard data with icons and colors
   const allStandards = [
-    {
-      id: "9001",
-      name: "ISO 9001:2015",
-      focus: "Quality Management",
-      industries: "All industries",
-      icon: <FiAward className="text-amber-600" />,
-    },
-    {
-      id: "14001",
-      name: "ISO 14001:2015",
-      focus: "Environmental Management",
-      industries: "Manufacturing, Construction",
-      icon: <FiEarth className="text-amber-600" />,
-    },
-    {
-      id: "45001",
-      name: "ISO 45001:2018",
-      focus: "Occupational Health & Safety",
-      industries: "Factories, Hospitals",
-      icon: <FiShield className="text-amber-600" />,
-    },
-    {
-      id: "27001",
-      name: "ISO 27001:2022",
-      focus: "Information Security",
-      industries: "IT, Banking, Healthcare",
-      icon: <FiFileText className="text-amber-600" />,
-    },
-    {
-      id: "39001",
-      name: "ISO 39001:2012",
-      focus: "Road Traffic Safety",
-      industries: "Transportation, Logistics",
-      icon: <FiTrendingUp className="text-amber-600" />,
-    },
-    {
-      id: "15189",
-      name: "ISO 15189:2022",
-      focus: "Medical Laboratories",
-      industries: "Healthcare, Diagnostics",
-      icon: <FiCheckCircle className="text-amber-600" />,
-    },
-    {
-      id: "26000",
-      name: "ISO 26000:2010",
-      focus: "Social Responsibility",
-      industries: "All industries",
-      icon: <FiUsers className="text-amber-600" />,
-    },
-    {
-      id: "55001",
-      name: "ISO 55001:2014",
-      focus: "Asset Management",
-      industries: "Utilities, Infrastructure",
-      icon: <FiLayers className="text-amber-600" />,
-    },
-    {
-      id: "50001",
-      name: "ISO 50001:2018",
-      focus: "Energy Management",
-      industries: "Manufacturing, Energy",
-      icon: <FiClock className="text-amber-600" />,
-    },
-    {
-      id: "41001",
-      name: "ISO 41001:2018",
-      focus: "Facility Management",
-      industries: "Real Estate, Corporate",
-      icon: <FiGlobe className="text-amber-600" />,
-    },
-    {
-      id: "28001",
-      name: "ISO 28001",
-      focus: "Supply Chain Security",
-      industries: "Logistics, Shipping",
-      icon: <FiShield className="text-amber-600" />,
-    },
-    {
-      id: "SA8000",
-      name: "SA 8000",
-      focus: "Social Accountability",
-      industries: "Textiles, Manufacturing",
-      icon: <FiUsers className="text-amber-600" />,
-    }
+    { id: "9001", name: "ISO 9001:2015", focus: "Quality Management", industries: "All industries", iconName: "award" },
+    { id: "14001", name: "ISO 14001:2015", focus: "Environmental Management", industries: "Manufacturing, Construction", iconName: "earth" },
+    { id: "45001", name: "ISO 45001:2018", focus: "Occupational Health & Safety", industries: "Factories, Hospitals", iconName: "shield" },
+    { id: "27001", name: "ISO 27001:2022", focus: "Information Security", industries: "IT, Banking, Healthcare", iconName: "fileText" },
+    { id: "39001", name: "ISO 39001:2012", focus: "Road Traffic Safety", industries: "Transportation, Logistics", iconName: "trendingUp" },
+    { id: "15189", name: "ISO 15189:2022", focus: "Medical Laboratories", industries: "Healthcare, Diagnostics", iconName: "checkCircle" },
+    { id: "26000", name: "ISO 26000:2010", focus: "Social Responsibility", industries: "All industries", iconName: "users" },
+    { id: "55001", name: "ISO 55001:2014", focus: "Asset Management", industries: "Utilities, Infrastructure", iconName: "layers" },
+    { id: "50001", name: "ISO 50001:2018", focus: "Energy Management", industries: "Manufacturing, Energy", iconName: "clock" },
+    { id: "41001", name: "ISO 41001:2018", focus: "Facility Management", industries: "Real Estate, Corporate", iconName: "globe" },
+    { id: "28001", name: "ISO 28001", focus: "Supply Chain Security", industries: "Logistics, Shipping", iconName: "shield" },
+    { id: "SA8000", name: "SA 8000", focus: "Social Accountability", industries: "Textiles, Manufacturing", iconName: "users" }
   ];
 
-  // Tab data
   const tabs = [
     {
       id: "overview",
@@ -104,28 +225,25 @@ const ISOConsultancy = () => {
       icon: "🧭",
       content: (
         <div className="space-y-8">
-          <div className="bg-white p-8 rounded-3xl shadow-md border border-amber-200 transition-all duration-300 hover:shadow-lg">
+          <AnimatedWhenVisible variants={cardVariants.slideInUp} className="bg-white p-8 rounded-3xl shadow-md border border-amber-200 transition-all duration-300 hover:shadow-lg">
             <h3 className="text-2xl font-bold mb-6 flex items-center">
               <span className="bg-amber-100 text-amber-600 rounded-full w-12 h-12 flex items-center justify-center mr-4 text-xl">🧭</span>
               What is ISO Consultancy?
             </h3>
-            <p className="text-lg mb-6 leading-relaxed">
+            <AnimatedWhenVisible tag="p" variants={paragraphVariant} className="text-lg mb-6 leading-relaxed text-gray-700">
               <strong className="font-semibold text-amber-800">ISO Consultancy</strong> provides expert guidance to implement international standards,
               streamline processes, and achieve certification. We bridge the gap between your current systems and ISO requirements.
-            </p>
+            </AnimatedWhenVisible>
             <div className="bg-amber-50 p-6 rounded-xl border border-amber-200">
               <p className="text-amber-800 text-lg">
                 Whether it's <strong>ISO 9001 (Quality)</strong>, <strong>ISO 14001 (Environment)</strong>,
                 or <strong>ISO 45001 (Safety)</strong>, we customize solutions for <strong>your industry needs</strong>.
               </p>
             </div>
-          </div>
+          </AnimatedWhenVisible>
 
           <div className="bg-white p-8 rounded-3xl shadow-md border border-amber-200 transition-all duration-300 hover:shadow-lg">
-            <h3 className="text-2xl font-bold mb-6 flex items-center">
-              <span className="bg-amber-100 text-amber-600 rounded-full w-12 h-12 flex items-center justify-center mr-4 text-xl">🔍</span>
-              Why ISO Standards Matter
-            </h3>
+             <AnimatedHeader className="mb-10 !text-left">Why ISO Standards Matter</AnimatedHeader>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
                 { icon: "📈", title: "Operational Excellence", desc: "Streamline processes for maximum efficiency" },
@@ -135,11 +253,11 @@ const ISOConsultancy = () => {
                 { icon: "🔄", title: "Continuous Improvement", desc: "Implement PDCA cycle for growth" },
                 { icon: "💼", title: "Competitive Advantage", desc: "Stand out in procurement processes" },
               ].map((item, i) => (
-                <div key={i} className="bg-white p-5 rounded-xl border border-amber-200 shadow-sm transition-all duration-300 hover:shadow-md">
-                  <div className="text-2xl mb-3">{item.icon}</div>
-                  <h4 className="font-bold text-lg mb-2">{item.title}</h4>
+                <AnimatedWhenVisible key={i} variants={cardVariants.scaleUp} hoverEffect={cardHover} className="bg-white p-5 rounded-xl border border-amber-200 shadow-sm">
+                  <div className="text-3xl mb-3">{item.icon}</div>
+                  <h4 className="font-bold text-lg mb-2 text-gray-800">{item.title}</h4>
                   <p className="text-gray-600">{item.desc}</p>
-                </div>
+                </AnimatedWhenVisible>
               ))}
             </div>
           </div>
@@ -153,10 +271,7 @@ const ISOConsultancy = () => {
       content: (
         <div className="space-y-8">
           <div className="bg-white p-8 rounded-3xl border border-amber-200 shadow-md transition-all duration-300 hover:shadow-lg">
-            <h3 className="text-2xl font-bold mb-6 flex items-center">
-              <span className="bg-amber-100 text-amber-600 rounded-full w-12 h-12 flex items-center justify-center mr-4 text-xl">📘</span>
-              Comprehensive ISO Standards Coverage
-            </h3>
+            <AnimatedHeader className="mb-10 !text-left">Comprehensive ISO Standards Coverage</AnimatedHeader>
             <p className="text-lg text-gray-700 mb-8">
               We specialize in implementing a wide range of international standards across industries.
               Select a standard to learn more about its benefits and implementation process.
@@ -164,26 +279,23 @@ const ISOConsultancy = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {allStandards.map((standard, i) => (
-                <div key={i} className="bg-white p-6 rounded-2xl shadow-sm border
-                 border-amber-200 overflow-hidden transition-all duration-300 hover:shadow-md">
+                <AnimatedWhenVisible key={i} variants={cardVariants.slideInUp} hoverEffect={cardHover} className="bg-white p-6 rounded-2xl shadow-sm border border-amber-200 overflow-hidden">
                   <div className="flex items-start mb-4">
-                    <div className="bg-amber-100 p-2 rounded-lg mr-4">
-                      <div className="text-2xl">
-                        {standard.icon}
-                      </div>
+                    <div className="bg-amber-100 p-3 rounded-lg mr-4">
+                      <Icon name={standard.iconName} className="text-amber-600 w-7 h-7" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold">{standard.name}</h3>
-                      <p className="text-sm text-gray-500">{standard.id}</p>
+                      <h3 className="text-xl font-bold text-gray-800">{standard.name}</h3>
+                      <p className="text-sm text-gray-500">Standard: {standard.id}</p>
                     </div>
                   </div>
-                  <p className="text-gray-700 mb-4">{standard.focus}</p>
-                  <div className="bg-amber-50 p-2 rounded-lg">
-                    <p className="text-sm text-gray-600">
-                      <span className="font-medium">Industries:</span> {standard.industries}
+                  <p className="text-gray-700 mb-4 h-12">{standard.focus}</p>
+                  <div className="bg-amber-50 p-3 rounded-lg">
+                    <p className="text-sm text-gray-700">
+                      <span className="font-medium text-amber-800">Industries:</span> {standard.industries}
                     </p>
                   </div>
-                </div>
+                </AnimatedWhenVisible>
               ))}
             </div>
           </div>
@@ -195,125 +307,75 @@ const ISOConsultancy = () => {
       title: "Process",
       icon: "🛠️",
       content: (
-        <div className="relative">
-          <div className="hidden lg:block absolute left-1/2 h-full w-1 bg-gradient-to-b from-amber-400 via-amber-300 to-amber-200 transform -translate-x-1/2"></div>
-
-          {[
-            {
-              id: 1,
-              title: "Initial Assessment",
-              desc: "Comprehensive gap analysis of current systems",
-              icon: "🔍",
-            },
-            {
-              id: 2,
-              title: "Planning",
-              desc: "Develop customized implementation roadmap",
-              icon: "📝",
-            },
-            {
-              id: 3,
-              title: "Documentation",
-              desc: "Create policies, procedures and records",
-              icon: "📑",
-            },
-            {
-              id: 4,
-              title: "Implementation",
-              desc: "Train teams and integrate systems",
-              icon: "🔄",
-            },
-            {
-              id: 5,
-              title: "Internal Audit",
-              desc: "Conduct compliance verification audits",
-              icon: "✔️",
-            },
-            {
-              id: 6,
-              title: "Certification",
-              desc: "Coordinate with accredited certification bodies",
-              icon: "🏆",
-            },
-          ].map((step, i) => (
-            <div key={i} className={`relative mb-8 ${i % 2 === 0 ? "lg:w-1/2 lg:pr-12 lg:mr-auto" : "lg:w-1/2 lg:pl-12 lg:ml-auto"}`}>
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-amber-200 h-full transition-all duration-300 hover:shadow-md">
-                <div className="flex items-start">
-                  <div className="bg-amber-100 rounded-lg w-14 h-14 flex items-center justify-center mr-4 flex-shrink-0 text-2xl">
-                    {step.icon}
-                  </div>
-                  <div>
-                    <div className="flex items-center mb-1">
-                      <div className="bg-amber-100 text-amber-800 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-2">
-                        {step.id}
-                      </div>
-                      <h3 className="text-xl font-bold">{step.title}</h3>
+        <div className="relative p-4">
+           <div className="hidden lg:block absolute top-0 left-1/2 h-full w-0.5 bg-amber-200 transform -translate-x-1/2"></div>
+            <motion.div variants={{ show: { transition: { staggerChildren: 0.2 } } }} initial="hidden" animate="show">
+              {[
+                { id: 1, title: "Free Consultation", desc: "Initial discussion to understand client needs", icon: "💬" },
+                { id: 2, title: "Contract Signing", desc: "Formal agreement between parties", icon: "📝" },
+                { id: 3, title: "Initial Payment", desc: "Client makes first payment", icon: "💰" },
+                { id: 4, title: "Job Card Opening", desc: "Project officially begins", icon: "📋" },
+                { id: 5, title: "Consultant Deployment", desc: "Consultant assigned with project plan", icon: "👨‍💼" },
+                { id: 6, title: "Gap Analysis", desc: "Initial assessment of current state", icon: "🔍" },
+                { id: 7, title: "Documentation & Training", desc: "ISO documents and training provided", icon: "📚" },
+                { id: 8, title: "24/7 Support", desc: "Continuous support via WhatsApp", icon: "🔄" },
+                { id: 9, title: "Job Card Closing", desc: "Project phase concludes", icon: "✅" },
+                { id: 10, title: "Part Payment", desc: "Client makes partial payment", icon: "💳" },
+                { id: 11, title: "Final Project Closing", desc: "Project officially ends", icon: "🏁" },
+                { id: 12, title: "Client Feedback", desc: "Client provides feedback on services", icon: "🌟" },
+              ].map((step, i) => (
+                 <motion.div key={i} variants={ i % 2 === 0 ? cardVariants.slideInRight : cardVariants.slideInLeft } className={`relative mb-8 lg:flex items-center ${i % 2 === 0 ? "lg:flex-row-reverse" : ""}`}>
+                    <div className="hidden lg:block w-1/2"></div>
+                    <div className="hidden lg:block relative">
+                        <div className="w-8 h-8 bg-amber-400 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                            {step.id}
+                        </div>
                     </div>
-                    <p className="text-gray-600">{step.desc}</p>
-                    {i === 2 && (
-                      <div className="mt-4 bg-amber-50 p-3 rounded-lg">
-                        <p className="text-sm text-amber-800 font-medium">Key Documents:</p>
-                        <ul className="text-xs text-amber-700 list-disc list-inside mt-1">
-                          <li>Quality Manual</li>
-                          <li>Process Maps</li>
-                          <li>Standard Operating Procedures</li>
-                        </ul>
-                      </div>
-                    )}
-                    {i === 4 && (
-                      <div className="mt-4 bg-amber-50 p-3 rounded-lg">
-                        <p className="text-sm text-amber-800 font-medium">Audit Focus Areas:</p>
-                        <ul className="text-xs text-amber-700 list-disc list-inside mt-1">
-                          <li>Clause-by-clause compliance</li>
-                          <li>Effectiveness measurement</li>
-                          <li>Opportunities for improvement</li>
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
+                     <div className="w-full lg:w-1/2">
+                        <motion.div whileHover={cardHover} className={`bg-white p-6 rounded-2xl shadow-sm border border-amber-200 h-full ${i % 2 === 0 ? "lg:ml-8" : "lg:mr-8"}`}>
+                            <div className="flex items-start">
+                            <div className="bg-amber-100 rounded-lg w-14 h-14 flex items-center justify-center mr-4 flex-shrink-0 text-3xl">
+                                {step.icon}
+                            </div>
+                            <div>
+                                <h3 className="text-xl font-bold text-gray-800">{step.title}</h3>
+                                <p className="text-gray-600">{step.desc}</p>
+                            </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                </motion.div>
+              ))}
+            </motion.div>
         </div>
       )
     },
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 bg-gradient-to-br from-amber-50 to-amber-100 min-h-screen">
-      {/* Header Image - Uncomment when you have the image */}
-      {/* <div className="mb-8 rounded-2xl overflow-hidden shadow-lg">
-        <img src={isoHeaderImage} alt="ISO Certification" className="w-full h-64 object-cover" />
-      </div> */}
-
-      {/* Hero Section */}
-      <div className="text-center mb-16">
-        <div className="inline-block mb-6">
-          <div className="bg-amber-600 text-white px-6 py-2 rounded-full text-sm font-semibold inline-flex items-center">
-            <FiAward className="mr-2" /> ISO Certification Experts
-          </div>
-        </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-amber-900 mb-4 relative after:content-['']
-         after:absolute after:-bottom-2 after:left-1/4 after:w-1/2 after:h-1 after:bg-yellow-400 after:rounded-full">
-          ISO Consultancy Services
-        </h1>
-        <p className="text-xl text-amber-800 max-w-3xl mx-auto">
-          Streamline your path to international standards certification with our proven methodology
-        </p>
-        <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-          <button className="bg-amber-600 text-white px-8 py-3 rounded-lg font-semibold text-lg flex items-center justify-center transition-all duration-300 hover:bg-amber-700 hover:shadow-lg">
-            Get Started <FiChevronRight className="ml-2" />
-          </button>
-          <button className="bg-white border border-amber-300 text-amber-800 px-8 py-3 rounded-lg font-semibold text-lg flex items-center justify-center shadow-sm transition-all duration-300 hover:shadow-md">
-            View Case Studies
-          </button>
-        </div>
+    <>
+    <style>{`
+      @import url('https://fonts.googleapis.com/css2?family=Arial+Narrow:wght@400;700&display=swap');
+      .font-arial-narrow { font-family: 'Arial Narrow', sans-serif; }
+      .scrollbar-hide::-webkit-scrollbar { display: none; }
+      .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+      .aspect-w-16 { position: relative; padding-bottom: 56.25%; }
+      .aspect-h-9 { /* No styles needed here with padding-bottom */ }
+      .aspect-w-16 > * { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    `}</style>
+    <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 bg-amber-50/50 min-h-screen font-arial-narrow text-gray-800">
+      <div className="max-w-5xl mx-auto mb-10 text-center">
+        <AnimatedWhenVisible tag="h1" variants={heroTitleVariant} className="text-4xl md:text-5xl font-extrabold mb-6 text-amber-900 tracking-tight">
+          ISO Certification Consultancy Services
+        </AnimatedWhenVisible>
+        <AnimatedWhenVisible tag="p" variants={heroParagraphVariant} className="text-lg md:text-xl text-amber-800 mb-8">
+          Expert guidance to implement international standards and achieve your certification goals.
+        </AnimatedWhenVisible>
+        <Image alt="A collage of ISO certification logos and quality management symbols"/>
       </div>
 
-      {/* Tab Navigation */}
       <div className="mb-8">
-        <div className="relative">
+        <div className="relative border-b-2 border-amber-200">
           <div className="flex space-x-1 overflow-x-auto pb-2 scrollbar-hide">
             {tabs.map((tab, i) => (
               <button
@@ -321,31 +383,23 @@ const ISOConsultancy = () => {
                 onClick={() => setActiveTab(i)}
                 onMouseEnter={() => setHoveredTab(i)}
                 onMouseLeave={() => setHoveredTab(null)}
-                className={`px-6 py-3 font-medium rounded-t-lg transition-colors relative ${activeTab === i ? 'text-amber-700' : 'text-amber-600 hover:text-amber-800'}`}
+                className={`px-5 py-3 font-semibold rounded-t-lg transition-all duration-300 relative whitespace-nowrap text-base ${activeTab === i ? 'text-amber-800' : 'text-amber-600 hover:text-amber-800 hover:bg-amber-100/50'}`}
               >
-                <span className="mr-2">{tab.icon}</span>
+                <span className="mr-2 text-xl">{tab.icon}</span>
                 {tab.title}
-                {(hoveredTab === i || activeTab === i) && (
-                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-amber-500 rounded-t" />
-                )}
+                 <motion.div layoutId="underline" className={`absolute bottom-[-2px] left-0 right-0 h-1 bg-amber-500 ${activeTab === i ? '' : 'hidden'}`} />
               </button>
             ))}
           </div>
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-amber-200 via-amber-300 to-amber-200"></div>
         </div>
       </div>
 
-      {/* Tab Content */}
       <div className="pt-6">
         {tabs[activeTab].content}
       </div>
 
-      {/* Clients Section */}
       <div className="my-20">
-        <h2 className="text-3xl font-bold text-center mb-12 text-amber-900 relative after:content-['']
-         after:absolute after:-bottom-2 after:left-1/4 after:w-2/4 after:h-1 after:bg-yellow-400 after:rounded-full">
-          Trusted By Organizations Across Industries
-        </h2>
+        <AnimatedHeader className="mb-12">Trusted By Organizations Across Industries</AnimatedHeader>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
           {[
             { type: "Manufacturers", icon: "🏭", count: "120+" },
@@ -355,16 +409,19 @@ const ISOConsultancy = () => {
             { type: "Agriculture", icon: "🌾", count: "30+" },
             { type: "Government", icon: "🏛️", count: "25+" },
           ].map((client, i) => (
-            <div key={i} className="bg-white p-6 rounded-xl shadow-sm border border-amber-200 text-center transition-all duration-300 hover:shadow-md">
-              <div className="text-4xl mb-4">{client.icon}</div>
-              <h3 className="font-bold text-lg mb-1">{client.type}</h3>
+            <AnimatedWhenVisible key={i} variants={cardVariants.scaleUp} hoverEffect={cardHover} className="bg-white p-6 rounded-xl shadow-sm border border-amber-200 text-center">
+              <div className="text-5xl mb-4">{client.icon}</div>
+              <h3 className="font-bold text-lg mb-1 text-gray-800">{client.type}</h3>
               <p className="text-sm text-gray-500">{client.count} clients</p>
-            </div>
+            </AnimatedWhenVisible>
           ))}
         </div>
       </div>
+      <VideoPlayer />
     </div>
+    </>
   );
 };
 
 export default ISOConsultancy;
+

@@ -1,17 +1,52 @@
+import { motion } from 'framer-motion';
+import { Facebook, Youtube, Linkedin } from 'lucide-react';
 
-import { Facebook, Youtube, Linkedin, Menu, X, Briefcase, BarChart3, Users, Building, Phone, Mail } from 'lucide-react';
-
-// --- TopHeader Component (from previous context) ---
+// --- Data for Social Links ---
 const socialLinks = [
   { href: "https://facebook.com", label: "Facebook", icon: Facebook },
   { href: "https://youtube.com", label: "YouTube", icon: Youtube },
   { href: "https://linkedin.com", label: "LinkedIn", icon: Linkedin },
 ];
 
+// --- TopHeader Component ---
 const TopHeader = () => {
+  // Animation for the background container sliding in from the left
+  const containerVariants = {
+    hidden: { x: '-100%' },
+    visible: {
+      x: 0,
+      transition: {
+        duration: 0.7, // A smooth slide-in for the background
+        ease: 'easeOut',
+      },
+    },
+  };
+
+  // Animation for the content sliding in after the container animation finishes
+  const contentVariants = {
+    hidden: { x: -50, opacity: 0 },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        delay: 0.7, // Delay is now equal to the container's animation duration
+        duration: 0.6,
+        ease: 'easeOut',
+      },
+    },
+  };
+
   return (
-    <div className="w-full bg-slate-100 border-b border-slate-200 py-2 px-4 sm:px-6">
-      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-y-2 sm:gap-y-0">
+    <motion.div
+      className="w-full bg-slate-100 border-b border-slate-200 py-2 px-4 sm:px-6 overflow-hidden" // overflow-hidden to contain animation
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      <motion.div
+        className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-y-2 sm:gap-y-0"
+        variants={contentVariants} // Children will inherit these variants
+      >
         <p
           className="font-semibold uppercase text-center sm:text-left text-xs sm:text-sm flex-1"
           style={{
@@ -38,8 +73,9 @@ const TopHeader = () => {
             </a>
           ))}
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
+
 export default TopHeader;

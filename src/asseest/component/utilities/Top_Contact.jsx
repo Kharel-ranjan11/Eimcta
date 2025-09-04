@@ -24,7 +24,7 @@ const ThemedContactItem = ({ icon, title, subtitle, href,
         >
           {title}
         </p>
-        <p className="text-sm text-stone-500">
+        <p className="text-md text-stone-500">
           {subtitle}
         </p>
       </div>
@@ -38,7 +38,7 @@ const TopContactBar = () => {
       <style>
         {`
           @keyframes pulse {
-            50% { opacity: .7; }
+            50% { opacity: .5; }
           }
           .animate-pulse {
             animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
@@ -56,7 +56,7 @@ const TopContactBar = () => {
         {/* Desktop Contact Items - Hidden on mobile */}
         <div className="hidden md:flex items-center space-x-6">
           <ThemedContactItem
-            icon={<FileText size={24} strokeWidth={1.5} />}
+            icon={<FileText size={44} strokeWidth={1.5} />}
             title="Get a Quote"
             subtitle="Click to fill form"
             to="/form"
@@ -64,7 +64,7 @@ const TopContactBar = () => {
           />
 
           <ThemedContactItem
-            icon={<Mail size={24} strokeWidth={1.5} />}
+            icon={<Mail size={44} strokeWidth={1.5} />}
             title="Email Us"
             subtitle="info@example.com"
             href="mailto:info@example.com"
@@ -72,7 +72,7 @@ const TopContactBar = () => {
           />
 
           <ThemedContactItem
-            icon={<Phone size={24} strokeWidth={1.5} />}
+            icon={<Phone size={44} strokeWidth={1.5} />}
             title="Contact Us"
             subtitle="+1234567890"
             href="tel:+1234567890"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, } from "react-router-dom";
 import logo from "../../img/eimcta.png";
 import { menuitems } from "../utilities/Array/data.js";
 import {
@@ -25,7 +25,6 @@ import {
   MailCheck,
 } from "lucide-react";
 
-
 const defaultIconMap = {
   about: <Info size={20} className="mr-2" />,
   services: <Layers size={20} className="mr-2" />,
@@ -44,36 +43,60 @@ const defaultIconMap = {
   quote: <MailCheck size={18} className="mr-2" />,
 };
 
+// COMPONENT: A more robust NavLink that correctly handles react-router navigation
 const NavLink = ({ to, children, className, onClick }) => {
-    // Mock NavLink behavior
-    const handleClick = (e) => {
-        if (onClick) onClick(e);
-        // In a real app, this would navigate. Here we just log it.
-        console.log(`Navigating to ${to}`);
-    };
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    // Determine if the link is "active"
-    // For this mock, let's just say the first item is active
-    const isActive = to === '#about'; 
-    const finalClassName = typeof className === 'function' ? className({ isActive }) : className;
+  const handleClick = (e) => {
+    // Prevent default <a> tag behavior to let React Router handle navigation
+    e.preventDefault();
 
-    return (
-        <a href={to} className={finalClassName} onClick={handleClick}>
-            {children}
-        </a>
-    );
+    if (onClick) {
+      onClick(e);
+    }
+
+    // Navigate only if 'to' is a valid path
+    if (to && to !== "#") {
+      navigate(to);
+    }
+  };
+
+  const isActive = location.pathname === to;
+  const finalClassName =
+    typeof className === "function" ? className({ isActive }) : className;
+
+  return (
+    <a href={to || "#"} className={finalClassName} onClick={handleClick}>
+      {children}
+    </a>
+  );
 };
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [expandedItems, setExpandedItems] = useState({});
-  // const navigate = useNavigate(); // Not used in this standalone component
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+      if (window.innerWidth >= 768) {
+        setMobileMenuOpen(false);
+        setExpandedItems({});
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const toggleItemExpansion = (path) => {
@@ -116,7 +139,55 @@ const Navbar = () => {
     return level === 0 ? <Info size={20} className="mr-2" /> : <FileText size={18} className="mr-2" />;
   };
 
-  const renderDropdownItems = (items, level = 0, parentKey = "") => {
+  // Renders dropdown items for DESKTOP with collapsible sub-menus
+  const renderDesktopDropdownItems = (items, level = 0, parentKey = "") => {
+    return items.map((item, idx) => {
+      const key = `${parentKey}-${idx}`;
+      const hasChildren = item.children && item.children.length > 0;
+
+      return (
+        <div key={key} className="w-full">
+          <div className="flex items-center justify-center w-full">
+            <NavLink
+              to={item.path}
+              className={({ isActive }) =>
+                `flex items-center flex-grow px-4 py-2 text-sm rounded-md transition-all duration-300 ${isActive && !hasChildren
+                  ? "bg-amber-700 text-white"
+                  : "text-gray-700 hover:bg-amber-50 hover:text-amber-700"
+                }`
+              }
+            >
+              {getIcon(item, level)}
+              {item.title}
+            </NavLink>
+            {hasChildren && (
+              <button
+                onClick={() => toggleItemExpansion(key)}
+                className="p-1 rounded-md hover:bg-amber-100 mr-2 transition-colors duration-300"
+                aria-expanded={!!expandedItems[key]}
+              >
+                {expandedItems[key] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              </button>
+            )}
+          </div>
+
+          {hasChildren && (
+            <div
+              className={`overflow-hidden transition-all duration-500 ease-in-out pl-4`}
+              style={{ maxHeight: expandedItems[key] ? `${item.children.length * 60}rem` : "0px" }}
+            >
+              <div className="pt-1 border-l-2 border-amber-200">
+                {renderDesktopDropdownItems(item.children, level + 1, key)}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    });
+  };
+
+  // Renders dropdown items for MOBILE with collapsible submenus
+  const renderMobileDropdownItems = (items, level = 0, parentKey = "") => {
     return items.map((item, idx) => {
       const key = `${parentKey}-${idx}`;
       const hasChildren = item.children && item.children.length > 0;
@@ -126,12 +197,13 @@ const Navbar = () => {
           <div className="flex items-center justify-between">
             <NavLink
               to={item.path}
-              onClick={(e) => {
-                if (hasChildren && level === 0) e.preventDefault(); // prevent top-level parent navigation
-                else closeMobileMenu(); // allow navigation for actual links
+              onClick={() => {
+                if (!hasChildren) {
+                  closeMobileMenu();
+                }
               }}
               className={({ isActive }) =>
-                `flex items-center flex-grow px-4 py-2 text-sm rounded-md ${isActive && !hasChildren
+                `flex items-center flex-grow px-4 py-2 text-sm rounded-md transition-all duration-300 ${isActive && !hasChildren
                   ? "bg-amber-700 text-white"
                   : "text-gray-700 hover:bg-amber-50 hover:text-amber-700"
                 }`
@@ -144,16 +216,22 @@ const Navbar = () => {
             {hasChildren && (
               <button
                 onClick={() => toggleItemExpansion(key)}
-                className="p-1 rounded-md hover:bg-amber-100 mr-2"
+                className="p-1 rounded-md hover:bg-amber-100 mr-2 transition-colors duration-300"
               >
                 {expandedItems[key] ? <ChevronUp size={16} /> : <ChevronRight size={16} />}
               </button>
             )}
           </div>
 
-          {hasChildren && expandedItems[key] && (
-            <div className={`ml-4 pl-2 border-l-2 border-amber-200 ${level > 0 ? "mt-1" : "mt-0"}`}>
-              {renderDropdownItems(item.children, level + 1, key)}
+          {hasChildren && (
+            <div
+              className={`overflow-hidden transition-all duration-500 ease-in-out ${level > 0 ? "ml-4 pl-2  border-l-2 border-amber-200" : ""
+                }`}
+              style={{ maxHeight: expandedItems[key] ? `${item.children.length * 50}px` : "0px" }}
+            >
+              <div className={`${level > 0 ? "mt-1" : "mt-0"}`}>
+                {renderMobileDropdownItems(item.children, level + 1, key)}
+              </div>
             </div>
           )}
         </div>
@@ -167,7 +245,17 @@ const Navbar = () => {
         }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-end md:justify-center h-16">
+        <div className="flex items-center justify-center h-16">
+          {isMobile && (
+            <div className="flex-shrink-0 flex items-center">
+              <img
+                className="h-10 w-auto"
+                src="https://placehold.co/100x40/ffffff/a855f7?text=Logo"
+                alt="Logo"
+              />
+            </div>
+          )}
+
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
             {menuitems.map((item, idx) => (
@@ -175,29 +263,30 @@ const Navbar = () => {
                 <NavLink
                   to={item.path}
                   className={({ isActive }) =>
-                    `flex items-center px-4 py-2 rounded-md text-lg transition-all duration-200 ${isActive ? "text-white bg-amber-700" : "text-white hover:text-amber-100"
+                    `flex items-center px-4 py-2 rounded-md text-lg transition-all duration-150 ease-in-out ${isActive ? "text-white bg-amber-200" : "text-white hover:text-amber-100"
                     }`
                   }
-                  onClick={(e) => {
-                    if (item.children) e.preventDefault(); // prevent top-level parent nav
-                    else closeMobileMenu();
-                  }}
                 >
                   {getIcon(item)}
                   {item.title}
-                  {item.children && <ChevronDown size={16} className="ml-1 group-hover:rotate-180 transition-transform duration-200" />}
+                  {item.children && (
+                    <ChevronDown size={16} className="ml-1 group-hover:rotate-180 transition-transform duration-200" />
+                  )}
                 </NavLink>
 
                 {item.children && (
-                  <div className="absolute left-1/2 transform -translate-x-1/2 mt-1 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top z-50">
-                    <div className="py-1">{renderDropdownItems(item.children, 1, `d-${idx}`)}</div>
+                  <div className="absolute left-1/2 transform -translate-x-1/2 mt-1 w-80
+                  rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 
+                  invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top z-50">
+                    <div className="py-1">
+                      {renderDesktopDropdownItems(item.children, 1, `d-${idx}`)}
+                    </div>
                   </div>
                 )}
               </div>
             ))}
           </div>
 
-          {/* Mobile menu button */}
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -217,12 +306,15 @@ const Navbar = () => {
       >
         <div className="flex items-center justify-between px-4 pt-4 pb-2 border-b border-gray-200">
           <span className="font-bold text-gray-700">Menu</span>
-          <button onClick={closeMobileMenu} className="p-1 rounded-md text-gray-700 hover:text-amber-600 hover:bg-amber-50 focus:outline-none">
+          <button
+            onClick={closeMobileMenu}
+            className="p-1 rounded-md text-gray-700 hover:text-amber-600 hover:bg-amber-50 focus:outline-none"
+          >
             <X size={24} />
           </button>
         </div>
 
-        <div className="px-2 pt-2 pb-3 space-y-1 overflow-y-auto h-[calc(100%-60px)]">
+        <div className="px-2 pt-2 pb-3 space-y-1 overflow-y-auto h-[12rem]">
           {menuitems.map((item, idx) => {
             const key = `m-${idx}`;
             const hasChildren = item.children && item.children.length > 0;
@@ -232,16 +324,17 @@ const Navbar = () => {
                 <div className="flex items-center justify-between">
                   <NavLink
                     to={item.path}
-                    onClick={(e) => {
-                        if (hasChildren) {
-                            e.preventDefault();
-                            toggleItemExpansion(key);
-                        } else {
-                            closeMobileMenu();
-                        }
+                    onClick={() => {
+                      if (hasChildren) {
+                        toggleItemExpansion(key);
+                      } else {
+                        closeMobileMenu();
+                      }
                     }}
                     className={({ isActive }) =>
-                      `flex items-center flex-grow px-3 py-2 rounded-md text-base ${isActive && !hasChildren ? "bg-amber-50 text-amber-700" : "text-gray-700 hover:bg-amber-50 hover:text-amber-700"
+                      `flex items-center flex-grow px-3 py-2 rounded-md text-base transition-all duration-300 ${isActive && !hasChildren
+                        ? "bg-amber-50 text-amber-700"
+                        : "text-gray-700 hover:bg-amber-50 hover:text-amber-700"
                       }`
                     }
                   >
@@ -250,15 +343,23 @@ const Navbar = () => {
                   </NavLink>
 
                   {hasChildren && (
-                    <button onClick={() => toggleItemExpansion(key)} className="p-1 rounded-md hover:bg-amber-100 mr-2">
+                    <button
+                      onClick={() => toggleItemExpansion(key)}
+                      className="p-1 rounded-md hover:bg-amber-100 mr-2 transition-colors duration-300"
+                    >
                       {expandedItems[key] ? <ChevronUp size={20} /> : <ChevronRight size={20} />}
                     </button>
                   )}
                 </div>
 
-                {hasChildren && expandedItems[key] && (
-                  <div className="mt-1 ml-4 pl-2 space-y-1 border-l-2 border-amber-200">
-                    {renderDropdownItems(item.children, 1, key)}
+                {hasChildren && (
+                  <div
+                    className="overflow-hidden transition-all duration-500 ease-in-out"
+                    style={{ maxHeight: expandedItems[key] ? `${item.children.length * 90}px` : "0px" }}
+                  >
+                    <div className="mt-1 ml-4 pl-2 space-y-1 border-l-2 border-amber-200">
+                      {renderMobileDropdownItems(item.children, 1, key)}
+                    </div>
                   </div>
                 )}
               </div>
@@ -267,11 +368,11 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Overlay for mobile */}
-      {mobileMenuOpen && <div className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden" onClick={closeMobileMenu}></div>}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden" onClick={closeMobileMenu}></div>
+      )}
     </nav>
   );
 };
-
 
 export default Navbar;

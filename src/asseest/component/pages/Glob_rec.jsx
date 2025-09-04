@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import {
     Building,
@@ -11,8 +10,6 @@ import {
     Server,
     Truck,
     Warehouse,
-    Award,
-    CheckCircle,
     Star
 } from 'lucide-react';
 
@@ -97,26 +94,71 @@ const ISOShowcase = () => {
         }
     ];
 
+    // Card animation variants
+    const cardVariants = {
+        hidden: { 
+            opacity: 0, 
+            scale: 0.9,
+            y: 20
+        },
+        visible: {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            transition: {
+                type: "spring",
+                stiffness: 100,
+                damping: 15,
+                duration: 0.5
+            }
+        }
+    };
+
     return (
-        <div className="min-h-screen bg-gradient-to-b from-amber-50 to-amber-100 py-16 px-4 sm:px-6 lg:px-8 font-['Arial_Narrow']">
+        <div className="min-h-screen bg-gradient-to-b from-amber-50 to-amber-100 py-16 px-4 sm:px-6 lg:px-8 font-sans">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center mb-16 relative"
+                    initial="hidden"
+                    animate="visible"
+                    variants={{
+                        hidden: { opacity: 0 },
+                        visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+                    }}
+                    className="text-center mb-20 relative"
                 >
                     <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                        <Star className="text-amber-400 fill-current" size={32} />
+                        <Star className="text-amber-400 fill-amber-400" size={32} />
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-bold text-amber-900 mb-6">
-                        OPERATE YOUR BUSINESS WITH GLOBAL RECOGNITION!
-                    </h1>
-                    <p className="text-lg text-amber-800 max-w-3xl mx-auto leading-relaxed">
+                    <div className="relative inline-block">
+                        <motion.h1
+                            variants={{
+                                hidden: { opacity: 0, y: -20 },
+                                visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 80, damping: 25 } },
+                            }}
+                            className="text-4xl md:text-5xl font-bold text-amber-900"
+                        >
+                            OPERATE YOUR BUSINESS WITH GLOBAL RECOGNITION!
+                        </motion.h1>
+                         {/* Animated underline acting as a pseudo-element */}
+                        <motion.div
+                            className="absolute -bottom-2 left-0 h-1.5 bg-amber-500 rounded-lg"
+                            style={{ width: '25%', transformOrigin: 'left' }}
+                            variants={{
+                                hidden: { scaleX: 0 },
+                                visible: { scaleX: 1, transition: { type: 'spring', stiffness: 60, damping: 25, delay: 0.2 } },
+                            }}
+                        />
+                    </div>
+                    <motion.p
+                        variants={{
+                            hidden: { opacity: 0, y: 20 },
+                            visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 80, damping: 25 } },
+                        }}
+                        className="text-lg text-amber-800 max-w-3xl mx-auto leading-relaxed mt-8"
+                    >
                         Achieve international standards and demonstrate your commitment to excellence with our ISO certification services.
-                    </p>
-                    <div className="w-24 h-1 bg-amber-500 mx-auto mt-6 rounded-full"></div>
+                    </motion.p>
                 </motion.div>
 
                 {/* Categories Grid */}
@@ -124,20 +166,22 @@ const ISOShowcase = () => {
                     {categories.map((category, index) => (
                         <motion.div
                             key={category.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="bg-white rounded-2xl shadow-xl overflow-hidden border border-amber-200 hover:shadow-2xl transition-all duration-300"
+                            variants={cardVariants}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, amount: 0.3 }}
+                            transition={{ delay: index * 0.1 }}
+                            className="bg-white rounded-2xl shadow-xl overflow-hidden border border-amber-200 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col"
                         >
-                            <div className="p-6">
+                            <div className="p-6 flex-grow flex flex-col">
                                 <div className="flex items-center mb-5">
                                     <div className="p-3 rounded-full bg-amber-100 text-amber-700 mr-4 shadow-inner">
                                         {category.icon}
                                     </div>
                                     <h2 className="text-xl font-bold text-amber-900">{category.title}</h2>
                                 </div>
-
-                                <div className="mb-5 flex flex-wrap gap-2">
+                                <p className="text-amber-800 mb-5 leading-relaxed flex-grow">{category.description}</p>
+                                <div className="mt-auto pt-4 border-t border-amber-100 flex flex-wrap gap-2">
                                     {category.certifications.map((cert, i) => (
                                         <span
                                             key={i}
@@ -147,19 +191,14 @@ const ISOShowcase = () => {
                                         </span>
                                     ))}
                                 </div>
-
-                                <p className="text-amber-800 mb-5 leading-relaxed">{category.description}</p>
-
                             </div>
                         </motion.div>
                     ))}
                 </div>
-
-                {/* Call to Action */}
-
             </div>
         </div>
     );
 };
 
 export default ISOShowcase;
+

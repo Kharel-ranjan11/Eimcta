@@ -6,7 +6,7 @@ import Footer from './asseest/component/sections/footer';
 import Navbar from './asseest/component/sections/navbar';
 import PageTransitionWrapper from './asseest/component/utilities/transition_framer';
 import ScrollToTopButton from './asseest/component/utilities/ScrolllTop';
-import TopHeader from './asseest/component/utilities/topheader';
+
 import NotFound from './asseest/component/pages/pagenofound';
 import Blog from './asseest/component/pages/blog';
 import ContentBoosting from './asseest/component/pages/content_boosting.jsx';
@@ -30,9 +30,11 @@ import HSEAudits from './asseest/component/utilities/hseaduit.jsx';
 import Chat from './asseest/component/utilities/chat';
 import TopContactBar from './asseest/component/utilities/Top_Contact.jsx';
 import ISO21001Guide from './asseest/component/pages/Iso_21001.jsx';
-import Iso_2200 from './asseest/component/pages/ISO_2200.JSX';
-import ISO9001Certification from './asseest/component/pages/ISO_9001.jsx';
+import ISO9001Certification from './asseest/component/pages/ISO_9001.jsx'
+import ISO22000Certification from './asseest/component/pages/ISO_2200.jsx';
 import ISO45001Certification from './asseest/component/pages/iso_45001.jsx';
+import TopHeader from './asseest/component/utilities/topheader.jsx';
+// import TwentyTwoCertification from './asseest/component/pages/ISO_2200.JSX';
 // import { Router_link } from './asseest/component/utilities/Array/data.js';
 // import Person_Incharge_PI_2 from './asseest/component/utilities/traning/T_child/Person_Incharge_PI_2.jsx';
 // import Permit_to_Work_System_PTW from './asseest/component/utilities/traning/T_child/Permit_to_Work_System_(PTW).jsx';
@@ -53,7 +55,6 @@ function App() {
 
           <Route path="/Blog-Offers/Offers-Contents-Latest-Boosting" element={
             <PageTransitionWrapper> <ContentBoosting /></PageTransitionWrapper>} />
-{/* -------------------------from here */}
           <Route path="/about-us" element={
             <PageTransitionWrapper> <About /></PageTransitionWrapper>} />
 
@@ -99,11 +100,9 @@ function App() {
           <Route path="service/iso/2100" element={<PageTransitionWrapper> < ISO21001Guide
           /></PageTransitionWrapper>} />
 
-          <Route path="service/iso/2200" element={<PageTransitionWrapper> < Iso_2200
-          /></PageTransitionWrapper>} />
+          <Route path="service/iso/2200" element={<PageTransitionWrapper> <ISO22000Certification/>  </PageTransitionWrapper>} />
 
-          <Route path="service/iso/9001" element={<PageTransitionWrapper> < ISO9001Certification
-          /></PageTransitionWrapper>} />
+          <Route path="service/iso/9001" element={<PageTransitionWrapper> < ISO9001Certification /></PageTransitionWrapper>} />
           
           <Route path="service/iso/45001" element={<PageTransitionWrapper> < ISO45001Certification/></PageTransitionWrapper>} />
 

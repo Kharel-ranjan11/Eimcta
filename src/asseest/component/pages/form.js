@@ -183,7 +183,7 @@ export default function BusinessQuoteForm() {
   return (
     <>
       <EmailJSLoader />
-      <main className="min-h-screen p-6 bg-gradient-to-br from-amber-50 to-amber-100 font-['Arial_Narrow']">
+      <main className="min-h-screen p-6  font-['Arial_Narrow']">
         <div className="max-w-6xl mx-auto p-8 bg-white rounded-xl shadow-lg border border-amber-200 hover:shadow-xl transition-shadow duration-300">
           <h2 className="text-3xl font-bold text-amber-900 mb-6 text-center relative after:content-[''] after:block after:w-24 after:h-1 after:bg-yellow-400 after:mx-auto after:mt-2">
             Service Inquiry Form

@@ -1,9 +1,9 @@
-import { 
-  FaChartLine, 
-  FaFlask, 
-  FaChalkboardTeacher, 
-  FaShieldAlt, 
-  FaLeaf, 
+import {
+  FaChartLine,
+  FaFlask,
+  FaChalkboardTeacher,
+  FaShieldAlt,
+  FaLeaf,
   FaIndustry,
   FaUserTie,
   FaCertificate,
@@ -121,7 +121,7 @@ const Services = () => {
     <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-amber-50 to-amber-100 overflow-hidden" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}>
       {/* Decorative background element */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-r from-amber-200/30 to-transparent -z-10"></div>
-      
+
       <div className="max-w-7xl mx-auto relative">
         {/* Section header */}
         <div className="text-center mb-16">
@@ -147,7 +147,7 @@ const Services = () => {
                 </div>
                 <h2 className="text-xl font-bold mb-3 text-amber-900" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}>{service.title}</h2>
                 <p className="mb-4 text-gray-700">{service.description}</p>
-                
+
                 <ul className="space-y-2 mb-6">
                   {service.items.map((item, i) => (
                     <li key={i} className="flex items-start text-gray-600">
@@ -158,7 +158,7 @@ const Services = () => {
                     </li>
                   ))}
                 </ul>
-                
+
                 <div className="mt-auto">
                   <button className="w-full py-3 px-4 bg-amber-100 hover:bg-amber-200 rounded-lg font-medium transition-all duration-300 border border-amber-200 hover:border-amber-300 flex items-center justify-between group-hover:bg-amber-200">
                     <span className="text-amber-900">{service.cta}</span>
@@ -182,7 +182,7 @@ const Services = () => {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {benefits.map((benefit, index) => (
-                  <div 
+                  <div
                     key={index}
                     className="bg-white p-5 rounded-lg border border-amber-200 shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
                   >
@@ -194,9 +194,9 @@ const Services = () => {
                   </div>
                 ))}
               </div>
-              
+
               <div className="mt-12 text-center">
-                <button 
+                <button
                   className="py-3 px-6 bg-amber-600 text-white font-bold rounded-lg hover:bg-amber-700 transition-colors duration-300 shadow-md hover:shadow-lg flex items-center mx-auto border border-amber-700"
                   style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}
                 >

@@ -383,7 +383,7 @@ export const menuitems = [
   },
   {
     title: "Services",
-    path: "/services",
+    path: false,
     children: [
       {
         title: 'ISO Consultancy',
@@ -396,17 +396,17 @@ export const menuitems = [
           icon: icon
         }, {
           id: 2,
-          title: 'ISO ',
+          title: 'ISO 2200:20189(FSMS)',
           path: '/service/iso/2200',
           icon: icon
         }, {
           id: 3,
-          title: 'ISO ',
+          title: 'ISO 9001:2015 (QMS)',
           path: '/service/iso/9001',
           icon: icon
         }, {
           id: 4,
-          title: 'ISO ',
+          title: 'ISO 45001:2018 (OHSMS) ',
           path: '/service/iso/45001',
           icon: icon
         },]

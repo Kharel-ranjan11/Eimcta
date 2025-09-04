@@ -55,14 +55,14 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="bg-white overflow-hidden bg-[#f4d58e]" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}>
+    <div className="bg-white overflow-hidden" style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }}>
       {/* ===== HERO SECTION ===== */}
       <Suspense fallback={<LoadingPlaceholder />}>
         <section className="relative w-full">
           <ImageCarousel />
         </section>
       </Suspense>
-      
+
       <Scroll_x />
       <ISOShowcase />
 
@@ -75,14 +75,14 @@ const Home = () => {
       {/* ===== TESTIMONIALS ===== */}
       <Testimonials />
 
-      {/* ===== BRANDING ===== */}
-      <Branding />
-
-      {/*  */}
       <AboutCard />
+      {/* ===== BRANDING ===== */}
+
+
 
       {/* ===== MODAL ===== */}
       <ModalPage />
+      <Branding />
     </div>
   );
 };
