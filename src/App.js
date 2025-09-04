@@ -90,7 +90,7 @@ function App() {
 
           <Route path="services/supply-of-sign-quality-safety-env-companies" element={
             <PageTransitionWrapper> <SafetySignPPE /></PageTransitionWrapper>} />
-{/* bid */}
+          {/* bid */}
           <Route path="services/tender-technical-bid-preparation" element={
             <PageTransitionWrapper> <TechnicalBidComponent /></PageTransitionWrapper>} />
 
@@ -100,11 +100,11 @@ function App() {
           <Route path="service/iso/2100" element={<PageTransitionWrapper> < ISO21001Guide
           /></PageTransitionWrapper>} />
 
-          <Route path="service/iso/2200" element={<PageTransitionWrapper> <ISO22000Certification/>  </PageTransitionWrapper>} />
+          <Route path="service/iso/2200" element={<PageTransitionWrapper> <ISO22000Certification />  </PageTransitionWrapper>} />
 
           <Route path="service/iso/9001" element={<PageTransitionWrapper> < ISO9001Certification /></PageTransitionWrapper>} />
-          
-          <Route path="service/iso/45001" element={<PageTransitionWrapper> < ISO45001Certification/></PageTransitionWrapper>} />
+
+          <Route path="service/iso/45001" element={<PageTransitionWrapper> < ISO45001Certification /></PageTransitionWrapper>} />
 
           <Route path="services/iso-training" element={<PageTransitionWrapper><Traning /></PageTransitionWrapper>}>
 
