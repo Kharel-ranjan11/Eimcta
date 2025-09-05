@@ -1,19 +1,19 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
+import {
+  Award,
+  HardHat,
+  GraduationCap,
+  TreePalm,
+  Shield,
+  Search,
+  FileText,
+  ExternalLink,
+  Phone,
+  Mail,
+  MapPin
+} from "lucide-react";
 
-// --- SVG Icons ---
-// Replaced react-icons with inline SVGs for a self-contained component.
-const FaAward = () => (<svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 33.6l-20.9 42.3-46.7 6.8 33.8 32.9-8 46.5 41.8-22 41.8 22-8-46.5 33.8-32.9-46.7-6.8L256 33.6zM128 160H84.8c-11.2 0-21.2 9.1-22.3 20.3-1.1 11.2 6.8 21.2 17.5 23.4l96.8 20.3 33.8 91.5-60.1 29.1-85-85c-9.4-9.4-24.6-9.4-33.9 0l-17 17c-9.4 9.4-9.4 24.6 0 33.9l128 128c9.4 9.4 24.6 9.4 33.9 0l17-17c9.4-9.4 9.4-24.6 0-33.9l-85-85 29.1-60.1 91.5 33.8 20.3 96.8c2.2 10.7 12.2 18.6 23.4 17.5 11.2-1.1 20.3-11.2 20.3-22.3V160h-43.2l-33.6 71.4-71.4-33.6L128 160zm256 0h43.2c11.2 0 21.2-9.1 22.3-20.3 1.1-11.2-6.8-21.2-17.5-23.4l-96.8-20.3-33.8-91.5 60.1-29.1 85 85c9.4 9.4 24.6 9.4 33.9 0l17-17c9.4-9.4 9.4-24.6 0-33.9l-128-128c-9.4-9.4-24.6-9.4-33.9 0l-17 17c-9.4 9.4-9.4-24.6 0-33.9l85 85-29.1 60.1-91.5-33.8-20.3-96.8c-2.2-10.7-12.2-18.6-23.4-17.5-11.2 1.1-20.3 11.2-20.3 22.3V160h43.2l33.6 71.4 71.4-33.6L384 160z"></path></svg>);
-const FaHardHat = () => (<svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 576 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M571.3 133.3l-112-104c-18.3-17-44.5-17.6-63.5-1.4L291.1 128H144c-26.5 0-48 21.5-48 48v48H48c-26.5 0-48 21.5-48 48v80c0 26.5 21.5 48 48 48h48v32c0 26.5 21.5 48 48 48h320c26.5 0 48-21.5 48-48v-80c0-26.5-21.5-48-48-48h-48v-48c0-23.2 16.5-42.9 38.9-47.2l45.4-8.8c13.2-2.6 22.7-14.8 21.5-28.1-1.2-13.3-12.8-23.4-26.1-22.1zM144 384v-32h320v32H144zm368-80v32h-48v-32h48zm-96 0v32h-48v-32h48zm-96 0v32h-48v-32h48zm-96 0v32h-48v-32h48z"></path></svg>);
-const FaGraduationCap = () => (<svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 640 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M622.34 153.2L343.4 27.2c-17.4-7.7-37.4-7.7-54.8 0L17.66 153.2c-17.4 7.7-17.4 28.3 0 36l271.4 126c17.4 7.7 37.4 7.7 54.8 0l271.4-126c17.4-7.7 17.4-28.3 0-36zM320 336c-20.9 0-40.4-3.5-58.5-9.8l-15.8 47.4c6 2 12.3 3.4 18.8 4.4l-11.4 34.1c-16.1-2.7-31.5-6.6-45.9-11.6l-11.3 34c16.3 5.4 33.3 9.4 50.8 11.9l-11.7 35c-20.9-3.2-41-8.3-59.8-15.1l-11.4 34c21.8 8.1 44.8 14.1 68.8 17.6l-11.8 35.4c-28.1-4.7-55.2-12-80.7-21.6L128 480h384l-31.4-94.2c-25.5 9.6-52.6 16.9-80.7 21.6l-11.8-35.4c24-3.5 47-9.5 68.8-17.6l-11.4-34c-18.8 6.8-38.9 11.9-59.8 15.1l-11.7-35c17.5-2.5 34.5-6.5 50.8-11.9l-11.3-34c-14.4 5-29.8 8.9-45.9 11.6l-11.4-34.1c6.5-1 12.8-2.4 18.8-4.4l-15.8-47.4c-18.1 6.3-37.6 9.8-58.5 9.8z"></path></svg>);
-const FaTree = () => (<svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 576 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M544 480h-48a16 16 0 0 0-16 16v-16h-64v16a16 16 0 0 0-16-16h-48a16 16 0 0 0-16 16v-16h-64v16a16 16 0 0 0-16-16h-48a16 16 0 0 0-16 16v-16H48v16a16 16 0 0 0-16-16H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h544a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zM288 320a48 48 0 0 0 48-48V115.54a48 48 0 1 0-96 0V272a48 48 0 0 0 48 48zM520 208.23a16 16 0 0 0-10.47-15.11l-96-32A16 16 0 0 0 400 176v64a16 16 0 0 0 16 16h64a16 16 0 0 0 16-16v-32a16 16 0 0 0-1.53-7.16l-38.4-64a16 16 0 0 0-13.51-7.15H368a16 16 0 0 0-16 16v16a16 16 0 0 0 16 16h22.63l19.2 32H384a16 16 0 0 0-16 16v16a16 16 0 0 0 16 16h64a16 16 0 0 0 16-16v-16a16 16 0 0 0-16-16h-1.37l28.8-48H504a16 16 0 0 0 16-16v-16a16 16 0 0 0-.53-.23zM96 160a16 16 0 0 0 13.51-7.15L144 88.46V176a16 16 0 0 0 16 16h64a16 16 0 0 0 16-16v-64a16 16 0 0 0-16-16h-64a16 16 0 0 0-16 16v32a16 16 0 0 0-1.53 7.16l-38.4 64A16 16 0 0 0 56 223.77V208a16 16 0 0 0 16-16h22.63l19.2-32H80a16 16 0 0 0-16 16v16a16 16 0 0 0 16 16h64a16 16 0 0 0 16-16v-16a16 16 0 0 0-16-16h-1.37l28.8 48H176a16 16 0 0 0 16-16v-16a16 16 0 0 0-.53-.23l-96 32A16 16 0 0 0 64 160.46V192a16 16 0 0 0 16 16h64a16 16 0 0 0 16-16v-16a16 16 0 0 0-16-16h-64a16 16 0 0 0-16 16z"></path></svg>);
-const FaShieldAlt = () => (<svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M466.5 83.7l-192-80a48.15 48.15 0 0 0-36.9 0l-192 80C27.7 93.7 0 122.4 0 158.2v195.5A48.2 48.2 0 0 0 48.2 502h415.5A48.2 48.2 0 0 0 512 453.8V158.2c0-35.8-27.7-64.5-45.5-74.5zM256 448c-66.2 0-112-53.8-112-120s45.8-120 112-120 112 53.8 112 120-45.8 120-112 120z"></path></svg>);
-const FaSearch = () => (<svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"></path></svg>);
-const FaFileAlt = () => (<svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 384 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm64 236c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-64c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-64c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zM377 105L279 7c-4.5-4.5-10.6-7-17-7h-6v128h128v-6.1c0-6.3-2.5-12.4-7-16.9z"></path></svg>);
-const FaExternalLinkAlt = () => (<svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z"></path></svg>);
-const FaPhone = () => (<svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M493.4 24.6l-104-24c-11.3-2.6-22.9 3.3-27.5 13.9l-48 112c-4.2 9.8-1.4 21.3 6.9 28l60.6 49.6c-36 76.7-98.9 140.5-177.2 177.2l-49.6-60.6c-6.8-8.3-18.2-11.1-28-6.9l-112 48C3.9 366.5-2 378.1.6 389.4l24 104C27.1 504.2 36.7 512 48 512c256.1 0 464-207.5 464-464 0-11.2-7.7-20.9-18.6-23.4z"></path></svg>);
-const FaEnvelope = () => (<svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2 0 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.4 73.4 41.4z"></path></svg>);
-const FaMapMarkerAlt = () => (<svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 384 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67a24 24 0 0 1-35.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"></path></svg>);
 
 // --- Animation Variants ---
 const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.2 } } };
@@ -80,7 +80,7 @@ const CustomModal = ({ isOpen, onClose, children }) => {
     if (!isOpen) return null;
 
     return (
-        <div 
+        <div
             className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4"
             onClick={onClose}
         >
@@ -99,11 +99,6 @@ const CustomModal = ({ isOpen, onClose, children }) => {
 };
 
 
-// --- Business Quote Form Component ---
-
-
-
-// --- Main About Component ---
 export default function About() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentFile, setCurrentFile] = useState({ url: "", type: "" });
@@ -137,12 +132,12 @@ export default function About() {
     { name: "Impartiality Policy", description: "Ensuring fair and unbiased service delivery", preview: "https://placehold.co/600x400/f59e0b/FFFFFF?text=Impartiality", pageLink: "#" },
   ];
   const services = [
-    { title: "ISO Certification & Training", icon: <FaAward size={24} className="text-amber-700 group-hover:text-white" />, description: "Certification for standards like ISO 9001, 45001, 14001, and more, plus expert training." },
-    { title: "OHS & Consultancy", icon: <FaHardHat size={24} className="text-amber-700 group-hover:text-white" />, description: "Health plans, environmental services, GMP, HACCP, CE marking, and disaster management." },
-    { title: "Digital Transformation", icon: <FaGraduationCap size={24} className="text-amber-700 group-hover:text-white" />, description: "Paperless systems, marketing strategies, data analysis, and ERP solutions for efficiency." },
-    { title: "Corporate Training", icon: <FaTree size={24} className="text-amber-700 group-hover:text-white" />, description: "ISO Auditor, OHS, fire safety, road safety, Lean Six Sigma, PMP, and Primavera training." },
-    { title: "Supply & Outsourcing", icon: <FaShieldAlt size={24} className="text-amber-700 group-hover:text-white" />, description: "OHS signage, traffic safety equipment, PPEs, and fire safety gear." },
-    { title: "Third Party Services", icon: <FaSearch size={24} className="text-amber-700 group-hover:text-white" />, description: "Audits, inspections, incident investigations, testing, calibration, and certification." },
+    { title: "ISO Certification & Training", icon: <Award size={24} className="text-amber-700 group-hover:text-white" />, description: "Certification for standards like ISO 9001, 45001, 14001, and more, plus expert training." },
+    { title: "OHS & Consultancy", icon: <HardHat size={24} className="text-amber-700 group-hover:text-white" />, description: "Health plans, environmental services, GMP, HACCP, CE marking, and disaster management." },
+    { title: "Digital Transformation", icon: <GraduationCap size={24} className="text-amber-700 group-hover:text-white" />, description: "Paperless systems, marketing strategies, data analysis, and ERP solutions for efficiency." },
+    { title: "Corporate Training", icon: <TreePalm size={24} className="text-amber-700 group-hover:text-white" />, description: "ISO Auditor, OHS, fire safety, road safety, Lean Six Sigma, PMP, and Primavera training." },
+    { title: "Supply & Outsourcing", icon: <Shield size={24} className="text-amber-700 group-hover:text-white" />, description: "OHS signage, traffic safety equipment, PPEs, and fire safety gear." },
+    { title: "Third Party Services", icon: <Search size={24} className="text-amber-700 group-hover:text-white" />, description: "Audits, inspections, incident investigations, testing, calibration, and certification." },
   ];
   const values = [
     { title: 'Our Belief', description: 'We see every client relationship as more than just business; it is a long-term partnership built on trust.' },
@@ -279,18 +274,18 @@ export default function About() {
                             <button onClick={() => openModal(policy.preview)} className="block w-full h-48 bg-gray-200 cursor-zoom-in overflow-hidden relative">
                                 <img src={policy.preview} alt={policy.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                                 <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-400 flex items-center justify-center">
-                                    <div className="text-white bg-amber-600 bg-opacity-0 group-hover:bg-opacity-80 rounded-full p-3 transition-all duration-300 scale-0 group-hover:scale-100"><FaSearch size={20} /></div>
+                                    <div className="text-white bg-amber-600 bg-opacity-0 group-hover:bg-opacity-80 rounded-full p-3 transition-all duration-300 scale-0 group-hover:scale-100"><Search size={20} /></div>
                                 </div>
                             </button>
                             <div className="p-6">
-                                <div className="flex items-center gap-3 mb-3"><FaFileAlt size={20} className="text-amber-600" /><h3 className="text-lg font-semibold text-gray-900">{policy.name}</h3></div>
+                                <div className="flex items-center gap-3 mb-3"><FileText size={20} className="text-amber-600" /><h3 className="text-lg font-semibold text-gray-900">{policy.name}</h3></div>
                                 <p className="text-gray-600 mb-4">{policy.description}</p>
                                 <div className="flex gap-4">
                                     <motion.button whileHover={{ y: -2, scale: 1.03 }} whileTap={{ scale: 0.98 }} onClick={() => openModal(policy.preview)} className="flex items-center gap-2 text-amber-600 hover:text-amber-800 transition-colors">
-                                        <FaSearch className="text-blue-500" /><span>Preview Image</span>
+                                        <Search className="text-blue-500" /><span>Preview Image</span>
                                     </motion.button>
                                     <motion.a href={policy.pageLink} className="flex items-center gap-2 text-amber-600 hover:text-amber-800 transition-colors" whileHover={{ y: -2, scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-                                        <FaExternalLinkAlt size={12} /><span>Details</span>
+                                        <ExternalLink size={12} /><span>Details</span>
                                     </motion.a>
                                 </div>
                             </div>
@@ -336,4 +331,3 @@ export default function About() {
     </div>
   );
 }
-

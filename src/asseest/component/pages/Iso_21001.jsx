@@ -16,9 +16,13 @@ const sectionVariants = {
 };
 
 const underlineVariant = {
-  hidden: { width: '0%' },
+  hidden: { 
+    width: '0%',
+    left: '50%',
+    transform: 'translateX(-50%)',
+  },
   visible: { 
-    width: '100%',
+    width: '25%',
     transition: {
       duration: 0.8,
       delay: 0.3,
@@ -91,9 +95,9 @@ const ISO21001Guide = () => {
   // A reusable Heading component for section titles
   const SectionHeading = ({ icon, children }) => (
     <div className="relative inline-block">
-       <motion.h2 
+      <motion.h2 
         variants={sectionVariants}
-        className="text-2xl md:text-3xl font-bold text-amber-900 pb-2 mb-6 flex items-center"
+        className="text-2xl md:text-3xl font-bold text-amber-900 pb-2 mb-1 flex items-center"
       >
         <span className="flex items-center justify-center bg-yellow-100 text-yellow-400 
           rounded-full w-10 h-10 mr-3 text-xl group-hover:scale-110 transition-transform duration-300">
@@ -103,8 +107,7 @@ const ISO21001Guide = () => {
       </motion.h2>
       <motion.div 
         variants={underlineVariant}
-        className="absolute h-1 bg-yellow-400 rounded-full"
-        style={{ left: '50%', bottom: '-0.5rem', transform: 'translateX(-50%)', originX: 0.5 }}
+        className="absolute h-1 bg-yellow-400 rounded-full -bottom-4"
       />
     </div>
   );

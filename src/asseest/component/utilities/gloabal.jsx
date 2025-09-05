@@ -1,21 +1,21 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useRef } from 'react';
+import { motion } from 'framer-motion';
 
 // SVG Icon Components
 const FiUser = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>;
 const FiBriefcase = ({ size = 20, className = "" }) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>;
 const FiMail = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>;
 const FiPhone = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>;
-const FiMapPin = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>;
+const FiHome = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>;
+const FiGlobe = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>;
 const FiMessageSquare = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>;
 const FiCheck = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>;
 const FiX = ({ size = 16 }) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
 const FiChevronDown = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>;
 const FiChevronUp = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>;
-const FiHome = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>;
-const FiGlobe = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>;
 const FiAlertCircle = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>;
 const FiNavigation = ({ className = "" }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>;
-const FiPlus = ({ size = 16 }) => <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>;
+const FiPlus = ({ size = 16 }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>;
 const FaBuilding = ({ className = "", size = 20 }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width={size} height={size} className={className} fill="currentColor"><path d="M448 32H361.9C354.9 12.58 335.5 0 313.9 0H197.1c-21.58 0-40.95 12.58-47.94 32H64C46.33 32 32 46.33 32 64v384c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32V64C480 46.33 465.7 32 448 32zM160 160c0-17.67 14.33-32 32-32h128c17.67 0 32 14.33 32 32v192c0 17.67-14.33 32-32 32H192c-17.67 0-32-14.33-32-32V160zM128 416H96v-32h32V416zM128 352H96v-32h32V352zM128 288H96v-32h32V288zM128 224H96v-32h32V224zM128 160H96v-32h32V160zM416 416h-32v-32h32V416zM416 352h-32v-32h32V352zM416 288h-32v-32h32V288zM416 224h-32v-32h32V224zM416 160h-32v-32h32V160z" /></svg>;
 const FaIndustry = ({ className = "", size = 20 }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width={size} height={size} className={className} fill="currentColor"><path d="M572.52 241.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400a144 144 0 1 1 144-144 143.93 143.93 0 0 1-144 144zm0-240a95.31 95.31 0 0 0-25.31 4.75l15.42-15.42a16 16 0 0 1 22.62 22.62L285.25 182A95.31 95.31 0 0 0 288 160z" /></svg>;
 const FaHandsHelping = ({ className = "", size = 20 }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width={size} height={size} className={className} fill="currentColor"><path d="M533.34 224.5A138.63 138.63 0 0 0 512 192H320a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h192c12.38 0 24-6.5 30.66-16.5a138.63 138.63 0 0 0 21.34-31.5zm-142 0a16 16 0 0 0-16-16H192c-12.38 0-24 6.5-30.66 16.5a138.63 138.63 0 0 0-21.34 31.5A138.63 138.63 0 0 0 106.66 288.5a16 16 0 0 0 16 16h192a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zM320 128H192a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h128a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16zm192 128a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h128a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16z" /></svg>;
@@ -108,13 +108,31 @@ const InfoPanel = ({ activeInfo }) => {
     );
 
     return (
-        <div className="bg-amber-50 p-6 rounded-xl border border-amber-200 h-full hover:shadow-md transition-shadow">
+        <motion.div
+            className="bg-amber-50 p-6 rounded-xl border border-amber-200 h-full hover:shadow-md transition-shadow"
+            whileHover={{ y: -8, rotateX: 2, rotateY: -1, transition: { duration: 0.3, ease: "easeOut" } }}
+            style={{ originX: 0.5, originY: 0.5 }}
+        >
             <div className="flex items-center mb-4">
                 <div className="bg-yellow-100 rounded-full p-2 mr-3">
                     <span className="text-yellow-400">{icon}</span>
                 </div>
                 <div>
-                    <h3 className="text-xl font-bold text-amber-900 relative after:content-[''] after:absolute after:w-12 after:h-1 after:bg-yellow-400 after:left-0 after:-bottom-2">{title}</h3>
+                    <motion.h3
+                        className="text-xl font-bold text-amber-900 relative"
+                        initial="initial"
+                        whileInView="animate"
+                        variants={headerVariant}
+                        viewport={{ once: true }}
+                    >
+                        {title}
+                        <motion.div
+                            className="absolute w-12 h-1 bg-yellow-400 left-0 bottom-2 rounded-lg"
+                            variants={underlineVariant}
+                            whileInView="animate"
+                            viewport={{ once: true }}
+                        ></motion.div>
+                    </motion.h3>
                     {subTitle && <p className="text-sm text-amber-800 mt-3">{subTitle}</p>}
                 </div>
             </div>
@@ -125,11 +143,53 @@ const InfoPanel = ({ activeInfo }) => {
                     {relatedInfoContent}
                 </div>
             )}
-        </div>
+        </motion.div>
     );
 };
 
-// Main App Component
+// Animation Variants
+const slideInRight = {
+    initial: { opacity: 0, x: 80 },
+    animate: { opacity: 1, x: 0 },
+    transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }
+};
+
+const slideInLeft = {
+    initial: { opacity: 0, x: -80 },
+    animate: { opacity: 1, x: 0 },
+    transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }
+};
+
+const headerVariant = {
+    initial: { opacity: 0, y: 40 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }
+};
+
+const underlineVariant = {
+    initial: { width: "0%" },
+    animate: { width: "35%" },
+    transition: { duration: 0.8, delay: 0.3 }
+};
+
+const paragraphVariant = {
+    initial: { opacity: 0, y: 30 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.8, delay: 0.3 }
+};
+
+const containerStagger = {
+    initial: {},
+    animate: { transition: { staggerChildren: 0.1 } }
+};
+
+const cardHover = {
+    y: -8,
+    rotateX: 2,
+    rotateY: -1,
+    transition: { duration: 0.3, ease: "easeOut" }
+};
+
 const ISOCertificationForm = () => {
     const [formData, setFormData] = useState({ name: '', organization: '', email: '', phone: '', address: '', country: '', message: '' });
     const [selectedCategories, setSelectedCategories] = useState([]);
@@ -146,6 +206,10 @@ const ISOCertificationForm = () => {
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const [activeInfo, setActiveInfo] = useState(null);
     const [isLocating, setIsLocating] = useState(false);
+    const [isSending, setIsSending] = useState(false);
+
+    // Ref to the form element for EmailJS
+    const formRef = useRef();
 
     const allCategories = useMemo(() => [...CATEGORIES, ...customCategories], [customCategories]);
 
@@ -163,13 +227,11 @@ const ISOCertificationForm = () => {
 
     const allAvailableStandardsForSelection = useMemo(() => {
         const combined = [...availableStandards, ...customStandards];
-        // De-duplicate standards in case a custom one matches a pre-defined one
         return combined.filter((standard, index, self) =>
             index === self.findIndex((s) => s.id === standard.id)
         );
     }, [availableStandards, customStandards]);
 
-    // Resets the entire form to its initial state
     const resetForm = useCallback(() => {
         setFormData({ name: '', organization: '', email: '', phone: '', address: '', country: '', message: '' });
         setSelectedCategories([]);
@@ -179,7 +241,6 @@ const ISOCertificationForm = () => {
         setActiveInfo(null);
     }, []);
 
-    // Fetches user's location and populates address fields
     const handleGeolocate = () => {
         if (!navigator.geolocation) {
             console.error("Geolocation is not supported by this browser.");
@@ -188,7 +249,7 @@ const ISOCertificationForm = () => {
         setIsLocating(true);
         const options = {
             enableHighAccuracy: true,
-            timeout: 10000, // 10 seconds
+            timeout: 10000,
             maximumAge: 0,
         };
 
@@ -197,18 +258,14 @@ const ISOCertificationForm = () => {
             try {
                 const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`);
                 const data = await res.json();
-
                 const admin = data.localityInfo?.administrative;
-
                 const country = admin?.[0]?.name || data.countryName;
-                const address = data.locality; // This often contains the neighborhood or street-level info
-
+                const address = data.locality;
                 setFormData(prev => ({
                     ...prev,
                     address: address || prev.address,
                     country: country || prev.country,
                 }));
-
             } catch (err) {
                 console.error("Failed to fetch address:", err);
             } finally {
@@ -239,7 +296,6 @@ const ISOCertificationForm = () => {
         navigator.geolocation.getCurrentPosition(successCallback, errorCallback, options);
     };
 
-    // Adds a new custom category to the list
     const handleAddCustomCategory = () => {
         const name = customCategoryInput.trim().toUpperCase();
         if (name && !allCategories.some(c => c.name.toLowerCase() === name.toLowerCase())) {
@@ -257,7 +313,6 @@ const ISOCertificationForm = () => {
         }
     };
 
-    // Adds a new custom standard to the list
     const handleAddCustomStandard = () => {
         const code = customStandardInput.trim().toUpperCase();
         if (code && !selectedStandards.some(s => s.code.toLowerCase() === code.toLowerCase())) {
@@ -276,7 +331,6 @@ const ISOCertificationForm = () => {
         }
     };
 
-    // Validates the form fields before submission
     const validateForm = () => {
         const errors = {};
         if (!formData.name) errors.name = 'Name is required';
@@ -288,7 +342,6 @@ const ISOCertificationForm = () => {
         return Object.keys(errors).length === 0;
     };
 
-    // Handles changes in form inputs
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
@@ -297,15 +350,12 @@ const ISOCertificationForm = () => {
         }
     };
 
-    // Toggles the selection of a category
     const handleCategoryToggle = (categoryName) => {
         const isSelected = selectedCategories.includes(categoryName);
         if (isSelected) {
             setSelectedCategories(prev => prev.filter(c => c !== categoryName));
-            // Also remove if it's a custom category
             setCustomCategories(prev => prev.filter(c => c.name !== categoryName));
             const categoryObj = allCategories.find(c => c.name === categoryName);
-            // Also deselect standards associated with this category
             if (categoryObj && categoryObj.standards.length > 0) {
                 const standardsToRemove = new Set(categoryObj.standards.map(s => s.id));
                 setSelectedStandards(prev => prev.filter(s => !standardsToRemove.has(s.id)));
@@ -315,12 +365,10 @@ const ISOCertificationForm = () => {
         }
     };
 
-    // Toggles the selection of a standard
     const handleStandardToggle = (standard) => {
         const isSelected = selectedStandards.some(s => s.id === standard.id);
         if (isSelected) {
             setSelectedStandards(prev => prev.filter(s => s.id !== standard.id));
-            // Also remove if it's a custom standard
             if (standard.id.startsWith('custom-std')) {
                 setCustomStandards(prev => prev.filter(s => s.id !== standard.id));
             }
@@ -329,12 +377,28 @@ const ISOCertificationForm = () => {
         }
     };
 
-    // Handles form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (validateForm()) {
-            console.log('Form submitted:', { ...formData, standards: selectedStandards.map(s => s.code) });
+        if (!validateForm()) {
+            return;
+        }
+
+        setIsSending(true);
+        // The service ID, template ID, and public key from your EmailJS account.
+        // You'll need to create an account and configure a service and template.
+        const serviceId = 'YOUR_SERVICE_ID';
+        const templateId = 'YOUR_TEMPLATE_ID';
+        const publicKey = 'YOUR_PUBLIC_KEY';
+
+        try {
+            await window.emailjs.sendForm(serviceId, templateId, formRef.current, publicKey);
             setSubmitSuccess(true);
+            console.log('Email sent successfully!');
+        } catch (error) {
+            console.error('Failed to send email:', error);
+            setFormErrors(prev => ({ ...prev, submit: 'Failed to send application. Please try again.' }));
+        } finally {
+            setIsSending(false);
             setTimeout(() => {
                 setSubmitSuccess(false);
                 resetForm();
@@ -342,25 +406,42 @@ const ISOCertificationForm = () => {
         }
     };
 
-    // Renders the content for the side panel (or bottom on mobile)
     const renderSidePanelContent = () => (
         <>
-            <h3 className="text-xl font-bold text-amber-900 mb-4 flex items-center relative after:content-[''] after:absolute after:w-12 after:h-1 after:bg-yellow-400 after:left-0 after:-bottom-2">
+            <motion.h3
+                className="text-xl font-bold text-amber-900 mb-4 flex items-center relative"
+                initial="initial"
+                whileInView="animate"
+                variants={headerVariant}
+                viewport={{ once: true }}
+            >
                 <div className="bg-yellow-100 rounded-full p-2 mr-2">
                     <FiBriefcase className="text-yellow-400" />
                 </div>
                 Certification Information
-            </h3>
-            <InfoPanel activeInfo={activeInfo} />
+                <motion.div className="absolute w-12 h-1 bg-yellow-400 left-0 bottom-2 rounded-lg" variants={underlineVariant} whileInView="animate" viewport={{ once: true }}></motion.div>
+            </motion.h3>
+            <motion.div
+                initial={{ opacity: 0, x: 80 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+                whileHover={{ y: -8, rotateX: 2, rotateY: -1, transition: { duration: 0.3, ease: "easeOut" } }}
+                style={{ originX: 0.5, originY: 0.5 }}
+            >
+                <InfoPanel activeInfo={activeInfo} />
+            </motion.div>
             {selectedStandards.length > 0 && (
                 <div className="mt-6">
                     <h3 className="font-bold text-amber-900 mb-3">Your Selected Standards</h3>
-                    <div className="space-y-3">
+                    <motion.div className="space-y-3" initial="hidden" animate="visible" variants={containerStagger}>
                         {selectedStandards.map(s => (
-                            <div
+                            <motion.div
                                 key={s.id}
                                 className="bg-amber-50 p-3 rounded-lg border border-amber-200 flex justify-between items-center cursor-pointer hover:bg-amber-100 hover:shadow-md transition-all"
                                 onClick={() => setActiveInfo(s)}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5 }}
                             >
                                 <div className="flex items-center">
                                     <div className="bg-yellow-100 rounded-full p-1 mr-2">
@@ -369,43 +450,63 @@ const ISOCertificationForm = () => {
                                     <span className="font-bold text-amber-900">{s.code}</span>
                                 </div>
                                 <button type="button" onClick={(e) => { e.stopPropagation(); handleStandardToggle(s); }} className="text-amber-700 hover:text-amber-900"><FiX /></button>
-                            </div>
+                            </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
                 </div>
             )}
         </>
     );
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-amber-50 to-amber-100 py-12 px-4 sm:px-6 lg:px-8 font-sans">
+        <motion.div
+            className="min-h-screen bg-gradient-to-br from-amber-50 to-amber-100 py-12 px-4 sm:px-6 lg:px-8 font-sans"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+        >
             <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 bg-white rounded-2xl shadow-xl p-6 border border-amber-200 hover:shadow-lg transition-shadow">
+                <motion.div
+                    className="lg:col-span-2 bg-amber-50 rounded-2xl shadow-xl p-6 border border-amber-200 hover:shadow-lg transition-shadow"
+                    initial={{ opacity: 0, x: -80 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    whileHover={{ y: -8, rotateX: 2, rotateY: -1, transition: { duration: 0.3, ease: "easeOut" } }}
+                    style={{ originX: 0.5, originY: 0.5 }}
+                >
                     <div className="flex justify-between items-center mb-6">
-                        <h2 className="text-2xl font-bold text-amber-900 flex items-center relative after:content-[''] after:absolute after:w-12 after:h-1 after:bg-yellow-400 after:left-0 after:-bottom-2">
+                        <motion.h2
+                            className="text-2xl font-bold text-amber-900 flex items-center relative"
+                            initial={{ opacity: 0, x: 80 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+                        >
                             <div className="bg-yellow-100 rounded-full p-2 mr-3">
                                 <FiUser className="text-yellow-400" />
                             </div>
                             Application Details
-                        </h2>
-                        <button
+                            <motion.div className="absolute w-12 h-1 bg-yellow-400 left-0 bottom-2 rounded-lg" variants={underlineVariant} whileInView="animate" viewport={{ once: true }}></motion.div>
+                        </motion.h2>
+                        <motion.button
                             type="button"
                             onClick={handleGeolocate}
                             disabled={isLocating}
                             className="flex items-center px-3 py-2 text-sm bg-amber-50 text-amber-900 rounded-lg border border-amber-200 hover:bg-amber-100 hover:shadow-md transition-all disabled:opacity-50 disabled:cursor-wait"
+                            initial={{ opacity: 0, x: -80 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
                         >
                             <div className="bg-yellow-100 rounded-full p-1 mr-2">
                                 <FiNavigation className={`text-yellow-400 ${isLocating ? 'animate-spin' : ''}`} />
                             </div>
                             {isLocating ? 'Locating...' : 'Use My Current Location'}
-                        </button>
+                        </motion.button>
                     </div>
                     {submitSuccess && <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">Application submitted successfully!</div>}
-                    <form onSubmit={handleSubmit} noValidate>
+                    <form ref={formRef} onSubmit={handleSubmit} noValidate>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                             {FORM_FIELDS.map(field => <FormInput key={field.name} {...field} value={formData[field.name]} onChange={handleChange} error={formErrors[field.name]} />)}
                         </div>
-
                         <div className="relative">
                             <Dropdown
                                 label="Select Categories"
@@ -426,7 +527,6 @@ const ISOCertificationForm = () => {
                                 </div>
                             )}
                         </div>
-
                         {selectedCategories.length > 0 && (
                             <div className="relative">
                                 <Dropdown
@@ -456,8 +556,7 @@ const ISOCertificationForm = () => {
                                 )}
                             </div>
                         )}
-
-                        <div className="mb-6">
+                        <motion.div className="mb-6" variants={paragraphVariant} initial="initial" animate="animate">
                             <label className="block text-amber-900 font-bold mb-2 pl-1">
                                 <div className="bg-yellow-100 rounded-full p-1 inline-flex mr-2">
                                     <FiMessageSquare className="text-yellow-400" />
@@ -465,32 +564,87 @@ const ISOCertificationForm = () => {
                                 Additional Information
                             </label>
                             <textarea name="message" value={formData.message} onChange={handleChange} rows="4" className="w-full px-4 py-2 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 hover:shadow-md transition-shadow" placeholder="Tell us more..."></textarea>
-                        </div>
-                        <button type="submit" className="w-full py-3 px-6 rounded-lg bg-gradient-to-r from-amber-600 to-amber-800 text-white shadow-md hover:shadow-lg transition-all flex items-center justify-center font-bold hover:from-amber-700 hover:to-amber-900">
-                            <FiCheck /> <span className="ml-2">Submit Application</span>
+                        </motion.div>
+                        {formErrors.submit && <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">{formErrors.submit}</div>}
+                        <button type="submit" className="w-full py-3 px-6 rounded-lg bg-gradient-to-r from-amber-600 to-amber-800 text-white shadow-md hover:shadow-lg transition-all flex items-center justify-center font-bold hover:from-amber-700 hover:to-amber-900" disabled={isSending}>
+                            {isSending ? (
+                                <>
+                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Sending...
+                                </>
+                            ) : (
+                                <>
+                                    <FiCheck /> <span className="ml-2">Submit Application</span>
+                                </>
+                            )}
                         </button>
                     </form>
-                </div>
-                <div className="hidden lg:block sticky top-6 h-fit">{renderSidePanelContent()}</div>
+                </motion.div>
+                <motion.div
+                    className="hidden lg:block sticky top-6 h-fit"
+                    initial={{ opacity: 0, x: 80 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    whileHover={{ y: -8, rotateX: 2, rotateY: -1, transition: { duration: 0.3, ease: "easeOut" } }}
+                    style={{ originX: 0.5, originY: 0.5 }}
+                >
+                    {renderSidePanelContent()}
+                </motion.div>
             </div>
-            <div className="lg:hidden mt-8 bg-white rounded-2xl shadow-xl p-6 border border-amber-200">{renderSidePanelContent()}</div>
-            <div className="mt-8 bg-white rounded-2xl shadow-xl p-6 max-w-6xl mx-auto border border-amber-200 hover:shadow-lg transition-shadow">
-                <h2 className="text-xl md:text-2xl font-bold text-amber-900 mb-6 text-center relative after:content-[''] after:absolute after:w-16 after:h-1 after:bg-yellow-400 after:left-1/2 after:-translate-x-1/2 after:-bottom-2">साथै ISO प्रमाणिकरणबाट तल उल्लेखित फाइदाहरु हुन्छन् ।</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <motion.div
+                className="lg:hidden mt-8 bg-amber-50 rounded-2xl shadow-xl p-6 border border-amber-200"
+                initial={{ opacity: 0, x: -80 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+                whileHover={{ y: -8, rotateX: 2, rotateY: -1, transition: { duration: 0.3, ease: "easeOut" } }}
+                style={{ originX: 0.5, originY: 0.5 }}
+            >
+                {renderSidePanelContent()}
+            </motion.div>
+            <motion.div
+                className="mt-8 bg-amber-50 rounded-2xl shadow-xl p-6 max-w-6xl mx-auto border border-amber-200 hover:shadow-lg transition-shadow"
+                initial={{ opacity: 0, y: 60 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7 }}
+                whileHover={{ y: -8, rotateX: 2, rotateY: -1, transition: { duration: 0.3, ease: "easeOut" } }}
+                style={{ originX: 0.5, originY: 0.5 }}
+            >
+                <motion.h2
+                    className="text-xl md:text-2xl font-bold text-amber-900 mb-6 text-center relative"
+                    initial="initial"
+                    whileInView="animate"
+                    variants={headerVariant}
+                    viewport={{ once: true }}
+                >
+                    साथै ISO प्रमाणिकरणबाट तल उल्लेखित फाइदाहरु हुन्छन् ।
+                    <motion.div className="absolute w-16 h-1 bg-yellow-400 left-1/2 -translate-x-1/2 -bottom-2 rounded-lg" variants={underlineVariant} whileInView="animate" viewport={{ once: true }}></motion.div>
+                </motion.h2>
+                <motion.div className="grid grid-cols-1 sm:grid-cols-2 gap-4" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={containerStagger}>
                     { BENEFITS_BILINGUAL.map((benefit, index) => (
-                        <div key={index} className="bg-amber-50 p-4 rounded-lg border border-amber-200 hover:shadow-md transition-shadow flex items-start">
-                            <div className="bg-yellow-100 rounded-full p-2 mr-3">
+                        <motion.div
+                            key={index}
+                            className="bg-amber-50 p-4 rounded-lg border border-amber-200 hover:shadow-md transition-shadow flex items-start"
+                            initial={{ opacity: 0, y: 60 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.7 }}
+                            whileHover={{ y: -8, rotateX: 2, rotateY: -1, transition: { duration: 0.3, ease: "easeOut" } }}
+                            style={{ originX: 0.5, originY: 0.5 }}
+                        >
+                            <div className="bg-yellow-100 rounded-full w-8 h-8 flex items-center justify-center mr-3">
                                 <span className="font-bold text-yellow-400">{index + 1}</span>
                             </div>
-                            <div>
-                                <h3 className="text-lg font-bold text-amber-900">{benefit.np}</h3>
-                                <p className="text-sm text-amber-800">{benefit.en}</p>
-                            </div>
-                        </div>
+                            <motion.div initial="initial" whileInView="animate" variants={paragraphVariant} viewport={{ once: true }}>
+                                <motion.h3 className="text-lg font-bold text-amber-900" variants={paragraphVariant}>{benefit.np}</motion.h3>
+                                <motion.p className="text-sm text-amber-800" variants={paragraphVariant}>{benefit.en}</motion.p>
+                            </motion.div>
+                        </motion.div>
                     ))}
-                </div>
-            </div>
-        </div>
+                </motion.div>
+            </motion.div>
+        </motion.div>
     );
 };
 
@@ -498,20 +652,16 @@ const Dropdown = ({ label, items, selectedItems, onToggle, displayKey, itemRende
     const [isOpen, setIsOpen] = useState(false);
 
     const getDisplayItem = (key) => {
-        // For standards, key is the object itself
         const foundItem = items.find(item => item[displayKey] === (typeof key === 'object' ? key[displayKey] : key));
         if (foundItem) return foundItem;
-
-        // Handle case where key is a string for categories or a standard object for standards
         if (typeof key === 'string') {
              return { [displayKey]: key, name: key, icon: <FiBriefcase className="text-yellow-400" size={20} /> };
         }
         return { ...key, icon: <FiBriefcase className="text-yellow-400" size={20} /> };
-
     };
 
     return (
-        <div className="mb-6">
+        <motion.div className="mb-6" variants={paragraphVariant} initial="initial" animate="animate">
             <div className="flex justify-between items-center mb-2">
                 <label className="block text-amber-900 font-bold">{label}</label>
                 {onAdd && (
@@ -564,9 +714,7 @@ const Dropdown = ({ label, items, selectedItems, onToggle, displayKey, itemRende
                     </div>
                 )}
             </div>
-        </div>
+        </motion.div>
     );
 };
-
-
 export default ISOCertificationForm;

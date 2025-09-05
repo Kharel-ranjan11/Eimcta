@@ -152,7 +152,7 @@ export default function ISO45001Certification() {
   const { ref: imageRef, inView: imageInView } = useInView({ triggerOnce: true, threshold: 0.2 });
 
   return (
-    <div style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }} className="min-h-screen bg-gradient-to-br from-amber-50 to-amber-100 text-gray-800 antialiased overflow-x-hidden">
+    <div style={{ fontFamily: "'Arial Narrow', Arial, sans-serif" }} className="min-h-screen pb-3 bg-gradient-to-br from-amber-50 to-amber-100 text-gray-800 antialiased overflow-x-hidden">
       <div className="bg-white shadow-xl max-w-7xl mx-auto">
         <header className="bg-amber-800 text-white p-8 text-center rounded-t-lg">
           <motion.h1 initial="hidden" animate="visible" variants={slideInRight} className="text-4xl md:text-5xl font-extrabold leading-tight tracking-wide text-white">ISO 45001 Certification</motion.h1>

@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect } from "react";
-import { Parallax } from "react-parallax";
-import Particles from "react-tsparticles";
-import { loadFull } from "tsparticles";
+import React, { useState, useEffect } from "react";
+// Removed Parallax and Particles imports as they are not available in this environment.
+// We will use CSS for the background effect.
 import { motion } from "framer-motion";
+import { Phone, Mail, Globe, ExternalLink } from 'lucide-react';
 
 // Animation variants
 const slideInRight = {
@@ -42,9 +42,9 @@ const itemVariants = {
 };
 
 const underlineVariant = {
-  hidden: { width: 0 },
+  hidden: { scaleX: 0 },
   visible: { 
-    width: "25%",
+    scaleX: 1,
     transition: {
       delay: 0.3,
       duration: 0.8,
@@ -112,100 +112,38 @@ const ThreeDCard = ({ children, className = "", variants = slideInUp, custom = 0
   );
 };
 
+// Main App component
 export default function Contact() {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const particlesInit = async (engine) => {
-    await loadFull(engine);
-  };
-
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 min-h-screen" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
-      {/* Enhanced Particle background */}
-      <div className="absolute inset-0 -z-10">
-        <Particles
-          id="tsparticles"
-          init={particlesInit}
-          options={{
-            fpsLimit: 60,
-            interactivity: {
-              events: {
-                onHover: {
-                  enable: true,
-                  mode: "bubble",
-                },
-              },
-              modes: {
-                bubble: {
-                  distance: 100,
-                  duration: 2,
-                  opacity: 0.8,
-                  size: 6,
-                  color: {
-                    value: "#f59e0b",
-                  },
-                },
-              },
-            },
-            particles: {
-              color: {
-                value: "#f59e0b",
-              },
-              links: {
-                color: "#f59e0b",
-                distance: 150,
-                enable: true,
-                opacity: 0.2,
-                width: 1,
-              },
-              collisions: {
-                enable: true,
-              },
-              move: {
-                direction: "none",
-                enable: true,
-                outModes: {
-                  default: "bounce",
-                },
-                random: true,
-                speed: 0.8,
-                straight: false,
-              },
-              number: {
-                density: {
-                  enable: true,
-                  area: 800,
-                },
-                value: 50,
-              },
-              opacity: {
-                value: 0.3,
-              },
-              shape: {
-                type: "circle",
-              },
-              size: {
-                value: { min: 1, max: 4 },
-              },
-            },
-            detectRetina: true,
-          }}
-        />
-      </div>
+      {/* Background blobs for a subtle animation effect */}
+      <div className="absolute top-0 -left-4 w-72 h-72 bg-amber-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+      <div className="absolute top-0 -right-4 w-72 h-72 bg-orange-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+      <div className="absolute -bottom-8 left-20 w-72 h-72 bg-amber-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+      
+      <style>{`
+        @keyframes blob {
+          0% { transform: translate(0px, 0px) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
+          100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+      `}</style>
 
       <div className="relative">
-        {/* Enhanced Hero Section with Parallax */}
-        <Parallax
-          bgImage="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-          bgImageAlt="Contact us background"
-          strength={400}
-          blur={{ min: -2, max: 3 }}
+        {/* Enhanced Hero Section with CSS Parallax-like effect */}
+        <div 
+          className="bg-cover bg-fixed bg-center" 
+          style={{backgroundImage: "url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"}}
         >
           <div className="h-72 md:h-96 flex items-center justify-center bg-gradient-to-r from-amber-900/80 to-amber-800/70">
             <div className="text-center px-4 max-w-4xl mx-auto">
@@ -216,9 +154,7 @@ export default function Contact() {
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
                 >
-                  <svg className="w-10 h-10 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                  </svg>
+                  <Phone className="w-10 h-10 text-amber-300" />
                 </motion.div>
                 <motion.h1 
                   className="text-4xl md:text-5xl lg:text-6xl font-bold text-amber-50 mb-4 relative"
@@ -228,11 +164,10 @@ export default function Contact() {
                 >
                   Contact Us
                   <motion.span 
-                    className="block w-24 h-1.5 bg-amber-400 rounded-full mx-auto mt-4"
+                    className="block w-1/4 h-1.5 bg-amber-400 rounded-full mx-auto mt-4"
                     variants={underlineVariant}
                     initial="hidden"
                     animate="visible"
-                    style={{ originX: 0.5 }}
                   ></motion.span>
                 </motion.h1>
               </div>
@@ -246,7 +181,7 @@ export default function Contact() {
               </motion.p>
             </div>
           </div>
-        </Parallax>
+        </div>
 
         {/* Contact Information Section */}
         <div className="container mx-auto px-4 sm:px-6 py-16 md:py-24">
@@ -264,9 +199,8 @@ export default function Contact() {
               >
                 Get In Touch
                 <motion.span 
-                  className="absolute left-0 right-0 -bottom-3 h-1.5 bg-amber-400 rounded-full"
+                  className="absolute w-1/4 left-1/2 -translate-x-1/2 -bottom-3 h-1.5 bg-amber-400 rounded-full"
                   variants={underlineVariant}
-                  style={{ originX: 0.5 }}
                 ></motion.span>
               </motion.h2>
               <motion.p 
@@ -298,9 +232,7 @@ export default function Contact() {
                       <ThreeDCard variants={slideInUp} custom={0.1} className="p-4">
                         <div className="flex items-start">
                           <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mr-4 flex-shrink-0">
-                            <svg className="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                            </svg>
+                            <Phone className="w-6 h-6 text-amber-600" />
                           </div>
                           <div>
                             <p className="text-amber-900 font-medium text-lg mb-2">Phone Numbers</p>
@@ -321,9 +253,7 @@ export default function Contact() {
                       <ThreeDCard variants={slideInUp} custom={0.2} className="p-4">
                         <div className="flex items-start">
                           <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mr-4 flex-shrink-0">
-                            <svg className="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                            </svg>
+                            <Mail className="w-6 h-6 text-amber-600" />
                           </div>
                           <div>
                             <p className="text-amber-900 font-medium text-lg mb-2">Email Addresses</p>
@@ -344,9 +274,7 @@ export default function Contact() {
                       <ThreeDCard variants={slideInUp} custom={0.3} className="p-4">
                         <div className="flex items-start">
                           <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mr-4 flex-shrink-0">
-                            <svg className="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
-                            </svg>
+                            <Globe className="w-6 h-6 text-amber-600" />
                           </div>
                           <div>
                             <p className="text-amber-900 font-medium text-lg mb-2">Website</p>
@@ -445,9 +373,8 @@ export default function Contact() {
               >
                 Find Us on the Map
                 <motion.span 
-                  className="absolute left-0 right-0 -bottom-3 h-1.5 bg-amber-400 rounded-full"
+                  className="absolute w-1/4 left-1/2 -translate-x-1/2 -bottom-3 h-1.5 bg-amber-400 rounded-full"
                   variants={underlineVariant}
-                  style={{ originX: 0.5 }}
                 ></motion.span>
               </motion.h2>
               <motion.p 
@@ -487,9 +414,7 @@ export default function Contact() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center mt-3 text-amber-600 hover:text-amber-800 font-medium transition-colors"
               >
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                </svg>
+                <ExternalLink className="w-5 h-5 mr-2" />
                 Open in Google Maps
               </a>
             </motion.div>
@@ -499,3 +424,4 @@ export default function Contact() {
     </div>
   );
 }
+

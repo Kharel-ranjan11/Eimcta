@@ -18,7 +18,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import CoreExpertise from './asseest/component/pages/iso_consultancy.jsx';
 import { Faq } from './asseest/component/pages/faq.jsx';
 import Traning from './asseest/component/utilities/traning/traning.jsx';
-import { ISO_certification } from './asseest/component/pages/iso_certificate.jsx';
 import EnvironmentalServices from './asseest/component/pages/Enviroment.jsx';
 import ISOConsultancy from './asseest/component/pages/iso_consultancy.jsx';
 import SafetySignPPE from './asseest/component/pages/safetysignppe.jsx';
@@ -34,6 +33,7 @@ import ISO9001Certification from './asseest/component/pages/ISO_9001.jsx'
 import ISO22000Certification from './asseest/component/pages/ISO_2200.jsx';
 import ISO45001Certification from './asseest/component/pages/iso_45001.jsx';
 import TopHeader from './asseest/component/utilities/topheader.jsx';
+import ISO_certification from './asseest/component/pages/iso_certificate.jsx';
 // import TwentyTwoCertification from './asseest/component/pages/ISO_2200.JSX';
 // import { Router_link } from './asseest/component/utilities/Array/data.js';
 // import Person_Incharge_PI_2 from './asseest/component/utilities/traning/T_child/Person_Incharge_PI_2.jsx';
