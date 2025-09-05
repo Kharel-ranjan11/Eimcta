@@ -33,7 +33,8 @@ import ISO9001Certification from './asseest/component/pages/ISO_9001.jsx'
 import ISO45001Certification from './asseest/component/pages/iso_45001.jsx';
 import TopHeader from './asseest/component/utilities/topheader.jsx';
 import ISO_certification from './asseest/component/pages/iso_certificate.jsx';
-import ISO22000Certification from './asseest/component/pages/ISO_2200';
+
+// import ISO22000Certification from './asseest/component/pages/ISO_2200';
 
 function App() {
   return (
@@ -96,7 +97,7 @@ function App() {
           <Route path="service/iso/2100" element={<PageTransitionWrapper> < ISO21001Guide
           /></PageTransitionWrapper>} />
 
-          <Route path="service/iso/2200" element={<PageTransitionWrapper> <ISO22000Certification />  </PageTransitionWrapper>} />
+          {/* <Route path="service/iso/2200" element={<PageTransitionWrapper> <ISO22000Certification />  </PageTransitionWrapper>} /> */}
 
           <Route path="service/iso/9001" element={<PageTransitionWrapper> < ISO9001Certification /></PageTransitionWrapper>} />
 
