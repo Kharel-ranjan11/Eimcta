@@ -40,7 +40,7 @@ export const Branding = () => {
   };
 
   return (
-    <div className="w-full bg-gradient-to-br from-gray-100 to-gray-200 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <div className="w-full bg-gray-50 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         {/* Title */}
         <motion.div

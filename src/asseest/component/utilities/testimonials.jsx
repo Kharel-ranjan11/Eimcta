@@ -129,7 +129,7 @@ export const Testimonials = () => {
   }, [currentIndex, isHovered, visibleCards]);
 
   return (
-    <section className="relative w-full py-12 md:py-16 lg:py-20 bg-gradient-to-br from-amber-50 to-orange-50 overflow-hidden">
+    <section className="relative w-full py-12 md:py-16 lg:py-20 bg-gray-50 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-10 md:mb-14 lg:mb-16"
@@ -150,7 +150,8 @@ export const Testimonials = () => {
           {currentIndex > 0 && (
             <button 
               onClick={handlePrev}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-amber-50 transition-colors duration-200"
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full
+               bg-white shadow-md flex items-center justify-center hover:bg-amber-50 transition-colors duration-200"
               aria-label="Previous testimonial"
             >
               <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -197,7 +198,8 @@ export const Testimonials = () => {
                     transition: { duration: 0.3 }
                   }}
                 >
-                  <div className="bg-white border border-amber-100 p-6 md:p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 h-full mx-auto max-w-md md:max-w-none">
+                  <div className="bg-white border border-amber-200 p-6 md:p-8 rounded-xl shadow-lg
+                   hover:shadow-xl transition-all duration-300 h-full mx-auto max-w-md md:max-w-none">
                     <div className="flex items-start mb-5 md:mb-6">
                       <div className="relative">
                         <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-amber-100 to-orange-100 rounded-full flex items-center justify-center">

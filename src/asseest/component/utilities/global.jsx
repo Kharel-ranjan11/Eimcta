@@ -66,7 +66,7 @@ const AboutCard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-amber-100 py-12 px-4 sm:px-6 lg:px-8 font-['Arial_Narrow'] overflow-x-hidden">
+    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 font-['Arial_Narrow'] overflow-x-hidden">
       <div className="max-w-7xl mx-auto">
         <motion.div
           className="text-center mb-16"

@@ -115,7 +115,7 @@ const ISOShowcase = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-amber-50 to-amber-100 py-16 px-4 sm:px-6 lg:px-8 font-sans">
+        <div className="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8 font-sans">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <motion.div
@@ -171,7 +171,8 @@ const ISOShowcase = () => {
                             whileInView="visible"
                             viewport={{ once: true, amount: 0.3 }}
                             transition={{ delay: index * 0.1 }}
-                            className="bg-white rounded-2xl shadow-xl overflow-hidden border border-amber-200 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col"
+                            className="bg-white rounded-2xl shadow-xl overflow-hidden border
+                             border-amber-200 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col"
                         >
                             <div className="p-6 flex-grow flex flex-col">
                                 <div className="flex items-center mb-5">

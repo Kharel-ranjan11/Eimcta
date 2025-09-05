@@ -7,20 +7,7 @@ export const ISO_CREDENTIALS = () => {
   const containerRef = useRef(null);
 
   const credentials = [
-    {
-      title: "ISO 9001 Certified",
-      description: "Quality Management System certification demonstrating our commitment to consistent quality and continuous improvement in all our processes.",
-      image: "/images/iso9001.jpg",
-      year: "2023",
-      icon: "🏆"
-    },
-    {
-      title: "ISO 27001 Certified",
-      description: "Information Security Management certification ensuring robust data protection and cybersecurity measures for our clients.",
-      image: "/images/iso27001.jpg",
-      year: "2022",
-      icon: "🔒"
-    },
+   
     {
       title: "Industry Excellence Award",
       description: "Recognized as industry leader for innovative solutions, exceptional service delivery, and outstanding customer satisfaction metrics.",
@@ -35,13 +22,7 @@ export const ISO_CREDENTIALS = () => {
       year: "2023",
       icon: "🌱"
     },
-    {
-      title: "Customer Satisfaction Award",
-      description: "Awarded for maintaining 98% customer satisfaction score and delivering exceptional service and support.",
-      image: "/images/customer-award.jpg",
-      year: "2023",
-      icon: "❤️"
-    },
+    
     {
       title: "Innovation Excellence",
       description: "Recognized for groundbreaking technological advancements and digital transformation solutions.",
@@ -83,7 +64,7 @@ export const ISO_CREDENTIALS = () => {
   };
 
   return (
-    <div className="w-full bg-gradient-to-br from-amber-50 to-orange-50 py-16 px-4 sm:px-6 lg:px-8">
+    <div className="w-full bg-gray-50  py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         {/* Title */}
         <motion.div
@@ -110,16 +91,16 @@ export const ISO_CREDENTIALS = () => {
                 key={index}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className={`cursor-pointer p-5 rounded-xl transition-all duration-300 ${activeIndex === index ? 'bg-white shadow-lg border-l-4 border-amber-400' : 'bg-amber-50 shadow-md hover:bg-amber-100'}`}
+                className={`cursor-pointer p-5 rounded-xl transition-all duration-300 ${activeIndex === index ? 'bg-white shadow-lg border-l-4 border-amber-400' : 'bg-amber-50 shadow-md hover:bg-amber-200'}`}
                 onClick={() => scrollToItem(index)}
               >
                 <div className="flex items-center gap-4">
                   <div className="text-2xl">{credential.icon}</div>
                   <div>
-                    <h3 className={`text-lg font-bold ${activeIndex === index ? 'text-gray-800' : 'text-gray-700'}`}>
+                    <h3 className={`text-lg font-bold ${activeIndex === index ? 'text-amber-900' : 'text-amber-900'}`}>
                       {credential.title}
                     </h3>
-                    <p className={`text-sm ${activeIndex === index ? 'text-gray-600' : 'text-gray-500'}`}>
+                    <p className={`text-sm ${activeIndex === index ? 'text-amber-800' : 'text-amber-800'}`}>
                       {credential.year}
                     </p>
                   </div>
