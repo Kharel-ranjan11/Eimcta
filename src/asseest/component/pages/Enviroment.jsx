@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "../utilities/image";
+import BusinessQuoteForm from "./form";
 
 // --- SVG Icon Components ---
 const FaLeaf = (props) => (
@@ -368,7 +369,7 @@ const EnvironmentalServices = () => {
         src="https://www.w3.org/2010/05/video/mediaevents.html" 
         link="#" 
       /> */}
-
+ <BusinessQuoteForm />
     </div>
   );
 };

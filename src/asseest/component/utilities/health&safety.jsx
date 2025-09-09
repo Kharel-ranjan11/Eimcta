@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { ShieldCheck, Users, ListChecks, FileText, BarChart, Video, ThumbsUp } from 'lucide-react';
+import BusinessQuoteForm from '../pages/form';
 
 // Animation variants based on your specifications
 const animationVariants = {
@@ -325,6 +326,7 @@ const HealthSafety = () => {
         
         </div>
       </div>
+       <BusinessQuoteForm />
     </div>
   );
 };

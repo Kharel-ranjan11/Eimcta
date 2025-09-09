@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, useAnimation, useInView } from "framer-motion";
 import consultationProcess from '../../img/ISO Consultation Process_ - visual selection (1).png'
 import Image from '../utilities/image';
+import BusinessQuoteForm from './form';
 
 const Icon = ({ name, className }) => {
   const icons = {
@@ -407,6 +408,7 @@ const ISOConsultancy = () => {
           </div>
         </div>
         <VideoPlayer />
+         <BusinessQuoteForm />
       </div>
     </>
   );

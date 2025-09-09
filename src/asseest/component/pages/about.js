@@ -19,6 +19,7 @@ import QualityPolicyImage from "../../img/Qualitypolicy1_1695565086.jpg";
 import HealthSafetyPolicyImage from "../../img/Sample HSE Policy_001_1694416109.jpg";
 import ImpartialityPolicyImage from "../../img/Impartiality Policy_001_1694437730.jpg";
 import AntiBriberyPolicyImage from "../../img/Antibibary_1695565570.jpg"; 
+import BusinessQuoteForm from "./form";
 
 
 
@@ -309,6 +310,7 @@ export default function About() {
             {/* <BusinessQuoteForm /> */}
         </div>
       </div>
+       <BusinessQuoteForm />
     </div>
   );
 }

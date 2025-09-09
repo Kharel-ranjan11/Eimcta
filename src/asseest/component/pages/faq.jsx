@@ -2,23 +2,24 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { faqdata } from "../utilities/Array/data";
+import BusinessQuoteForm from "./form";
 
 // Main animation settings
 const variants = {
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { 
-      duration: 0.8, 
-      delay: 0.2,
-      ease: [0.2, 0.65, 0.3, 0.9]
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.8,
+            delay: 0.2,
+            ease: [0.2, 0.65, 0.3, 0.9]
+        }
+    },
+    hidden: {
+        opacity: 0,
+        y: 80,
+        transition: { duration: 0.6 }
     }
-  },
-  hidden: { 
-    opacity: 0, 
-    y: 80,
-    transition: { duration: 0.6 }
-  }
 };
 
 export const Faq = () => {
@@ -38,7 +39,7 @@ export const Faq = () => {
         return (
             <div className="flex justify-center items-center h-screen bg-gray-50">
                 <div className="flex flex-col items-center gap-4">
-                    <motion.div 
+                    <motion.div
                         className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-amber-500"
                         animate={{
                             rotate: 360
@@ -49,7 +50,7 @@ export const Faq = () => {
                             ease: "linear"
                         }}
                     ></motion.div>
-                    <motion.p 
+                    <motion.p
                         className="text-xl font-semibold text-gray-700"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -77,100 +78,103 @@ export const Faq = () => {
     }
 
     return (
-        <motion.div 
-            className="faq-page max-w-4xl mx-auto px-4 py-8 bg-gray-50"
-            initial="hidden"
-            animate="visible"
-            variants={variants}
-        >
-            <motion.h1 
-                className="text-3xl font-bold text-center mb-6 text-amber-700"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
+        <>
+            <motion.div
+                className="faq-page max-w-4xl mx-auto px-4 py-8 bg-gray-50"
+                initial="hidden"
+                animate="visible"
+                variants={variants}
             >
-                ❓ Frequently Asked Questions
-            </motion.h1>
-            
-            <div className="space-y-4">
-                {faqdata.map(({ question, answer, icon: Icon }, index) => (
-                    <motion.div
-                        key={index}
-                        className="border border-amber-200 rounded-xl p-4 shadow-sm bg-white transition-all"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ 
-                            duration: 0.8,
-                            delay: index * 0.1,
-                            ease: [0.2, 0.65, 0.3, 0.9]
-                        }}
-                        whileHover={{ 
-                            y: -15,
-                            boxShadow: "0 25px 50px -12px rgba(245, 158, 11, 0.15)",
-                            transition: { duration: 0.3 }
-                        }}
-                    >
-                        <motion.button
-                            className="flex items-center justify-between w-full"
-                            onClick={() => toggle(index)}
-                            whileHover={{ 
-                                y: -3,
-                                scale: 1.02,
-                                boxShadow: "0 10px 25px -5px rgba(245, 158, 11, 0.2)",
+                <motion.h1
+                    className="text-3xl font-bold text-center mb-6 text-amber-700"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                >
+                    ❓ Frequently Asked Questions
+                </motion.h1>
+
+                <div className="space-y-4">
+                    {faqdata.map(({ question, answer, icon: Icon }, index) => (
+                        <motion.div
+                            key={index}
+                            className="border border-amber-200 rounded-xl p-4 shadow-sm bg-white transition-all"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                                duration: 0.8,
+                                delay: index * 0.1,
+                                ease: [0.2, 0.65, 0.3, 0.9]
+                            }}
+                            whileHover={{
+                                y: -15,
+                                boxShadow: "0 25px 50px -12px rgba(245, 158, 11, 0.15)",
                                 transition: { duration: 0.3 }
                             }}
-                            whileTap={{ 
-                                scale: 0.98,
-                                transition: { duration: 0.1 }
-                            }}
                         >
-                            <div className="flex items-center gap-3 text-left text-lg font-semibold text-amber-800">
-                                <Icon className="w-5 h-5 text-amber-600" />
-                                {question}
-                            </div>
-                            <span className="text-amber-600 font-bold text-xl">
-                                {activeIndex === index ? "−" : "+"}
-                            </span>
-                        </motion.button>
+                            <motion.button
+                                className="flex items-center justify-between w-full"
+                                onClick={() => toggle(index)}
+                                whileHover={{
+                                    y: -3,
+                                    scale: 1.02,
+                                    boxShadow: "0 10px 25px -5px rgba(245, 158, 11, 0.2)",
+                                    transition: { duration: 0.3 }
+                                }}
+                                whileTap={{
+                                    scale: 0.98,
+                                    transition: { duration: 0.1 }
+                                }}
+                            >
+                                <div className="flex items-center gap-3 text-left text-lg font-semibold text-amber-800">
+                                    <Icon className="w-5 h-5 text-amber-600" />
+                                    {question}
+                                </div>
+                                <span className="text-amber-600 font-bold text-xl">
+                                    {activeIndex === index ? "−" : "+"}
+                                </span>
+                            </motion.button>
 
-                        <AnimatePresence>
-                            {activeIndex === index && (
-                                <motion.div
-                                    className="mt-3 text-gray-700 overflow-hidden text-justify"
-                                    initial={{ height: 0, opacity: 0 }}
-                                    animate={{ 
-                                        height: "auto", 
-                                        opacity: 1,
-                                        transition: {
-                                            height: {
-                                                duration: 0.4,
-                                            },
-                                            opacity: {
-                                                duration: 0.3,
-                                                delay: 0.1,
+                            <AnimatePresence>
+                                {activeIndex === index && (
+                                    <motion.div
+                                        className="mt-3 text-gray-700 overflow-hidden text-justify"
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{
+                                            height: "auto",
+                                            opacity: 1,
+                                            transition: {
+                                                height: {
+                                                    duration: 0.4,
+                                                },
+                                                opacity: {
+                                                    duration: 0.3,
+                                                    delay: 0.1,
+                                                }
                                             }
-                                        }
-                                    }}
-                                    exit={{ 
-                                        height: 0, 
-                                        opacity: 0,
-                                        transition: {
-                                            height: {
-                                                duration: 0.3,
-                                            },
-                                            opacity: {
-                                                duration: 0.2,
+                                        }}
+                                        exit={{
+                                            height: 0,
+                                            opacity: 0,
+                                            transition: {
+                                                height: {
+                                                    duration: 0.3,
+                                                },
+                                                opacity: {
+                                                    duration: 0.2,
+                                                }
                                             }
-                                        }
-                                    }}
-                                >
-                                    <p className="pt-2">{answer}</p>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </motion.div>
-                ))}
-            </div>
-        </motion.div>
+                                        }}
+                                    >
+                                        <p className="pt-2">{answer}</p>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </motion.div>
+                    ))}
+                </div>
+            </motion.div>
+            <BusinessQuoteForm />
+        </>
     );
 };

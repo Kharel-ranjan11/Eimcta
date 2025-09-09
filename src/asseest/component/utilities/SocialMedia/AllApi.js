@@ -106,7 +106,6 @@ const useEmailAPI = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "api-key": "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", // 
         },
         body: JSON.stringify({
           sender: { email: "968aec001@smtp-brevo.com" },

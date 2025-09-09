@@ -4,6 +4,7 @@ import { CheckCircle, Search, Telescope, FileText, Users, Handshake, ClipboardCh
 import Image from '../utilities/image';
 import ISOCertificationForm from '../utilities/gloabal';
 import certificateProcess from '../../img/certificateprocess.png'
+import BusinessQuoteForm from './form';
 
 const ISO_certification = () => {
   const containerVariants = {
@@ -285,6 +286,7 @@ const ISO_certification = () => {
           </motion.section>
         </motion.article>
       </div>
+       <BusinessQuoteForm />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Phone, Mail, Globe, ExternalLink, Menu, X } from 'lucide-react';
+import BusinessQuoteForm from "./form";
 
 // Animation variants (same as before)
 const slideInRight = {
@@ -433,6 +434,7 @@ export default function Contact() {
           </div>
         </div>
       </div>
+       <BusinessQuoteForm />
     </div>
   );
 }
