@@ -1,12 +1,8 @@
 import React from 'react';
 import { motion, useAnimation, useInView } from "framer-motion";
+import consultationProcess from '../../img/ISO Consultation Process_ - visual selection (1).png'
+import Image from '../utilities/image';
 
-// --- HELPER COMPONENTS (to remove external dependencies) ---
-
-/**
- * An Icon component to render SVG icons based on a name.
- * This replaces the need for the 'react-icons' library.
- */
 const Icon = ({ name, className }) => {
   const icons = {
     award: (
@@ -70,7 +66,7 @@ const Icon = ({ name, className }) => {
       </svg>
     ),
     globe: (
-       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
         <circle cx="12" cy="12" r="10"></circle>
         <line x1="2" y1="12" x2="22" y2="12"></line>
         <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
@@ -81,67 +77,56 @@ const Icon = ({ name, className }) => {
   return icons[name] || null;
 };
 
-const Image = ({ alt }) => (
-  <div className="bg-white p-4 rounded-2xl shadow-lg border border-amber-200">
-    <motion.img
-      src="https://placehold.co/1200x600/fef3c7/a16207?text=ISO+Consultancy"
-      alt={alt}
-      className="rounded-xl w-full h-auto object-cover"
-      initial={{ scale: 0.95, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.8, delay: 0.5 }}
-    />
-  </div>
-);
+
 
 const VideoPlayer = () => (
   <div className="my-20 p-8 bg-white rounded-3xl shadow-md border border-amber-200">
-     <h2 className="text-3xl font-bold text-center mb-8 text-amber-900">
-        Our Process Explained
-     </h2>
+    <h2 className="text-3xl font-bold text-center mb-8 text-amber-900">
+      Our Process Explained
+    </h2>
     <div className="aspect-w-16 aspect-h-9 bg-amber-100 rounded-2xl flex items-center justify-center">
-       <div className="text-center text-amber-700">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20 mx-auto" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-            </svg>
-            <p className="mt-2 font-semibold">Video Placeholder</p>
-       </div>
+      <div className="text-center text-amber-700">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20 mx-auto" viewBox="0 0 20 20" fill="currentColor">
+          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+        </svg>
+        <p className="mt-2 font-semibold">Video Placeholder</p>
+      </div>
     </div>
   </div>
 );
 
 // --- ANIMATION VARIANTS & COMPONENTS ---
 const heroTitleVariant = {
-    hidden: { x: 80, opacity: 0 },
-    show: { x: 0, opacity: 1, transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] } }
+  hidden: { x: 80, opacity: 0 },
+  show: { x: 0, opacity: 1, transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] } }
 };
 
 const heroParagraphVariant = {
-    hidden: { x: -80, opacity: 0 },
-    show: { x: 0, opacity: 1, transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] } }
+  hidden: { x: -80, opacity: 0 },
+  show: { x: 0, opacity: 1, transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] } }
 };
 
 const sectionHeaderVariant = {
-    hidden: { y: 40, opacity: 0 },
-    show: { y: 0, opacity: 1, transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] } }
+  hidden: { y: 40, opacity: 0 },
+  show: { y: 0, opacity: 1, transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] } }
 };
 
 const underlineVariant = {
-    hidden: { width: '0%', opacity: 0 },
-    show: { width: '25%', opacity: 1, transition: { duration: 0.8, delay: 0.3, ease: 'easeOut' } }
+  hidden: { width: '0%', opacity: 0 },
+  show: { width: '25%', opacity: 1, transition: { duration: 0.8, delay: 0.3, ease: 'easeOut' } }
 };
 
 const paragraphVariant = {
-    hidden: { y: 30, opacity: 0 },
-    show: { y: 0, opacity: 1, transition: { duration: 0.8, delay: 0.3 } }
+  hidden: { y: 30, opacity: 0 },
+  show: { y: 0, opacity: 1, transition: { duration: 0.8, delay: 0.3 } }
 };
 
 const cardVariants = {
-    slideInUp: { hidden: { y: 60, opacity: 0 }, show: { y: 0, opacity: 1, transition: { duration: 0.7 } } },
-    slideInLeft: { hidden: { x: -80, opacity: 0 }, show: { x: 0, opacity: 1, transition: { duration: 0.8 } } },
-    slideInRight: { hidden: { x: 80, opacity: 0 }, show: { x: 0, opacity: 1, transition: { duration: 0.8 } } },
-    rotate3D: { hidden: { y: 30, opacity: 0, rotateX: -10 }, show: { y: 0, opacity: 1, rotateX: 0, transition: { duration: 0.8 } } },
-    scaleUp: { hidden: { scale: 0.92, opacity: 0 }, show: { scale: 1, opacity: 1, transition: { duration: 0.7 } } }
+  slideInUp: { hidden: { y: 60, opacity: 0 }, show: { y: 0, opacity: 1, transition: { duration: 0.7 } } },
+  slideInLeft: { hidden: { x: -80, opacity: 0 }, show: { x: 0, opacity: 1, transition: { duration: 0.8 } } },
+  slideInRight: { hidden: { x: 80, opacity: 0 }, show: { x: 0, opacity: 1, transition: { duration: 0.8 } } },
+  rotate3D: { hidden: { y: 30, opacity: 0, rotateX: -10 }, show: { y: 0, opacity: 1, rotateX: 0, transition: { duration: 0.8 } } },
+  scaleUp: { hidden: { scale: 0.92, opacity: 0 }, show: { scale: 1, opacity: 1, transition: { duration: 0.7 } } }
 };
 
 const cardHover = { y: -8, rotateX: 2, rotateY: -1, transition: { duration: 0.3, ease: "easeOut" } };
@@ -166,33 +151,33 @@ const AnimatedWhenVisible = ({ children, variants, className, tag = 'div', hover
 
 // Component for section headers with animated underline
 const AnimatedHeader = ({ children, className }) => {
-    const controls = useAnimation();
-    const ref = React.useRef(null);
-    const inView = useInView(ref, { once: true, amount: 0.5 });
+  const controls = useAnimation();
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.5 });
 
-    React.useEffect(() => {
-        if (inView) { controls.start("show"); }
-    }, [controls, inView]);
+  React.useEffect(() => {
+    if (inView) { controls.start("show"); }
+  }, [controls, inView]);
 
-    return (
-        <div ref={ref} className={`w-full text-center ${className}`}>
-             <motion.div
-                initial="hidden"
-                animate={controls}
-                variants={{ show: { transition: { staggerChildren: 0.1 } } }}
-                className="relative inline-block" 
-            >
-                <motion.h2 variants={sectionHeaderVariant} className="text-3xl font-bold text-amber-900">
-                    {children}
-                </motion.h2>
-                <motion.div
-                    className="absolute left-1/2 -translate-x-1/2 -bottom-2 h-1 bg-amber-500 rounded-lg"
-                    style={{ originX: 0.5 }}
-                    variants={underlineVariant}
-                />
-            </motion.div>
-        </div>
-    );
+  return (
+    <div ref={ref} className={`w-full text-center ${className}`}>
+      <motion.div
+        initial="hidden"
+        animate={controls}
+        variants={{ show: { transition: { staggerChildren: 0.1 } } }}
+        className="relative inline-block"
+      >
+        <motion.h2 variants={sectionHeaderVariant} className="text-3xl font-bold text-amber-900">
+          {children}
+        </motion.h2>
+        <motion.div
+          className="absolute left-1/2 -translate-x-1/2 -bottom-2 h-1 bg-amber-500 rounded-lg"
+          style={{ originX: 0.5 }}
+          variants={underlineVariant}
+        />
+      </motion.div>
+    </div>
+  );
 };
 
 
@@ -243,7 +228,7 @@ const ISOConsultancy = () => {
           </AnimatedWhenVisible>
 
           <div className="bg-white p-8 rounded-3xl shadow-md border border-amber-200 transition-all duration-300 hover:shadow-lg">
-             <AnimatedHeader className="mb-10 !text-left">Why ISO Standards Matter</AnimatedHeader>
+            <AnimatedHeader className="mb-10 !text-left">Why ISO Standards Matter</AnimatedHeader>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
                 { icon: "📈", title: "Operational Excellence", desc: "Streamline processes for maximum efficiency" },
@@ -308,45 +293,45 @@ const ISOConsultancy = () => {
       icon: "🛠️",
       content: (
         <div className="relative p-4">
-           <div className="hidden lg:block absolute top-0 left-1/2 h-full w-0.5 bg-amber-200 transform -translate-x-1/2"></div>
-            <motion.div variants={{ show: { transition: { staggerChildren: 0.2 } } }} initial="hidden" animate="show">
-              {[
-                { id: 1, title: "Free Consultation", desc: "Initial discussion to understand client needs", icon: "💬" },
-                { id: 2, title: "Contract Signing", desc: "Formal agreement between parties", icon: "📝" },
-                { id: 3, title: "Initial Payment", desc: "Client makes first payment", icon: "💰" },
-                { id: 4, title: "Job Card Opening", desc: "Project officially begins", icon: "📋" },
-                { id: 5, title: "Consultant Deployment", desc: "Consultant assigned with project plan", icon: "👨‍💼" },
-                { id: 6, title: "Gap Analysis", desc: "Initial assessment of current state", icon: "🔍" },
-                { id: 7, title: "Documentation & Training", desc: "ISO documents and training provided", icon: "📚" },
-                { id: 8, title: "24/7 Support", desc: "Continuous support via WhatsApp", icon: "🔄" },
-                { id: 9, title: "Job Card Closing", desc: "Project phase concludes", icon: "✅" },
-                { id: 10, title: "Part Payment", desc: "Client makes partial payment", icon: "💳" },
-                { id: 11, title: "Final Project Closing", desc: "Project officially ends", icon: "🏁" },
-                { id: 12, title: "Client Feedback", desc: "Client provides feedback on services", icon: "🌟" },
-              ].map((step, i) => (
-                 <motion.div key={i} variants={ i % 2 === 0 ? cardVariants.slideInRight : cardVariants.slideInLeft } className={`relative mb-8 lg:flex items-center ${i % 2 === 0 ? "lg:flex-row-reverse" : ""}`}>
-                    <div className="hidden lg:block w-1/2"></div>
-                    <div className="hidden lg:block relative">
-                        <div className="w-8 h-8 bg-amber-400 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
-                            {step.id}
-                        </div>
+          <div className="hidden lg:block absolute top-0 left-1/2 h-full w-0.5 bg-amber-200 transform -translate-x-1/2"></div>
+          <motion.div variants={{ show: { transition: { staggerChildren: 0.2 } } }} initial="hidden" animate="show">
+            {[
+              { id: 1, title: "Free Consultation", desc: "Initial discussion to understand client needs", icon: "💬" },
+              { id: 2, title: "Contract Signing", desc: "Formal agreement between parties", icon: "📝" },
+              { id: 3, title: "Initial Payment", desc: "Client makes first payment", icon: "💰" },
+              { id: 4, title: "Job Card Opening", desc: "Project officially begins", icon: "📋" },
+              { id: 5, title: "Consultant Deployment", desc: "Consultant assigned with project plan", icon: "👨‍💼" },
+              { id: 6, title: "Gap Analysis", desc: "Initial assessment of current state", icon: "🔍" },
+              { id: 7, title: "Documentation & Training", desc: "ISO documents and training provided", icon: "📚" },
+              { id: 8, title: "24/7 Support", desc: "Continuous support via WhatsApp", icon: "🔄" },
+              { id: 9, title: "Job Card Closing", desc: "Project phase concludes", icon: "✅" },
+              { id: 10, title: "Part Payment", desc: "Client makes partial payment", icon: "💳" },
+              { id: 11, title: "Final Project Closing", desc: "Project officially ends", icon: "🏁" },
+              { id: 12, title: "Client Feedback", desc: "Client provides feedback on services", icon: "🌟" },
+            ].map((step, i) => (
+              <motion.div key={i} variants={i % 2 === 0 ? cardVariants.slideInRight : cardVariants.slideInLeft} className={`relative mb-8 lg:flex items-center ${i % 2 === 0 ? "lg:flex-row-reverse" : ""}`}>
+                <div className="hidden lg:block w-1/2"></div>
+                <div className="hidden lg:block relative">
+                  <div className="w-8 h-8 bg-amber-400 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                    {step.id}
+                  </div>
+                </div>
+                <div className="w-full lg:w-1/2">
+                  <motion.div whileHover={cardHover} className={`bg-white p-6 rounded-2xl shadow-sm border border-amber-200 h-full ${i % 2 === 0 ? "lg:ml-8" : "lg:mr-8"}`}>
+                    <div className="flex items-start">
+                      <div className="bg-amber-100 rounded-lg w-14 h-14 flex items-center justify-center mr-4 flex-shrink-0 text-3xl">
+                        {step.icon}
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-800">{step.title}</h3>
+                        <p className="text-gray-600">{step.desc}</p>
+                      </div>
                     </div>
-                     <div className="w-full lg:w-1/2">
-                        <motion.div whileHover={cardHover} className={`bg-white p-6 rounded-2xl shadow-sm border border-amber-200 h-full ${i % 2 === 0 ? "lg:ml-8" : "lg:mr-8"}`}>
-                            <div className="flex items-start">
-                            <div className="bg-amber-100 rounded-lg w-14 h-14 flex items-center justify-center mr-4 flex-shrink-0 text-3xl">
-                                {step.icon}
-                            </div>
-                            <div>
-                                <h3 className="text-xl font-bold text-gray-800">{step.title}</h3>
-                                <p className="text-gray-600">{step.desc}</p>
-                            </div>
-                            </div>
-                        </motion.div>
-                    </div>
-                </motion.div>
-              ))}
-            </motion.div>
+                  </motion.div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       )
     },
@@ -354,7 +339,7 @@ const ISOConsultancy = () => {
 
   return (
     <>
-    <style>{`
+      <style>{`
       @import url('https://fonts.googleapis.com/css2?family=Arial+Narrow:wght@400;700&display=swap');
       .font-arial-narrow { font-family: 'Arial Narrow', sans-serif; }
       .scrollbar-hide::-webkit-scrollbar { display: none; }
@@ -363,62 +348,66 @@ const ISOConsultancy = () => {
       .aspect-h-9 { /* No styles needed here with padding-bottom */ }
       .aspect-w-16 > * { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
     `}</style>
-    <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 bg-amber-50/50 min-h-screen font-arial-narrow text-gray-800">
-      <div className="max-w-5xl mx-auto mb-10 text-center">
-        <AnimatedWhenVisible tag="h1" variants={heroTitleVariant} className="text-4xl md:text-5xl font-extrabold mb-6 text-amber-900 tracking-tight">
-          ISO Certification Consultancy Services
-        </AnimatedWhenVisible>
-        <AnimatedWhenVisible tag="p" variants={heroParagraphVariant} className="text-lg md:text-xl text-amber-800 mb-8">
-          Expert guidance to implement international standards and achieve your certification goals.
-        </AnimatedWhenVisible>
-        <Image alt="A collage of ISO certification logos and quality management symbols"/>
-      </div>
+      <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 bg-gray-50 min-h-screen font-arial-narrow text-gray-800">
+        <div className="max-w-5xl mx-auto mb-10 text-center">
+          <AnimatedWhenVisible tag="h1" variants={heroTitleVariant} className="text-4xl md:text-5xl font-extrabold mb-6 text-amber-900 tracking-tight">
+            ISO Certification Consultancy Services
+          </AnimatedWhenVisible>
+          <AnimatedWhenVisible tag="p" variants={heroParagraphVariant} className="text-lg md:text-xl text-amber-800 mb-8">
+            Expert guidance to implement international standards and achieve your certification goals.
+          </AnimatedWhenVisible>
 
-      <div className="mb-8">
-        <div className="relative border-b-2 border-amber-200">
-          <div className="flex space-x-1 overflow-x-auto pb-2 scrollbar-hide">
-            {tabs.map((tab, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveTab(i)}
-                onMouseEnter={() => setHoveredTab(i)}
-                onMouseLeave={() => setHoveredTab(null)}
-                className={`px-5 py-3 font-semibold rounded-t-lg transition-all duration-300 relative whitespace-nowrap text-base ${activeTab === i ? 'text-amber-800' : 'text-amber-600 hover:text-amber-800 hover:bg-amber-100/50'}`}
-              >
-                <span className="mr-2 text-xl">{tab.icon}</span>
-                {tab.title}
-                 <motion.div layoutId="underline" className={`absolute bottom-[-2px] left-0 right-0 h-1 bg-amber-500 ${activeTab === i ? '' : 'hidden'}`} />
-              </button>
+        </div>
+            <Image
+              src={consultationProcess} alt={consultationProcess} caption="Consultation  Process "
+             
+            />
+
+        <div className="mb-8">
+          <div className="relative border-b-2 border-amber-200">
+            <div className="flex space-x-1 overflow-x-auto pb-2 scrollbar-hide">
+              {tabs.map((tab, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveTab(i)}
+                  onMouseEnter={() => setHoveredTab(i)}
+                  onMouseLeave={() => setHoveredTab(null)}
+                  className={`px-5 py-3 font-semibold rounded-t-lg transition-all duration-300 relative whitespace-nowrap text-base ${activeTab === i ? 'text-amber-800' : 'text-amber-600 hover:text-amber-800 hover:bg-amber-100/50'}`}
+                >
+                  <span className="mr-2 text-xl">{tab.icon}</span>
+                  {tab.title}
+                  <motion.div layoutId="underline" className={`absolute bottom-[-2px] left-0 right-0 h-1 bg-amber-500 ${activeTab === i ? '' : 'hidden'}`} />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="pt-6">
+          {tabs[activeTab].content}
+        </div>
+
+        <div className="my-20">
+          <AnimatedHeader className="mb-12">Trusted By Organizations Across Industries</AnimatedHeader>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+            {[
+              { type: "Manufacturers", icon: "🏭", count: "120+" },
+              { type: "Healthcare", icon: "🏥", count: "80+" },
+              { type: "Education", icon: "🎓", count: "45+" },
+              { type: "IT Companies", icon: "💻", count: "65+" },
+              { type: "Agriculture", icon: "🌾", count: "30+" },
+              { type: "Government", icon: "🏛️", count: "25+" },
+            ].map((client, i) => (
+              <AnimatedWhenVisible key={i} variants={cardVariants.scaleUp} hoverEffect={cardHover} className="bg-white p-6 rounded-xl shadow-sm border border-amber-200 text-center">
+                <div className="text-5xl mb-4">{client.icon}</div>
+                <h3 className="font-bold text-lg mb-1 text-gray-800">{client.type}</h3>
+                <p className="text-sm text-gray-500">{client.count} clients</p>
+              </AnimatedWhenVisible>
             ))}
           </div>
         </div>
+        <VideoPlayer />
       </div>
-
-      <div className="pt-6">
-        {tabs[activeTab].content}
-      </div>
-
-      <div className="my-20">
-        <AnimatedHeader className="mb-12">Trusted By Organizations Across Industries</AnimatedHeader>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
-          {[
-            { type: "Manufacturers", icon: "🏭", count: "120+" },
-            { type: "Healthcare", icon: "🏥", count: "80+" },
-            { type: "Education", icon: "🎓", count: "45+" },
-            { type: "IT Companies", icon: "💻", count: "65+" },
-            { type: "Agriculture", icon: "🌾", count: "30+" },
-            { type: "Government", icon: "🏛️", count: "25+" },
-          ].map((client, i) => (
-            <AnimatedWhenVisible key={i} variants={cardVariants.scaleUp} hoverEffect={cardHover} className="bg-white p-6 rounded-xl shadow-sm border border-amber-200 text-center">
-              <div className="text-5xl mb-4">{client.icon}</div>
-              <h3 className="font-bold text-lg mb-1 text-gray-800">{client.type}</h3>
-              <p className="text-sm text-gray-500">{client.count} clients</p>
-            </AnimatedWhenVisible>
-          ))}
-        </div>
-      </div>
-      <VideoPlayer />
-    </div>
     </>
   );
 };

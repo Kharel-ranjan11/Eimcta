@@ -65,7 +65,7 @@ const cardHover = {
 const HSEAwarenessTraining = () => {
   return (
     <main>
-      <div className="w-full mx-auto px-4 py-8 font-['Arial_Narrow'] bg-gradient-to-br from-amber-50 to-amber-100 overflow-x-hidden">
+      <div className="w-full mx-auto px-4 py-8 font-['Arial_Narrow'] bg-gray-50 overflow-x-hidden">
         {/* Hero Banner */}
         <motion.div
           className="mb-4 md:mb-8 lg:mb-16 w-full max-w-full overflow-hidden rounded-lg shadow-md"
@@ -376,39 +376,7 @@ const HSEAwarenessTraining = () => {
         </div>
 
         {/* Video Section */}
-        <div className="max-w-4xl mx-auto mb-20 bg-gradient-to-br from-amber-900 to-amber-800 p-1 rounded-xl">
-          <motion.div
-            className="bg-white p-8 rounded-lg"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={slideInUp}
-          >
-            <motion.h2
-              className="text-3xl font-bold text-amber-900 mb-6 text-center relative"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.5 }}
-              variants={sectionHeaderVariant}
-            >
-              Video Guide
-              <motion.div
-                className="absolute -bottom-2 left-1/2 h-1 bg-yellow-400 rounded-lg"
-                style={{ transform: "translateX(-50%)", originX: 0.5 }}
-                variants={underlineVariant}
-              />
-            </motion.h2>
-            <p className="text-center text-gray-700 mb-8 max-w-2xl mx-auto">
-              Watch this video to see how ISO 14001:2015 & ISO 45001:2018
-              improve safety and sustainability in real workplaces:
-            </p>
-            <div className="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg overflow-hidden relative group cursor-pointer hover:shadow-md transition-shadow duration-300">
-              <div className="w-full h-full flex items-center justify-center bg-amber-50">
-                <PlayCircle className="w-16 h-16 text-6xl text-amber-900 transition-transform duration-300 group-hover:scale-110" />
-              </div>
-            </div>
-          </motion.div>
-        </div>
+
       </div>
     </main>
   );

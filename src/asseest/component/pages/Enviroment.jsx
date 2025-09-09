@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "../utilities/image";
 
 // --- SVG Icon Components ---
 const FaLeaf = (props) => (
@@ -47,19 +48,6 @@ const FaPlayCircle = (props) => (
     </svg>
 );
 
-// Helper Component: Image with placeholder
-const Image = ({ src, alt, className }) => (
-  <img 
-    src={src} 
-    alt={alt} 
-    className={`w-full h-auto object-cover rounded-lg shadow-md ${className}`} 
-    onError={(e) => {
-      e.target.onerror = null; 
-      e.target.src='https://placehold.co/1024x400/f59e0b/333333?text=EIMCTA+Services';
-    }}
-  />
-);
-
 // Pattern background component
 const PatternBackground = () => (
   <div className="absolute inset-0 opacity-10" 
@@ -91,7 +79,6 @@ const VideoPlayer = ({ title, src, link }) => (
     </div>
   </section>
 );
-
 
 // Main Component
 const EnvironmentalServices = () => {
@@ -164,30 +151,31 @@ const EnvironmentalServices = () => {
   }, []);
 
   return (
-    <div className="bg-gradient-to-br from-amber-50 to-orange-100 text-gray-800 px-4 py-8 md:px-8 lg:px-20 max-w-7xl mx-auto font-['Inter',_sans-serif]">
+    <div className="bg-gray-50 text-gray-800 px-4 py-8 md:px-8 lg:px-20 max-w-7xl mx-auto font-['Inter',_sans-serif]">
       
+      {/* Hero Section with SEO-optimized heading */}
       <section className="text-center mb-12 relative overflow-hidden rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 p-8 md:p-12 text-white shadow-xl animate-on-scroll">
         <PatternBackground />
         <div className="relative z-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 animate-slideInRight">
              <span className="text-white drop-shadow-md">
-               ISO-Based Environmental Services
+               ISO-Certified Environmental Impact Assessment & Monitoring Services
              </span>
           </h1>
-          <p className="text-lg md:text-xl text-amber-100 max-w-4xl mx-auto leading-relaxed animate-slideInLeft">
-            At EIMCTA, we offer comprehensive environmental services grounded in ISO standards and best practices to promote sustainability, regulatory compliance, and natural resource protection.
+          <p className="text-lg md:text-xl text-amber-100 text-justify max-w-4xl mx-auto leading-relaxed animate-slideInLeft">
+            EIMCTA provides comprehensive, impartial environmental services grounded in ISO standards. Our expert team delivers reliable Environmental Impact Assessments (EIA) and precise environmental monitoring using calibrated equipment to ensure regulatory compliance and sustainable development.
           </p>
         </div>
       </section>
 
-      <section className="max-w-5xl mx-auto mb-16 shadow-2xl rounded-xl overflow-hidden animate-on-scroll">
-          <Image
-              src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=2070&auto=format&fit=crop"
-              alt="Lush green landscape representing environmental services"
-              className="animate-scaleUp"
-          />
-      </section>
+      {/* EIA Image with descriptive alt text */}
+      <Image 
+        src={require('../../img/eia.png')} 
+        alt='Environmental Impact Assessment process showing project planning, analysis, and compliance stages'
+        className="w-full rounded-lg shadow-md mb-8"
+      />
 
+      {/* Enhanced EIA Section with better structure */}
       <section className="mb-16 bg-white rounded-xl p-6 md:p-8 shadow-lg border border-amber-200 relative overflow-hidden hover:shadow-2xl transition-shadow duration-300 animate-on-scroll">
         <PatternBackground />
         <div className="relative z-10">
@@ -195,20 +183,22 @@ const EnvironmentalServices = () => {
             <div className="bg-amber-100 p-3 rounded-full mr-4 border-2 border-amber-200">
               <FaLeaf className="text-amber-500 text-xl" />
             </div>
-            <h2 className="text-2xl md:text-3xl font-semibold text-amber-900 heading-underline relative pb-4 animate-itemVariants">Environmental Impact Assessment (EIA)</h2>
+            <h2 className="text-2xl md:text-3xl font-semibold text-amber-900 heading-underline relative pb-4 animate-itemVariants">
+              Environmental Impact Assessment (EIA) Services
+            </h2>
           </div>
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="animate-paragraph">
               <p className="text-gray-700 mb-4 leading-relaxed">
-                EIA is a systematic process to evaluate the potential environmental effects of proposed projects before implementation. Our ISO-aligned assessments help organizations:
+                An Environmental Impact Assessment (EIA) is a systematic process that evaluates potential environmental effects of proposed projects before implementation. Our ISO-aligned methodology ensures:
               </p>
               <ul className="space-y-3">
                 {[
-                  "Identify potential environmental risks early",
-                  "Develop effective mitigation strategies",
-                  "Ensure regulatory compliance",
-                  "Enhance project sustainability",
-                  "Improve stakeholder confidence"
+                  "Early identification of environmental risks and opportunities",
+                  "Development of effective mitigation strategies",
+                  "Full regulatory compliance with local and international standards",
+                  "Enhanced project sustainability and social acceptance",
+                  "Improved stakeholder confidence through transparent processes"
                 ].map((item, index) => (
                   <li key={index} className="flex items-start">
                     <FaCheck className="text-green-500 mt-1 mr-3 flex-shrink-0" />
@@ -220,11 +210,11 @@ const EnvironmentalServices = () => {
             <div className="bg-amber-50 p-6 rounded-lg border border-amber-200 shadow-inner card-hover animate-slideInRight">
               <h3 className="font-semibold text-amber-800 mb-3 text-lg">Strategic Environmental Assessment (SEA)</h3>
               <p className="text-gray-700 mb-4">
-                For policies, plans and programs, we conduct SEAs to integrate environmental considerations at the highest decision-making levels.
+                For policies, plans and programs, we conduct Strategic Environmental Assessments to integrate environmental considerations at the highest decision-making levels, ensuring sustainable development from conception.
               </p>
               <div className="bg-amber-100 p-4 rounded-lg border-l-4 border-amber-400">
                 <p className="text-amber-900 font-medium italic">
-                  "Our SEA services help align development strategies with environmental sustainability goals."
+                  "Our SEA services help align organizational strategies with environmental sustainability goals and regulatory requirements."
                 </p>
               </div>
             </div>
@@ -232,17 +222,34 @@ const EnvironmentalServices = () => {
         </div>
       </section>
       
+      {/* Enhanced Core Principles Section */}
       <section className="mb-16 relative overflow-hidden rounded-xl bg-transparent p-8 animate-on-scroll">
         <div className="relative z-10">
           <h2 className="text-2xl md:text-3xl font-semibold text-amber-900 mb-8 text-center relative heading-underline pb-4 animate-itemVariants">
-            Our <span className="text-amber-800">Core Principles</span>
+            Our <span className="text-amber-800">Environmental Monitoring</span> Core Principles
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: <FaFlask className="text-2xl" />, title: "Sampling & Analysis", desc: "Accurate collection and standardized lab methods for air, water, soil, and waste samples." },
-              { icon: <FaChartLine className="text-2xl" />, title: "QA/QC Processes", desc: "Rigorous quality assurance and control for credible, defensible results." },
-              { icon: <FaShieldAlt className="text-2xl" />, title: "Regulatory Compliance", desc: "Monitoring aligned with local and international environmental regulations." },
-              { icon: <FaUsers className="text-2xl" />, title: "Risk Assessment", desc: "Comprehensive evaluation of environmental and public health risks." }
+              { 
+                icon: <FaFlask className="text-2xl" />, 
+                title: "Precision Sampling & Analysis", 
+                desc: "Methodical collection and standardized laboratory analysis of air, water, soil, and waste samples using calibrated equipment." 
+              },
+              { 
+                icon: <FaChartLine className="text-2xl" />, 
+                title: "Rigorous QA/QC Processes", 
+                desc: "Comprehensive quality assurance and control protocols ensuring credible, defensible, and reproducible environmental data." 
+              },
+              { 
+                icon: <FaShieldAlt className="text-2xl" />, 
+                title: "Regulatory Compliance", 
+                desc: "Monitoring programs aligned with national and international environmental regulations and industry best practices." 
+              },
+              { 
+                icon: <FaUsers className="text-2xl" />, 
+                title: "Comprehensive Risk Assessment", 
+                desc: "Thorough evaluation of environmental and public health risks to inform effective mitigation strategies." 
+              }
             ].map((principle, index) => (
               <div 
                 key={index}
@@ -260,36 +267,110 @@ const EnvironmentalServices = () => {
         </div>
       </section>
 
+      {/* Enhanced Benefits Section with better categorization */}
       <section className="mb-16 bg-white rounded-xl p-8 relative overflow-hidden border border-amber-200 hover:shadow-xl transition-shadow duration-300 animate-on-scroll">
         <PatternBackground />
         <div className="relative z-10">
           <h2 className="text-2xl md:text-3xl font-semibold text-amber-900 mb-8 text-center relative heading-underline pb-4 animate-itemVariants">
-            Key Benefits of Our Services
+            Comprehensive Benefits of Our Environmental Services
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4 animate-paragraph">
-            {[
-              "Environmental protection", "Regulatory compliance", "Early hazard detection", "Public health enhancement", "Sustainable resource management", "Stakeholder engagement", "Data-driven policy", "Cost savings", "Improved corporate reputation", "Climate change mitigation", "Waste minimization", "Circular economy implementation"
-            ].map((benefit, index) => (
-              <div key={index} className="flex items-center">
-                <div className="bg-green-100 p-1.5 rounded-full mr-3">
-                  <FaCheck className="text-green-500 text-xs" />
-                </div>
-                <span className="text-amber-900">{benefit}</span>
-              </div>
-            ))}
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 animate-paragraph">
+            <div className="bg-amber-50 p-4 rounded-lg">
+              <h3 className="font-semibold text-amber-800 mb-3 flex items-center">
+                <FaShieldAlt className="mr-2" /> Regulatory & Compliance
+              </h3>
+              <ul className="space-y-2">
+                {["Regulatory compliance", "Risk mitigation", "Legal protection", "Permit acquisition"].map((item, index) => (
+                  <li key={index} className="flex items-center">
+                    <FaCheck className="text-green-500 text-xs mr-2" />
+                    <span className="text-amber-900">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            <div className="bg-green-50 p-4 rounded-lg">
+              <h3 className="font-semibold text-green-800 mb-3 flex items-center">
+                <FaLeaf className="mr-2" /> Environmental Protection
+              </h3>
+              <ul className="space-y-2">
+                {["Ecosystem conservation", "Pollution prevention", "Resource sustainability", "Biodiversity protection"].map((item, index) => (
+                  <li key={index} className="flex items-center">
+                    <FaCheck className="text-green-500 text-xs mr-2" />
+                    <span className="text-green-900">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <h3 className="font-semibold text-blue-800 mb-3 flex items-center">
+                <FaUsers className="mr-2" /> Community & Health
+              </h3>
+              <ul className="space-y-2">
+                {["Public health protection", "Stakeholder engagement", "Community relations", "Transparent reporting"].map((item, index) => (
+                  <li key={index} className="flex items-center">
+                    <FaCheck className="text-green-500 text-xs mr-2" />
+                    <span className="text-blue-900">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            <div className="bg-purple-50 p-4 rounded-lg">
+              <h3 className="font-semibold text-purple-800 mb-3 flex items-center">
+                <FaChartLine className="mr-2" /> Business Value
+              </h3>
+              <ul className="space-y-2">
+                {["Cost savings", "Corporate reputation", "Investor confidence", "Market differentiation"].map((item, index) => (
+                  <li key={index} className="flex items-center">
+                    <FaCheck className="text-green-500 text-xs mr-2" />
+                    <span className="text-purple-900">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            <div className="bg-teal-50 p-4 rounded-lg">
+              <h3 className="font-semibold text-teal-800 mb-3 flex items-center">
+                <FaRecycle className="mr-2" /> Sustainability
+              </h3>
+              <ul className="space-y-2">
+                {["Circular economy", "Waste minimization", "Carbon footprint reduction", "Climate resilience"].map((item, index) => (
+                  <li key={index} className="flex items-center">
+                    <FaCheck className="text-green-500 text-xs mr-2" />
+                    <span className="text-teal-900">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            <div className="bg-amber-50 p-4 rounded-lg">
+              <h3 className="font-semibold text-amber-800 mb-3 flex items-center">
+                <FaCertificate className="mr-2" /> Long-term Advantages
+              </h3>
+              <ul className="space-y-2">
+                {["Future-proofing operations", "Data-driven decisions", "Continuous improvement", "Sustainable growth"].map((item, index) => (
+                  <li key={index} className="flex items-center">
+                    <FaCheck className="text-green-500 text-xs mr-2" />
+                    <span className="text-amber-900">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>
 
-      <VideoPlayer 
-        title="Our Commitment in Action" 
+      {/* <VideoPlayer 
+        title="Our Environmental Assessment Process in Action" 
         src="https://www.w3.org/2010/05/video/mediaevents.html" 
         link="#" 
-      />
+      /> */}
 
     </div>
   );
 };
 
 export default EnvironmentalServices;
-

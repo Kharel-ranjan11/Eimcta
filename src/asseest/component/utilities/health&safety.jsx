@@ -112,7 +112,7 @@ const HealthSafety = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-amber-50 to-amber-100 font-['Arial_Narrow',_sans-serif] text-amber-800">
+    <div className="bg-gray-50 font-['Arial_Narrow',_sans-serif] text-amber-800">
       {/* Hero Section with Image */}
       <div className="relative h-96 w-full">
         <img

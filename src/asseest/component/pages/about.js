@@ -11,11 +11,17 @@ import {
   ExternalLink,
   Phone,
   Mail,
-  MapPin
+  MapPin,
+  X
 } from "lucide-react";
 
+import QualityPolicyImage from "../../img/Qualitypolicy1_1695565086.jpg";
+import HealthSafetyPolicyImage from "../../img/Sample HSE Policy_001_1694416109.jpg";
+import ImpartialityPolicyImage from "../../img/Impartiality Policy_001_1694437730.jpg";
+import AntiBriberyPolicyImage from "../../img/Antibibary_1695565570.jpg"; 
 
-// --- Animation Variants ---
+
+
 const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.2 } } };
 const itemVariants = { hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] } } };
 const slideInLeft = { hidden: { opacity: 0, x: -80 }, visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] } } };
@@ -75,33 +81,7 @@ const ThreeDCard = ({ children, className = "" }) => (
   </motion.div>
 );
 
-// --- Custom Modal Component ---
-const CustomModal = ({ isOpen, onClose, children }) => {
-    if (!isOpen) return null;
-
-    return (
-        <div
-            className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4"
-            onClick={onClose}
-        >
-            <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.2 }}
-                className="relative bg-white rounded-lg p-4 w-full max-w-4xl max-h-[90vh] overflow-auto focus:outline-none"
-                onClick={(e) => e.stopPropagation()}
-            >
-                {children}
-            </motion.div>
-        </div>
-    );
-};
-
-
 export default function About() {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [currentFile, setCurrentFile] = useState({ url: "", type: "" });
   const [activeSection, setActiveSection] = useState("mission");
   const sectionsRef = useRef({});
 
@@ -117,20 +97,37 @@ export default function About() {
 
   const isMissionInView = useInView(missionRef, { once: true, margin: "-20%" });
   const isServicesInView = useInView(servicesRef, { once: true, margin: "-20%" });
-  const isPoliciesInView = useInView(policiesRef, { once: true, margin: "-20%" });
   const isExpertiseInView = useInView(expertiseRef, { once: true, margin: "-20%" });
   const isWhyChooseInView = useInView(whyChooseRef, { once: true, margin: "-20%" });
   const isCoreServicesInView = useInView(coreServicesRef, { once: true, margin: "-20%" });
   const isValuesInView = useInView(valuesRef, { once: true, margin: "-20%" });
+  const isPoliciesInView = useInView(policiesRef, { once: true, margin: "-20%" });
 
 
   // --- Data Arrays ---
   const policies = [
-    { name: "Quality Policy", description: "Commitment to delivering excellence in all our services", preview: "https://placehold.co/600x400/92400e/FFFFFF?text=Quality+Policy", pageLink: "#" },
-    { name: "Anti-Bribery Policy", description: "Zero tolerance for corruption and unethical practices", preview: "https://placehold.co/600x400/b45309/FFFFFF?text=Anti-Bribery", pageLink: "#" },
-    { name: "OHS Policy", description: "Prioritizing occupational health and safety", preview: "https://placehold.co/600x400/d97706/FFFFFF?text=OHS+Policy", pageLink: "#" },
-    { name: "Impartiality Policy", description: "Ensuring fair and unbiased service delivery", preview: "https://placehold.co/600x400/f59e0b/FFFFFF?text=Impartiality", pageLink: "#" },
+    { 
+      title: "Quality Policy", 
+      description: "", 
+      image: QualityPolicyImage,
+    },
+    { 
+      title: "Health & Safety Policy", 
+      description: "", 
+      image: HealthSafetyPolicyImage,
+    },
+    { 
+      title: "Impartiality Policy", 
+      description: "", 
+      image:ImpartialityPolicyImage ,
+    },
+    { 
+      title: "Anti-Bribery Policy", 
+      description: "", 
+      image: AntiBriberyPolicyImage,
+    },
   ];
+  
   const services = [
     { title: "ISO Certification & Training", icon: <Award size={24} className="text-amber-700 group-hover:text-white" />, description: "Certification for standards like ISO 9001, 45001, 14001, and more, plus expert training." },
     { title: "OHS & Consultancy", icon: <HardHat size={24} className="text-amber-700 group-hover:text-white" />, description: "Health plans, environmental services, GMP, HACCP, CE marking, and disaster management." },
@@ -148,19 +145,20 @@ export default function About() {
   const isoStandards = ["ISO 9001:2015 QMS", "ISO 45001:2018 OHSMS", "ISO 14001:2015 EMS", "ISO 39001:2012 RTSMS", "ISO 27001:2022 ISMS", "ISO 15189:2022 Path Lab", "ISO 26000:2010 SR", "SA 8000", "ISO 55001:2014 Asset Mgmt", "ISO 50001:2018 Energy M", "ISO 41001:2018 FMS", "ISO 28001 Security & Resilience MS"];
   const specializedServices = ["CE Marking", "RBA CoC (SVAP, SeQ)", "SMETA Sedex", "QAA", "HACCP", "HALAL", "GMP", "Third Party Audit", "Emergency Management", "Technical Bids"];
 
-  // --- Functions ---
-  const openModal = (fileUrl) => {
-    setCurrentFile({ url: fileUrl });
-    setModalIsOpen(true);
+  // Main agency image (high resolution)
+  const agencyImage = {
+    preview: "https://placehold.co/1200x800/d97706/FFFFFF?text=Everest+International+Preview",
+    full: "https://placehold.co/2250x3300/d97706/FFFFFF?text=Everest+International+Full+Resolution"
   };
-  const closeModal = () => { setModalIsOpen(false); };
+
+  // --- Functions ---
   const scrollToSection = (sectionId) => {
     setActiveSection(sectionId);
     sectionsRef.current[sectionId]?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <div className="py-12 md:py-20 bg-amber-50 relative overflow-hidden font-sans">
+    <div className="py-12 md:py-20 bg-gray-50 relative overflow-hidden font-sans">
       {/* Sticky Navigation */}
       <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-sm shadow-md hidden md:block">
         <div className="container mx-auto px-4">
@@ -180,7 +178,7 @@ export default function About() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
+      <div className="container mx-auto my-[1rem] px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
         {/* Hero Section */}
         <motion.div initial="hidden" animate="visible" variants={containerVariants} className="text-center mb-12 md:mb-16 relative overflow-hidden rounded-xl bg-gradient-to-r from-amber-700 to-amber-900 p-8 md:p-12 text-white">
           <PatternBackground color="from-amber-700 to-amber-900" />
@@ -195,11 +193,15 @@ export default function About() {
         </motion.div>
 
         {/* Mission Section */}
-        <div ref={el => { sectionsRef.current.mission = el; missionRef.current = el; }} className="mb-16 md:mb-20">
+        {/* <div ref={el => { sectionsRef.current.mission = el; missionRef.current = el; }} className="mb-16 md:mb-20">
           <motion.div initial={{ opacity: 0 }} animate={isMissionInView ? { opacity: 1 } : { opacity: 0 }} transition={{ duration: 0.8 }} className="w-full">
             <div className="flex justify-center mb-8"><SectionHeader viewState={isMissionInView}>About Our Agency</SectionHeader></div>
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={isMissionInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }} transition={{ duration: 0.8, delay: 0.2 }} className="w-full mb-8">
-              <img src="https://placehold.co/1200x800/d97706/FFFFFF?text=Everest+International" alt="EIMCTA Team Collaboration" className="rounded-xl shadow-lg w-full h-auto" loading="lazy" />
+              <img
+                src={agencyImage.preview}
+                alt="EIMCTA Team Collaboration" 
+                className="rounded-xl shadow-lg w-full h-auto"
+              />
             </motion.div>
              <motion.div initial={{ opacity: 0, y: 30 }} animate={isMissionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }} transition={{ duration: 0.8, delay: 0.3 }} className="space-y-4 text-gray-700 text-base md:text-lg bg-white p-6 md:p-8 rounded-xl shadow-md border border-amber-100">
                 <p>
@@ -210,7 +212,7 @@ export default function About() {
                 </p>
             </motion.div>
           </motion.div>
-        </div>
+        </div> */}
 
         {/* Why Choose Section */}
         <div ref={whyChooseRef} className="mb-16 md:mb-20">
@@ -266,48 +268,27 @@ export default function About() {
 
         {/* Policies Section */}
         <div ref={el => { sectionsRef.current.policies = el; policiesRef.current = el; }} className="mb-16 md:mb-20">
-            <div className="flex justify-center mb-8"><SectionHeader viewState={isPoliciesInView}>Our Policies & Procedures</SectionHeader></div>
+            <div className="flex justify-center mb-8"><SectionHeader viewState={isPoliciesInView}>Our Policies</SectionHeader></div>
             <motion.div variants={containerVariants} initial="hidden" animate={isPoliciesInView ? "visible" : "hidden"} className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
                 {policies.map((policy, index) => (
                     <ThreeDCard key={index}>
                         <motion.div variants={index % 2 === 0 ? rotate3D : scaleUp} className="relative bg-white rounded-xl overflow-hidden hover:shadow-xl transition-all duration-400 border border-amber-100 group" style={{ transformStyle: 'preserve-3d' }}>
-                            <button onClick={() => openModal(policy.preview)} className="block w-full h-48 bg-gray-200 cursor-zoom-in overflow-hidden relative">
-                                <img src={policy.preview} alt={policy.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-400 flex items-center justify-center">
-                                    <div className="text-white bg-amber-600 bg-opacity-0 group-hover:bg-opacity-80 rounded-full p-3 transition-all duration-300 scale-0 group-hover:scale-100"><Search size={20} /></div>
-                                </div>
-                            </button>
+                            <div className="w-full h-max overflow-hidden relative">
+                                <img
+                                    src={policy.image}
+                                    alt={policy.title} 
+                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                                />
+                            </div>
                             <div className="p-6">
-                                <div className="flex items-center gap-3 mb-3"><FileText size={20} className="text-amber-600" /><h3 className="text-lg font-semibold text-gray-900">{policy.name}</h3></div>
-                                <p className="text-gray-600 mb-4">{policy.description}</p>
-                                <div className="flex gap-4">
-                                    <motion.button whileHover={{ y: -2, scale: 1.03 }} whileTap={{ scale: 0.98 }} onClick={() => openModal(policy.preview)} className="flex items-center gap-2 text-amber-600 hover:text-amber-800 transition-colors">
-                                        <Search className="text-blue-500" /><span>Preview Image</span>
-                                    </motion.button>
-                                    <motion.a href={policy.pageLink} className="flex items-center gap-2 text-amber-600 hover:text-amber-800 transition-colors" whileHover={{ y: -2, scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-                                        <ExternalLink size={12} /><span>Details</span>
-                                    </motion.a>
-                                </div>
+                                <h3 className="text-lg font-semibold text-gray-900 mb-2">{policy.title}</h3>
+                                <p className="text-gray-600">{policy.description}</p>
                             </div>
                         </motion.div>
                     </ThreeDCard>
                 ))}
             </motion.div>
         </div>
-
-        {/* Custom Modal for Policy Previews */}
-        <CustomModal isOpen={modalIsOpen} onClose={closeModal}>
-            <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg sm:text-xl font-semibold">Document Preview</h3>
-                <motion.button whileHover={{ scale: 1.1, rotate: 90 }} whileTap={{ scale: 0.9 }} onClick={closeModal} className="text-gray-500 hover:text-gray-900 text-2xl transition-colors" aria-label="Close modal">&times;</motion.button>
-            </div>
-            <div className="border rounded-lg p-2 sm:p-4 bg-gray-50">
-                <motion.img initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3 }} src={currentFile.url} alt="Document preview" className="w-full h-auto max-h-[70vh] object-contain" loading="lazy" />
-            </div>
-            <div className="mt-4 flex justify-end">
-                <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} onClick={closeModal} className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors">Close</motion.button>
-            </div>
-        </CustomModal>
 
         {/* Expertise Section */}
         <div ref={el => { sectionsRef.current.expertise = el; expertiseRef.current = el; }} className="mb-16 md:mb-20">

@@ -1,5 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
 
+// Import Lucid icons (assuming you have them installed)
+// If not, you can install with: npm install lucide-react
+import { 
+  Beaker, 
+  TestTube, 
+  ShieldCheck, 
+  ClipboardCheck, 
+  AlertTriangle, 
+  TrendingUp, 
+  Database,
+  Leaf,
+  Target,
+  Eye,
+  Heart,
+  Users,
+  BookOpen
+} from "lucide-react";
+
 // A wrapper component to handle scroll-triggered animations
 const AnimateOnScroll = ({ children, animation, delay, threshold = 0.1, as = 'div', className: wrapperClassName, style: wrapperStyle }) => {
     const ref = useRef(null);
@@ -43,7 +61,7 @@ const AnimateOnScroll = ({ children, animation, delay, threshold = 0.1, as = 'di
 
 
 // Particle Background Component (static version)
-const ParticleBackground = ({ count = 30 }) => {
+const ParticleBackground = ({ count = 30, color = "amber" }) => {
   const particles = Array.from({ length: count });
   
   return (
@@ -51,7 +69,7 @@ const ParticleBackground = ({ count = 30 }) => {
       {particles.map((_, i) => (
         <div
           key={i}
-          className="absolute rounded-full bg-amber-300 opacity-20"
+          className={`absolute rounded-full bg-${color}-300 opacity-20`}
           style={{
             width: `${Math.random() * 10 + 5}px`,
             height: `${Math.random() * 10 + 5}px`,
@@ -76,7 +94,10 @@ const InteractiveCard = ({ icon, title, description }) => {
           {icon}
         </div>
         
-        <h3 className="text-xl font-bold mb-3 text-amber-900">{title}</h3>
+        <h3 className="text-xl font-bold mb-3 text-amber-900 relative inline-block">
+          {title}
+          <span className="absolute -bottom-2 left-0 w-0 h-1 bg-amber-400 transition-all duration-300 group-hover:w-full"></span>
+        </h3>
         <p className="text-amber-800">{description}</p>
         
         <div className="absolute -bottom-8 left-0 right-0 h-1 bg-amber-400 opacity-80 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
@@ -96,7 +117,7 @@ const TechnicalBidComponent = () => {
   );
 
   return (
-    <div className="min-h-screen w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 font-['Arial_Narrow'] bg-gradient-to-br from-amber-50 to-amber-100 overflow-hidden">
+    <div className="min-h-screen w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 font-['Arial_Narrow'] bg-gray-50 overflow-hidden">
       <style>
         {`
           @keyframes fadeIn {
@@ -153,63 +174,83 @@ const TechnicalBidComponent = () => {
           .animate-grow {
             animation: grow 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
           }
+          
+          .heading-underline {
+            position: relative;
+            display: inline-block;
+          }
+          
+          .heading-underline::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: -8px;
+            left: 25%;
+            background-color: #f59e0b;
+            transition: width 0.5s ease;
+            border-radius: 2px;
+          }
+          
+          .heading-underline.animate::after {
+            width: 50%;
+          }
         `}
       </style>
 
       {/* Cinematic Hero Section */}
-      <div className="relative text-center py-20 lg:py-32 rounded-3xl overflow-hidden mb-20">
+      <div className="relative text-center py-20 lg:py-32 rounded-3xl overflow-hidden mb-20 bg-gradient-to-br from-amber-50 to-amber-100">
           <ParticleBackground count={40} />
           <div className="relative z-10 max-w-4xl mx-auto">
                <div className="inline-block bg-white/80 backdrop-blur-sm text-amber-700 px-6 py-2 rounded-full mb-6 text-sm font-semibold shadow-sm">
-                  EXCELLENCE IN PROPOSAL ENGINEERING
+                  EXCELLENCE IN ENVIRONMENTAL MONITORING
               </div>
               <AnimateOnScroll as="h1" animation="animate-slideInRight" delay="0.1s" className="text-5xl md:text-7xl font-bold text-amber-900 mb-6 leading-tight">
-                  Transforming Technical Bids into <span className="text-amber-700">Winning Proposals</span>
+                  Transforming <span className="text-amber-700 heading-underline">Environmental Data</span> into Actionable Insights
               </AnimateOnScroll>
               <AnimateOnScroll as="p" animation="animate-slideInLeft" delay="0.2s" className="text-xl text-amber-800 max-w-2xl mx-auto mb-10">
-                  We craft compelling, ISO-compliant technical bids that visualize your expertise, mitigate risks, and ensure you stand out in the most competitive tenders.
+                  We provide comprehensive environmental monitoring solutions that ensure regulatory compliance, protect public health, and support sustainable resource management.
               </AnimateOnScroll>
               <AnimateOnScroll animation="animate-slideInUp" delay="0.3s">
-                  <InteractiveButton>Discover Our Process</InteractiveButton>
+                  <InteractiveButton>Discover Our Services</InteractiveButton>
               </AnimateOnScroll>
           </div>
       </div>
    
-      {/* What is a Technical Bid? - Parallax Section */}
+      {/* Principles of Environmental Monitoring - Parallax Section */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-100 to-amber-200 p-12 mb-20">
         <ParticleBackground count={20} />
         <div className="relative z-10">
           <div className="inline-flex items-center bg-white text-amber-700 px-6 py-3 rounded-full mb-8 shadow-sm hover:shadow-md transition-shadow duration-300">
-            <span className="text-2xl mr-3">📋</span>
-            <span className="font-medium">Technical Bid Definition</span>
+            <ClipboardCheck className="mr-3" size={24} />
+            <span className="font-medium">Monitoring Principles</span>
           </div>
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <AnimateOnScroll as="h2" animation="animate-itemVariants" delay="0.1s" className="text-4xl font-bold text-amber-900 mb-2">
-                Your <span className="text-amber-700">Strategic Advantage</span> in Competitive Bidding
+                Our <span className="text-amber-700 heading-underline">Methodological Approach</span> to Environmental Monitoring
               </AnimateOnScroll>
               <AnimateOnScroll animation="animate-underlineVariant" delay="0.3s" className="w-[80px] h-[4px] bg-amber-400 rounded-full my-4" wrapperStyle={{ transformOrigin: 'left' }}/>
               
-              <AnimateOnScroll as="p" animation="animate-contentParagraphVariant" delay="0.4s" className="text-lg text-amber-800 mb-8 leading-relaxed">
-                A technical bid is more than documentation—it's a visual narrative of your capabilities, 
-                demonstrating technical excellence, ISO compliance (9001, 21500, 31000), and your unique 
-                value proposition through compelling data visualization and interactive elements.
+              <AnimateOnScroll as="p" animation="animate-contentParagraphVariant" delay="0.4s" className="text-lg text-amber-800 mb-8 text-justify leading-relaxed">
+                Our environmental monitoring follows rigorous scientific principles to ensure accurate, reliable data collection and analysis for informed decision-making and regulatory compliance.
               </AnimateOnScroll>
               
               <AnimateOnScroll animation="animate-slideInUp" delay="0.5s" className="bg-white p-8 rounded-2xl shadow-lg border border-amber-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <h3 className="font-semibold text-xl mb-6 text-amber-700">Core Components:</h3>
+                <h3 className="font-semibold text-xl mb-6 text-amber-700 heading-underline">Core Principles:</h3>
                 <ul className="space-y-4">
                   {[
-                    "Interactive technical methodology visualization",
-                    "ISO-aligned quality management dashboard",
-                    "Animated risk assessment framework",
-                    "3D staff competency matrix",
-                    "Regulatory compliance proof with hover details",
-                    "Interactive project timeline with milestones"
+                    { icon: <Beaker size={20} />, text: "Sampling: Collect representative samples of air, water, soil, and other environmental media" },
+                    { icon: <TestTube size={20} />, text: "Analysis: Utilize appropriate analytical methods and equipment to detect pollutants" },
+                    { icon: <ShieldCheck size={20} />, text: "Quality Assurance: Implement QA/QC measures to ensure data accuracy and reliability" },
+                    { icon: <ClipboardCheck size={20} />, text: "Compliance: Monitor in accordance with regulatory requirements and standards" },
+                    { icon: <AlertTriangle size={20} />, text: "Risk Assessment: Assess potential risks to human health and ecosystems" },
+                    { icon: <TrendingUp size={20} />, text: "Continuous Monitoring: Establish long-term programs to track changes over time" },
+                    { icon: <Database size={20} />, text: "Data Management: Effectively manage and interpret monitoring data" }
                   ].map((item, i) => (
                     <li key={i} className="flex items-start group hover:translate-x-1 transition-transform duration-300">
-                      <span className="text-amber-500 mr-3 text-xl transition-transform group-hover:scale-125">•</span>
-                      <span className="text-amber-800 group-hover:text-amber-600 transition-colors">{item}</span>
+                      <span className="text-amber-500 mr-3 mt-1 transition-transform group-hover:scale-125">{item.icon}</span>
+                      <span className="text-amber-800 group-hover:text-amber-600 transition-colors">{item.text}</span>
                     </li>
                   ))}
                 </ul>
@@ -219,18 +260,18 @@ const TechnicalBidComponent = () => {
             <AnimateOnScroll animation="animate-grow" delay="0.4s" className="relative h-full">
               <div className="sticky top-24">
                 <div className="bg-white p-8 rounded-2xl shadow-lg border border-amber-100">
-                  <h3 className="text-2xl font-semibold mb-8 text-center text-amber-700">
-                    Interactive Bid Timeline
+                  <h3 className="text-2xl font-semibold mb-8 text-center text-amber-700 heading-underline">
+                    Monitoring Process Timeline
                   </h3>
                   <div className="relative">
                     <div className="hidden md:block absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-amber-300 to-amber-400" />
                     {[
-                      { step: "1", title: "RFP Analysis", icon: "🔍", duration: "1-3 days" },
-                      { step: "2", title: "Solution Design", icon: "✏️", duration: "2-5 days" },
-                      { step: "3", title: "Draft Creation", icon: "📝", duration: "3-7 days" },
-                      { step: "4", title: "Review & Refine", icon: "🔎", duration: "2-4 days" },
-                      { step: "5", title: "Final Compliance", icon: "✅", duration: "1-2 days" },
-                      { step: "6", title: "Submission", icon: "📤", duration: "1 day" }
+                      { step: "1", title: "Project Planning", icon: <Target size={20} />, duration: "1-3 days" },
+                      { step: "2", title: "Site Assessment", icon: <Eye size={20} />, duration: "2-5 days" },
+                      { step: "3", title: "Sample Collection", icon: <Beaker size={20} />, duration: "3-7 days" },
+                      { step: "4", title: "Laboratory Analysis", icon: <TestTube size={20} />, duration: "5-10 days" },
+                      { step: "5", title: "Data Interpretation", icon: <TrendingUp size={20} />, duration: "2-4 days" },
+                      { step: "6", title: "Reporting", icon: <BookOpen size={20} />, duration: "3-5 days" }
                     ].map((item, i) => (
                       <div key={i} className="relative pl-10 md:pl-0 mb-10 last:mb-0 group hover:scale-105 transition-transform duration-300">
                         <div className="md:flex items-start">
@@ -241,8 +282,8 @@ const TechnicalBidComponent = () => {
                           </div>
                           <div className="md:ml-6 bg-white p-6 rounded-xl border border-amber-100 shadow-xs flex-1 group-hover:shadow-sm transition-shadow duration-300">
                             <div className="flex items-center mb-2">
-                              <span className="text-2xl mr-3 group-hover:text-3xl transition-all duration-300">{item.icon}</span>
-                              <h4 className="text-lg font-medium group-hover:text-xl transition-all duration-300 text-amber-900">{item.title}</h4>
+                              <span className="text-amber-600 mr-3 group-hover:text-amber-700 transition-colors duration-300">{item.icon}</span>
+                              <h4 className="text-lg font-medium group-hover:text-xl transition-all duration-300 text-amber-900 heading-underline">{item.title}</h4>
                             </div>
                             <p className="text-sm text-amber-700 group-hover:text-amber-800 transition-colors duration-300">{item.duration}</p>
                           </div>
@@ -257,7 +298,7 @@ const TechnicalBidComponent = () => {
         </div>
       </div>
 
-      {/* Why Technical Bids Matter - Card Grid */}
+      {/* Benefits of Environmental Monitoring - Card Grid */}
       <div className="mb-20">
         <div className="text-center mb-16">
           <div className="inline-block mb-8">
@@ -271,23 +312,23 @@ const TechnicalBidComponent = () => {
           </div>
           
           <AnimateOnScroll as="h2" animation="animate-itemVariants" delay="0.1s" className="text-4xl font-bold text-amber-900 mb-2">
-            Why <span className="text-amber-700">Technical Bids</span> Win Projects
+            Benefits of <span className="text-amber-700 heading-underline">Environmental Monitoring</span>
           </AnimateOnScroll>
           <AnimateOnScroll animation="animate-underlineVariant" delay="0.3s" className="w-[80px] h-[4px] bg-amber-400 rounded-full mx-auto mt-2" wrapperStyle={{ transformOrigin: 'center' }}/>
           
           <AnimateOnScroll as="p" animation="animate-contentParagraphVariant" delay="0.4s" className="text-xl text-amber-800 max-w-3xl mx-auto mt-4">
-            More than documentation - they're your competitive advantage visualized
+            Comprehensive monitoring solutions that deliver tangible benefits for organizations, communities, and ecosystems
           </AnimateOnScroll>
         </div>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 [perspective:1000px]">
           {[
-            { icon: "🥇", title: "Competitive Differentiation", description: "Interactive showcases of unique capabilities with ISO-aligned processes" },
-            { icon: "📡", title: "Visual Communication", description: "Animated alignment of project goals and client expectations" },
-            { icon: "🧾", title: "Professional Storytelling", description: "Cinematic presentation of your expertise and approach" },
-            { icon: "⚠️", title: "Risk Visualization", description: "Interactive ISO 31000-based risk matrices and mitigation plans" },
-            { icon: "✅", title: "Compliance Dashboard", description: "Visual proof of all legal and ISO requirements met" },
-            { icon: "📈", title: "Growth Engine", description: "Data-driven proposals that convert tenders to contracts" }
+            { icon: <Leaf size={32} />, title: "Environmental Protection", description: "Identify and mitigate sources of pollution to protect ecosystems, natural resources, and public health" },
+            { icon: <ShieldCheck size={32} />, title: "Regulatory Compliance", description: "Ensure compliance with environmental regulations through regular monitoring and testing activities" },
+            { icon: <AlertTriangle size={32} />, title: "Early Detection", description: "Detect environmental problems at an early stage, preventing long-term impacts and reducing remediation costs" },
+            { icon: <Heart size={32} />, title: "Public Health", description: "Protect human health by monitoring air and water quality and identifying health risks" },
+            { icon: <Database size={32} />, title: "Resource Management", description: "Inform sustainable resource management by monitoring changes in environmental conditions" },
+            { icon: <Users size={32} />, title: "Community Engagement", description: "Engage stakeholders in monitoring efforts to raise awareness and promote environmental stewardship" }
           ].map((item, i) => (
             <AnimateOnScroll key={i} animation="animate-slideInUp" delay={`${(i * 0.1) + 0.5}s`}>
                 <InteractiveCard 
@@ -302,23 +343,23 @@ const TechnicalBidComponent = () => {
 
       {/* Industry Applications - Parallax Section */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-800 to-amber-900 text-white p-12 my-20">
-        <ParticleBackground count={30} />
+        <ParticleBackground count={30} color="amber" />
         
         <div className="relative z-10">
           <AnimateOnScroll as="h2" animation="animate-itemVariants" delay="0.1s" className="text-4xl font-bold mb-2 text-center text-amber-100">
-            <span className="text-amber-200">
-              Industry-Specific
-            </span> Bid Solutions
+            <span className="text-amber-200 heading-underline">
+              Industry Applications
+            </span> of Environmental Monitoring
           </AnimateOnScroll>
           <AnimateOnScroll animation="animate-underlineVariant" delay="0.3s" className="w-[80px] h-[4px] bg-amber-400 rounded-full mx-auto mt-2" wrapperStyle={{ transformOrigin: 'center' }}/>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-12 [perspective:1000px]">
             {[
-              { icon: "🏗️", title: "Construction", description: "EPC, Infrastructure", stats: "87% win rate" },
-              { icon: "💻", title: "Technology", description: "Software, IT Services", stats: "92% compliance" },
-              { icon: "🏭", title: "Manufacturing", description: "Industrial Automation", stats: "85% success" },
-              { icon: "💼", title: "Consulting", description: "Management, ISO", stats: "94% approval" },
-              { icon: "🌿", title: "Energy", description: "Renewables, Utilities", stats: "89% impact" }
+              { icon: "🏭", title: "Industrial", description: "Manufacturing, Processing", stats: "87% compliance rate" },
+              { icon: "💧", title: "Water Resources", description: "Drinking Water, Wastewater", stats: "92% accuracy" },
+              { icon: "🏗️", title: "Construction", description: "Site Assessment, Remediation", stats: "85% success" },
+              { icon: "🌾", title: "Agriculture", description: "Soil Health, Runoff", stats: "94% approval" },
+              { icon: "🏢", title: "Municipal", description: "Urban Planning, Public Health", stats: "89% impact" }
             ].map((item, i) => (
               <AnimateOnScroll
                 key={i}
@@ -329,7 +370,7 @@ const TechnicalBidComponent = () => {
                 <div className="text-5xl mb-6 group-hover:text-6xl transition-all duration-300">
                   {item.icon}
                 </div>
-                <h3 className="text-xl font-bold mb-2 text-amber-100">{item.title}</h3>
+                <h3 className="text-xl font-bold mb-2 text-amber-100 heading-underline">{item.title}</h3>
                 <p className="text-sm opacity-80 mb-4">{item.description}</p>
                 <div className="text-xs font-mono opacity-60 group-hover:opacity-100 transition-opacity duration-300">
                   {item.stats}
@@ -345,4 +386,3 @@ const TechnicalBidComponent = () => {
 };
 
 export default TechnicalBidComponent;
-

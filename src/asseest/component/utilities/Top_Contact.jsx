@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import { FileText, Mail, Phone } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { useEffect, useState } from 'react';
 
 import logo from '../../img/eimcta.png';
 
-const ThemedContactItem = ({ icon, title, subtitle, href,
-  to, isBlinking = false, hideIconOnMobile = false, className = '' }) => {
+const ThemedContactItem = ({ icon, title, subtitle, href, to, isBlinking = false, hideIconOnMobile = false, className = '' }) => {
   const LinkComponent = to ? Link : 'a';
   const linkProps = to ? { to } : { href };
 
@@ -32,9 +34,57 @@ const ThemedContactItem = ({ icon, title, subtitle, href,
   );
 };
 
-const TopContactBar = () => {
+const AnimatedContactItem = ({ icon, title, subtitle, href, to, isBlinking = false, hideIconOnMobile = false, index }) => {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
   return (
-    <header className="bg-white w-full border-b border-stone-200 hidden md:block">
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, x: 100 }}
+      animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 100 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+    >
+      <ThemedContactItem
+        icon={icon}
+        title={title}
+        subtitle={subtitle}
+        href={href}
+        to={to}
+        isBlinking={isBlinking}
+        hideIconOnMobile={hideIconOnMobile}
+      />
+    </motion.div>
+  );
+};
+
+const TopContactBar = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  useEffect(() => {
+    if (inView) {
+      // Small delay before starting animation
+      const timer = setTimeout(() => {
+        setIsVisible(true);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [inView]);
+
+  return (
+    <motion.header 
+      ref={ref}
+      initial={{ opacity: 0 }}
+      animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="bg-white w-full border-b border-stone-200 hidden md:block"
+    >
       <style>
         {`
           @keyframes pulse {
@@ -46,41 +96,49 @@ const TopContactBar = () => {
         `}
       </style>
 
-      <nav className="max-w-6xl mx-auto p-4 flex items-center justify-between ">
+      <nav className="max-w-6xl mx-auto p-4 flex items-center justify-between">
         {/* Logo with Link - Hidden on mobile */}
-        <Link to="/" className="">
-
-          <img src={logo} alt="Logo" className=" w-[10rem] object-contain" />
-        </Link>
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <Link to="/">
+            <img src={logo} alt="Logo" className="w-[10rem] object-contain" />
+          </Link>
+        </motion.div>
 
         {/* Desktop Contact Items - Hidden on mobile */}
         <div className="hidden md:flex items-center space-x-6">
-          <ThemedContactItem
+          <AnimatedContactItem
             icon={<FileText size={44} strokeWidth={1.5} />}
             title="Get a Quote"
             subtitle="Click to fill form"
             to="/form"
             isBlinking={true}
+            index={0}
           />
 
-          <ThemedContactItem
+          <AnimatedContactItem
             icon={<Mail size={44} strokeWidth={1.5} />}
             title="Email Us"
             subtitle="info@example.com"
             href="mailto:info@example.com"
             hideIconOnMobile={true}
+            index={1}
           />
 
-          <ThemedContactItem
+          <AnimatedContactItem
             icon={<Phone size={44} strokeWidth={1.5} />}
             title="Contact Us"
             subtitle="+1234567890"
             href="tel:+1234567890"
             hideIconOnMobile={true}
+            index={2}
           />
         </div>
       </nav>
-    </header>
+    </motion.header>
   );
 };
 

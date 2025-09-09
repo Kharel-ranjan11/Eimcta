@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
 // Import all brand images
@@ -34,27 +34,45 @@ export const Branding = () => {
   ];
 
   const [loaded, setLoaded] = useState(Array(logos.length).fill(false));
+  const sectionRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   const handleImageLoad = (index) => {
     setLoaded(prev => prev.map((status, i) => (i === index ? true : status)));
   };
 
-  return (
-    <div className="w-full bg-gray-50 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      <div className="max-w-7xl mx-auto">
-        {/* Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-8 sm:mb-12"
-        >
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-3 sm:mb-4 font-['Arial Narrow',Arial,sans-serif]">
-             <span className="text-amber-600">Clientele</span>
-          </h2>
-          <div className="w-16 sm:w-20 h-0.5 sm:h-1 bg-gradient-to-r from-gray-400 to-gray-500 mx-auto rounded-full" />
-        </motion.div>
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
 
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <div ref={sectionRef} className="w-full bg-gray-50 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <div className="max-w-7xl mx-auto">
+        {/* Title with underline effect */}
+        
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center text-gray-900 mb-3 sm:mb-4 font-['Arial Narrow',Arial,sans-serif]">
+             <span className="text-amber-600 ">Clientele</span>
+          </h2>
+          
+          {/* Underline with grow animation */}
+          
         {/* Logo Grid */}
         <div className="relative">
           <div className="overflow-hidden py-2 sm:py-4">
@@ -64,9 +82,9 @@ export const Branding = () => {
                   key={`${logo.alt}-${index}`}
                   className="inline-flex items-center justify-center mx-2 sm:mx-4"
                   style={{
-                    width: 'clamp(100px, 20vw, 180px)',
-                    height: 'clamp(60px, 15vw, 140px)',
-                    minWidth: '100px' // Ensure minimum size on mobile
+                    width: 'clamp(80px, 22vw, 180px)',
+                    height: 'clamp(60px, 16vw, 140px)',
+                    minWidth: '80px'
                   }}
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.2 }}
@@ -101,7 +119,7 @@ export const Branding = () => {
                       {/* Loading spinner */}
                       {!loaded[index % logos.length] && (
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-6 h-6 sm:w-8 sm:h-8 border-3 sm:border-4 border-gray-300 border-t-amber-500 rounded-full animate-spin"></div>
+                          <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 sm:border-3 border-gray-300 border-t-amber-500 rounded-full animate-spin"></div>
                         </div>
                       )}
                     </div>
@@ -116,7 +134,7 @@ export const Branding = () => {
       <style jsx>{`
         .animate-infinite-scroll {
           display: inline-flex;
-          animation: 20s scroll infinite linear;
+          animation: 25s scroll infinite linear;
         }
 
         @keyframes scroll {
@@ -130,7 +148,13 @@ export const Branding = () => {
 
         @media (max-width: 640px) {
           .animate-infinite-scroll {
-            animation-duration: 15s;
+            animation-duration: 20s;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .animate-infinite-scroll {
+            animation-duration: 18s;
           }
         }
       `}</style>

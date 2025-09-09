@@ -36,10 +36,10 @@ export const Faq = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center h-screen bg-gray-100">
+            <div className="flex justify-center items-center h-screen bg-gray-50">
                 <div className="flex flex-col items-center gap-4">
                     <motion.div 
-                        className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"
+                        className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-amber-500"
                         animate={{
                             rotate: 360
                         }}
@@ -58,7 +58,7 @@ export const Faq = () => {
                         Loading FAQs...
                     </motion.p>
                     <motion.div
-                        className="absolute w-2 h-2 bg-indigo-500 rounded-full"
+                        className="absolute w-2 h-2 bg-amber-400 rounded-full"
                         animate={{
                             y: [0, (Math.random() - 0.5) * 100],
                             x: [0, (Math.random() - 0.5) * 50],
@@ -78,13 +78,13 @@ export const Faq = () => {
 
     return (
         <motion.div 
-            className="faq-page max-w-4xl mx-auto px-4 py-8"
+            className="faq-page max-w-4xl mx-auto px-4 py-8 bg-gray-50"
             initial="hidden"
             animate="visible"
             variants={variants}
         >
             <motion.h1 
-                className="text-3xl font-bold text-center mb-6"
+                className="text-3xl font-bold text-center mb-6 text-amber-700"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
@@ -96,7 +96,7 @@ export const Faq = () => {
                 {faqdata.map(({ question, answer, icon: Icon }, index) => (
                     <motion.div
                         key={index}
-                        className="border border-gray-300 rounded-xl p-4 shadow-sm bg-white transition-all"
+                        className="border border-amber-200 rounded-xl p-4 shadow-sm bg-white transition-all"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ 
@@ -106,7 +106,7 @@ export const Faq = () => {
                         }}
                         whileHover={{ 
                             y: -15,
-                            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
+                            boxShadow: "0 25px 50px -12px rgba(245, 158, 11, 0.15)",
                             transition: { duration: 0.3 }
                         }}
                     >
@@ -116,7 +116,7 @@ export const Faq = () => {
                             whileHover={{ 
                                 y: -3,
                                 scale: 1.02,
-                                boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)",
+                                boxShadow: "0 10px 25px -5px rgba(245, 158, 11, 0.2)",
                                 transition: { duration: 0.3 }
                             }}
                             whileTap={{ 
@@ -124,11 +124,11 @@ export const Faq = () => {
                                 transition: { duration: 0.1 }
                             }}
                         >
-                            <div className="flex items-center gap-3 text-left text-lg font-semibold">
-                                <Icon className="w-5 h-5 text-indigo-600" />
+                            <div className="flex items-center gap-3 text-left text-lg font-semibold text-amber-800">
+                                <Icon className="w-5 h-5 text-amber-600" />
                                 {question}
                             </div>
-                            <span className="text-gray-500">
+                            <span className="text-amber-600 font-bold text-xl">
                                 {activeIndex === index ? "−" : "+"}
                             </span>
                         </motion.button>
@@ -136,7 +136,7 @@ export const Faq = () => {
                         <AnimatePresence>
                             {activeIndex === index && (
                                 <motion.div
-                                    className="mt-3 text-gray-700 overflow-hidden"
+                                    className="mt-3 text-gray-700 overflow-hidden text-justify"
                                     initial={{ height: 0, opacity: 0 }}
                                     animate={{ 
                                         height: "auto", 

@@ -5,12 +5,14 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import img7 from '../../img/7.jpg';
 import img12 from '../../img/12.jpg';
 import img14 from '../../img/14.jpg';
+import img26 from '../../img/26.jpg'
 
 const ImageCarousel = () => {
   const slides = [
-    { url: img7 },
+    { url: img26 },
     { url: img12 },
-    { url: img14 },
+    { url: img7 },
+  
   ];
 
   // State management for the carousel
@@ -25,32 +27,32 @@ const ImageCarousel = () => {
   // --- Navigation Functions ---
   const goToNext = useCallback(() => {
     if (isTransitioning) return;
-    
+
     setIsTransitioning(true);
     const isLastSlide = currentIndex === slides.length - 1;
     setCurrentIndex(isLastSlide ? 0 : currentIndex + 1);
-    
+
     // Reset transitioning state after animation completes
     setTimeout(() => setIsTransitioning(false), 500);
   }, [currentIndex, slides.length, isTransitioning]);
 
   const goToPrevious = useCallback(() => {
     if (isTransitioning) return;
-    
+
     setIsTransitioning(true);
     const isFirstSlide = currentIndex === 0;
     setCurrentIndex(isFirstSlide ? slides.length - 1 : currentIndex - 1);
-    
+
     // Reset transitioning state after animation completes
     setTimeout(() => setIsTransitioning(false), 500);
   }, [currentIndex, slides.length, isTransitioning]);
 
   const goToSlide = (slideIndex) => {
     if (slideIndex === currentIndex || isTransitioning) return;
-    
+
     setIsTransitioning(true);
     setCurrentIndex(slideIndex);
-    
+
     // Reset transitioning state after animation completes
     setTimeout(() => setIsTransitioning(false), 500);
   };
@@ -76,13 +78,13 @@ const ImageCarousel = () => {
         onMouseLeave={() => setIsHovered(false)}
       >
         {/* Slides Container */}
-        <div 
+        <div
           className="flex transition-transform duration-500 ease-in-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {slides.map((slide, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="w-full flex-shrink-0"
             >
               <img
@@ -121,11 +123,10 @@ const ImageCarousel = () => {
             <button
               key={slideIndex}
               onClick={() => goToSlide(slideIndex)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                currentIndex === slideIndex 
-                  ? 'bg-white scale-125' 
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${currentIndex === slideIndex
+                  ? 'bg-white scale-125'
                   : 'bg-white bg-opacity-50 hover:bg-opacity-75'
-              }`}
+                }`}
               aria-label={`Go to slide ${slideIndex + 1}`}
               disabled={isTransitioning}
             />

@@ -76,13 +76,7 @@ const AboutCard = () => {
         >
           <h1 className="text-4xl font-bold text-amber-900 mb-4 relative inline-block">
             ISO Consultancy Services
-            <motion.div 
-              className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-2/3 h-1 bg-yellow-400 rounded-lg"
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.7, ease: "easeOut", delay: 0.4 }}
-              style={{ transformOrigin: 'center' }}
-            />
+           
           </h1>
           <p className="text-xl text-amber-800 font-normal max-w-3xl mx-auto mt-6">
             We are one of the leading global providers of accredited ISO certification. We offer a broad portfolio of services within management system ISO certification and related services.

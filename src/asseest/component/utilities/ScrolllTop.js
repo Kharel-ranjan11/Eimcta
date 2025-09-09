@@ -12,36 +12,36 @@ const ScrollToTopButton = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  window.addEventListener("scroll", () => {
-  })
+
   const scrollToTop = () => {
     setLaunch(true);
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }, 100);
-    setTimeout(() => setLaunch(false), 100);
+    setTimeout(() => setLaunch(false), 1000);
   };
 
   return (
     <>
-      {/* Gas flames under rocket */}
+      {/* Enhanced gas flames under rocket */}
       {launch && (
-        <div className="fixed bottom-[58px] right-[34px] z-40 flex flex-col items-center animate-gas-flicker pointer-events-none">
-          <div className="w-1 h-3 bg-orange-400 rounded-full blur-sm mb-0.5 opacity-90"></div>
-          <div className="w-1.5 h-2.5 bg-yellow-300 rounded-full blur-sm opacity-80"></div>
+        <div className="fixed bottom-[58px] right-[34px] z-40 flex flex-col items-center pointer-events-none">
+          <div className="w-2 h-4 bg-amber-400 rounded-full blur-[3px] mb-1 opacity-90 animate-flame-flicker"></div>
+          <div className="w-2.5 h-3 bg-yellow-300 rounded-full blur-[4px] opacity-80 animate-flame-flicker delay-75"></div>
+          <div className="w-1.5 h-2 bg-yellow-200 rounded-full blur-[2px] opacity-70 animate-flame-flicker delay-150"></div>
         </div>
       )}
 
       {/* Scroll to Top Rocket Button */}
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-6 right-6 z-50 p-3 rounded-full transition-all duration-300
-          bg-gradient-to-br from-blue-800 via-indigo-900 to-blue-950
+        className={`fixed bottom-6 right-6 z-50 p-3 rounded-full transition-all duration-500 ease-out
+          bg-gradient-to-br from-amber-500 via-amber-600 to-amber-700
           hover:scale-110 hover:shadow-2xl focus:outline-none
-          ring-1 ring-blue-500 shadow-blue-500/30
+          ring-1 ring-amber-300/50 shadow-lg shadow-amber-500/30
           ${visible
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
+            ? "opacity-100 translate-y-0 pointer-events-auto"
+            : "opacity-0 translate-y-10 pointer-events-none"
           }
           ${launch ? "animate-rocket-launch" : ""}
         `}
@@ -59,32 +59,49 @@ const ScrollToTopButton = () => {
         @keyframes rocket-launch {
           0% {
             transform: translateY(0) scale(1);
+            opacity: 1;
           }
-          40% {
-            transform: translateY(-20px) scale(1.1);
+          30% {
+            transform: translateY(-30px) scale(1.05);
           }
-          70% {
-            transform: translateY(-40px) scale(1.15);
+          60% {
+            transform: translateY(-60px) scale(1.1);
           }
           100% {
-            transform: translateY(-60px) scale(1.2);
+            transform: translateY(-100px) scale(1.15);
+            opacity: 0;
           }
         }
-
-        @keyframes gas-flicker {
-          0%, 100% { opacity: 0.9; transform: scaleY(1); }
-          50% { opacity: 0.5; transform: scaleY(1.3); }
+        
+        @keyframes flame-flicker {
+          0%, 100% { 
+            opacity: 0.8; 
+            transform: scaleY(1) scaleX(0.95);
+          }
+          25% { 
+            opacity: 0.9;
+            transform: scaleY(1.2) scaleX(1.1);
+          }
+          50% { 
+            opacity: 0.7;
+            transform: scaleY(1.1) scaleX(0.98);
+          }
+          75% { 
+            opacity: 0.85;
+            transform: scaleY(1.3) scaleX(1.05);
+          }
         }
 
         .animate-rocket-launch {
-          animation: rocket-launch 0.8s ease-out;
+          animation: rocket-launch 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards;
         }
 
-        .animate-gas-flicker {
-          animation: gas-flicker 0.4s ease-in-out infinite;
+        .animate-flame-flicker {
+          animation: flame-flicker 0.3s ease-in-out infinite;
         }
       `}</style>
     </>
   );
 };
-export default ScrollToTopButton;
+
+export default ScrollToTopButton

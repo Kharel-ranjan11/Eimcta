@@ -73,7 +73,7 @@ const ISOAuditGuide = () => {
     };
 
     return (
-        <div style={{ fontFamily: "'Arial Narrow', sans-serif" }} className="antialiased bg-gradient-to-br from-amber-50 to-amber-100 text-amber-800 font-bold">
+        <div style={{ fontFamily: "'Arial Narrow', sans-serif" }} className="antialiased bg-gray-50 text-amber-800 font-bold">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
 
                 {/* Hero Section */}
@@ -84,7 +84,7 @@ const ISOAuditGuide = () => {
                         </h1>
                     </AnimatedWrapper>
                     <AnimatedWrapper variants={slideInLeft} transition={{ duration: 0.8, ease: easeCurve }}>
-                        <p className="max-w-3xl mx-auto text-lg md:text-xl text-amber-700 mb-8 font-medium">
+                        <p className="max-w-3xl mx-auto text-lg md:text-xl text-justify text-amber-700 mb-8 font-medium">
                             Unlock operational excellence. Understand the purpose, processes, and profound benefits of conducting thorough ISO audits in your organization.
                         </p>
                     </AnimatedWrapper>
@@ -100,7 +100,7 @@ const ISOAuditGuide = () => {
                 {/* What is ISO Audit */}
                 <section className="mb-24">
                     <div className="grid md:grid-cols-2 gap-12 items-center">
-                        <div>
+                        <div className='relative'>
                              <AnimatedWrapper variants={sectionHeaderVariant} transition={{ duration: 0.7, ease: easeCurve }}>
                                 <div className="flex items-center mb-6">
                                     <div className="bg-yellow-100 p-3 rounded-full shadow-lg mr-4">
@@ -108,8 +108,13 @@ const ISOAuditGuide = () => {
                                     </div>
                                     <h2 className="text-3xl font-bold text-amber-900">Understanding ISO Audits</h2>
                                 </div>
-                            </AnimatedWrapper>
-                            <div className="w-24 h-1.5 bg-yellow-400 rounded-full mb-6"></div>
+                              </AnimatedWrapper>
+                             <motion.div 
+                                    className="h-1 bg-yellow-400 rounded-full absolute"
+                                    style={{ left: '50%', translateX: '-50%', bottom: '-0.5rem', originX: 0.5, width: '25%' }}
+                                    variants={underlineVariant}
+                                    transition={{ duration: 0.8, delay: 0.3, ease: easeCurve }}
+                                />
                             
                             <AnimatedWrapper variants={paragraphVariant} transition={{ duration: 0.8, delay: 0.3, ease: easeCurve }}>
                                 <p className="text-amber-800 mb-8 text-lg leading-relaxed font-medium">

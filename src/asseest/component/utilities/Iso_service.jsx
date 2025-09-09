@@ -79,7 +79,6 @@ export const ISO_CREDENTIALS = () => {
           <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
             Recognized excellence in quality, security, and innovation
           </p>
-          <div className="w-24 h-1.5 bg-gradient-to-r from-amber-400 to-orange-400 mx-auto rounded-full" />
         </motion.div>
 
         {/* Vertical Carousel Container */}

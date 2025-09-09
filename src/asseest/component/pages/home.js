@@ -8,6 +8,7 @@ import ModalPage from '../utilities/modal.jsx';
 import Scroll_x from '../utilities/ScrollX.jsx';
 import AboutCard from '../utilities/global.jsx';
 import ISOShowcase from './Glob_rec.jsx';
+import BusinessQuoteForm from './form.js';
 
 // Lazy load components
 const ImageCarousel = lazy(() => import("../utilities/caro"));
@@ -83,6 +84,7 @@ const Home = () => {
       {/* ===== MODAL ===== */}
       <ModalPage />
       <Branding />
+         <BusinessQuoteForm />
     </div>
   );
 };

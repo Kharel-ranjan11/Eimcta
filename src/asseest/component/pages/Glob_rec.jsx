@@ -141,14 +141,6 @@ const ISOShowcase = () => {
                             OPERATE YOUR BUSINESS WITH GLOBAL RECOGNITION!
                         </motion.h1>
                          {/* Animated underline acting as a pseudo-element */}
-                        <motion.div
-                            className="absolute -bottom-2 left-0 h-1.5 bg-amber-500 rounded-lg"
-                            style={{ width: '25%', transformOrigin: 'left' }}
-                            variants={{
-                                hidden: { scaleX: 0 },
-                                visible: { scaleX: 1, transition: { type: 'spring', stiffness: 60, damping: 25, delay: 0.2 } },
-                            }}
-                        />
                     </div>
                     <motion.p
                         variants={{

@@ -1,78 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-
-// A simple reusable Image component
-const Image = ({ src, alt }) => {
-  return (
-    <motion.img 
-      src={src} 
-      alt={alt} 
-      className="w-full h-auto object-cover rounded-lg shadow-md" 
-      onError={(e) => {
-          e.target.onerror = null; 
-          e.target.src='https://placehold.co/1024x400/fde68a/78350f?text=ISO+22000';
-      }}
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.8 }}
-    />
-  );
-};
-
-// A component to embed a YouTube video player
-const VideoPlayer = ({ src, title }) => {
-  // Convert YouTube watch URL to an embeddable URL
-  const getEmbedUrl = (url) => {
-    try {
-      const urlObj = new URL(url);
-      const videoId = urlObj.searchParams.get("v");
-      if (videoId) {
-        return `https://www.youtube.com/embed/${videoId}`;
-      }
-      // Handle youtu.be links
-      const pathSegments = urlObj.pathname.split('/');
-      if (pathSegments.length > 1 && pathSegments[1]) {
-        return `https://www.youtube.com/embed/${pathSegments[1]}`;
-      }
-    } catch (error) {
-      console.error("Invalid video URL:", error);
-      return "";
-    }
-    return url;
-  };
-
-  const embedUrl = getEmbedUrl(src);
-
-  const slideInUp = {
-      hidden: { y: 60, opacity: 0 },
-      visible: { y: 0, opacity: 1, transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] } }
-  };
-
-  return (
-    <motion.div 
-        className="max-w-4xl mx-auto my-10"
-        variants={slideInUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-    >
-        <div className="aspect-w-16 aspect-h-9 relative" style={{ paddingBottom: '56.25%' }}>
-            <iframe
-                className="absolute top-0 left-0 w-full h-full rounded-lg shadow-lg"
-                src={embedUrl}
-                title={title || "YouTube video player"}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-            ></iframe>
-        </div>
-    </motion.div>
-  );
-};
+import VideoPlayer from '../utilities/Video';
+import Image from '../utilities/image';
 
 
 const ISO22000Certification = () => {
-
+  // ... rest of your component code remains the same
   // Animation Variants based on instructions
   const slideIn = (direction, delay = 0) => ({
     hidden: {
@@ -93,66 +26,60 @@ const ISO22000Certification = () => {
   });
 
   const sectionHeaderVariant = {
-      hidden: { y: 40, opacity: 0 },
-      visible: { y: 0, opacity: 1, transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] } }
+    hidden: { y: 40, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] } }
   };
-  
-  const underlineVariant = (width = '50%') => ({
-      hidden: { width: '0%' },
-      visible: { width, transition: { duration: 0.8, delay: 0.3, ease: 'easeInOut' } }
+
+  const underlineVariant = (width = '25%') => ({
+    hidden: { width: '0%' },
+    visible: {
+      width,
+      transition: { duration: 0.8, delay: 0.3, ease: 'easeInOut' }
+    }
   });
 
   const cardHover = {
-      y: -8,
-      rotateX: 2,
-      rotateY: -1,
-      transition: { duration: 0.3, ease: 'easeOut' },
+    y: -8,
+    transition: { duration: 0.3, ease: 'easeOut' },
   };
 
-  const AnimatedHeader = ({ title, width }) => (
-    <motion.div 
-      className="relative inline-block mb-4"
+  const AnimatedHeader = ({ title, width = "25%" }) => (
+    <motion.div
+      className="relative text-center mb-8"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.5 }}
     >
-        <motion.h2 variants={sectionHeaderVariant} className="text-3xl font-bold text-amber-900 pb-2">
-            {title}
-        </motion.h2>
-        <motion.div 
-            variants={underlineVariant(width)} 
-            className="absolute bottom-[-0.5rem] left-1/2 -translate-x-1/2 h-1 bg-yellow-400"
-        />
+      <motion.h2 variants={sectionHeaderVariant} className="text-3xl font-bold text-amber-900 pb-2">
+        {title}
+      </motion.h2>
+      <motion.div
+        variants={underlineVariant(width)}
+        className="absolute bottom-[-0.5rem] left-1/2 -translate-x-1/2 h-1 bg-yellow-400 rounded-lg"
+      />
     </motion.div>
   );
 
   return (
-    <div className="bg-gradient-to-br from-amber-50 to-amber-100 font-sans min-h-screen p-4 sm:p-6">
-      <div className="max-w-6xl mx-auto">
-        
-        <div className="max-w-5xl mx-auto mb-10">
-          <Image
-            src="https://images.unsplash.com/photo-1579047205734-d3c631a4e521?q=80&w=2070&auto=format&fit=crop"
-            alt="Food safety and quality control"
-          />
-        </div>
+    <div className="bg-gray-50 font-sans min-h-screen p-4 sm:p-6">
+      <div className="max-w-7xl mx-auto">
 
-        <div className="mb-10 text-center sm:text-left">
-          <motion.h1 
+        <div className="mb-10 text-center">
+          <motion.h1
             className="text-4xl md:text-5xl font-bold text-amber-900 relative inline-block pb-2 mb-4"
             variants={slideIn('right')}
             initial="hidden"
             animate="visible"
           >
-            ISO 22000 Certification
-            <motion.span 
-              className="absolute left-1/2 -translate-x-1/2 bottom-0 h-1 bg-yellow-400 rounded-lg"
+            ISO 22000:2018(FSMS)
+            <motion.span
+              className="absolute left-1/2 -translate-x-1/2 -bottom-2 h-1 bg-yellow-400 rounded-lg"
               initial={{ width: "0%" }}
               animate={{ width: "25%" }}
               transition={{ duration: 0.8, delay: 0.5, ease: 'easeInOut' }}
             />
           </motion.h1>
-          <motion.p 
+          <motion.p
             className="text-amber-800 text-lg"
             variants={slideIn('left')}
             initial="hidden"
@@ -162,38 +89,43 @@ const ISO22000Certification = () => {
           </motion.p>
         </div>
 
-        <motion.div 
-            className="bg-white border border-yellow-300 rounded-lg shadow-md p-6 mb-8 hover:shadow-lg transition-shadow duration-300"
-            variants={slideIn('up')}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+        <Image
+          src={require('../../img/20.jpg')}
+          caption=""
+          alt=""
+        />
+        <motion.div
+          className="bg-white border border-yellow-200 rounded-xl shadow-md p-6 mb-8 hover:shadow-lg transition-shadow duration-300"
+          variants={slideIn('up')}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
         >
-          <p className="text-gray-700 leading-relaxed">
+          <p className="text-gray-700 leading-relaxed text-justify">
             In today's globalized world, food safety is a top priority for businesses involved in food production, processing, packaging, and distribution. ISO 22000 is an internationally recognized standard that sets out the requirements for a comprehensive Food Safety Management System (FSMS), helping organizations ensure food safety across the entire supply chain. Together with HACCP (Hazard Analysis and Critical Control Points), ISO 22000 Certification ensures that food products are safe for consumption and meet regulatory and customer expectations.
           </p>
         </motion.div>
 
         <div className="mb-8">
-          <AnimatedHeader title="About ISO 22000 Certification" width="25%" />
-          <motion.div 
-            className="bg-white border border-yellow-300 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
+          <AnimatedHeader title="About ISO 22000 Certification" />
+          <motion.div
+            className="bg-white border border-yellow-200 rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
             variants={slideIn('up')}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
           >
-            <p className="text-gray-700 mb-4 leading-relaxed">
+            <p className="text-gray-700 mb-4 leading-relaxed text-justify">
               As consumer awareness and regulatory demands increase, ensuring food safety has become more critical than ever. Implementing ISO 22000 Certification demonstrates your organization's commitment to delivering safe, high-quality food products. It also helps you meet global food safety regulations and maintain trust with customers and stakeholders.
             </p>
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-gray-700 leading-relaxed text-justify">
               ISO 22000 integrates the principles of HACCP, a risk management system that identifies, evaluates, and controls hazards related to food safety. By combining ISO 22000 and HACCP, your organization can establish a robust FSMS that minimizes risks, prevents contamination, and ensures the safe handling of food at all stages of the supply chain.
             </p>
           </motion.div>
         </div>
 
         <div className="mb-8">
-          <AnimatedHeader title="Key Benefits of ISO 22000 Certification" width="25%" />
+          <AnimatedHeader title="Key Benefits of ISO 22000 Certification" />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               { title: "Enhanced Food Safety", desc: "Implement a systematic approach to managing food safety risks, ensuring products meet the highest safety standards and are free from contamination." },
@@ -203,9 +135,9 @@ const ISO22000Certification = () => {
               { title: "Increased Market Opportunities", desc: "Gain access to new markets and business opportunities, as many large retailers require suppliers to be ISO 22000 certified." },
               { title: "Streamlined Processes", desc: "Promote a structured approach to food safety management, helping you optimize processes, reduce costs, and improve efficiency." },
             ].map((benefit, index) => (
-              <motion.div 
-                key={index} 
-                className="bg-white border border-yellow-300 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300 flex flex-col"
+              <motion.div
+                key={index}
+                className="bg-white border border-yellow-200 rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300 flex flex-col h-full"
                 variants={slideIn('up', index * 0.1)}
                 initial="hidden"
                 whileInView="visible"
@@ -220,19 +152,19 @@ const ISO22000Certification = () => {
                   </div>
                   <h3 className="text-lg font-semibold text-amber-900">{benefit.title}</h3>
                 </div>
-                <p className="text-gray-700 leading-relaxed">{benefit.desc}</p>
+                <p className="text-gray-700 leading-relaxed text-justify">{benefit.desc}</p>
               </motion.div>
             ))}
           </div>
         </div>
 
         <div className="mb-8">
-          <AnimatedHeader title="How to Apply for ISO 22000" width="25%" />
-          <motion.div 
-            className="bg-amber-100/50 rounded-lg p-6 mb-6"
+          <AnimatedHeader title="How to Apply for ISO 22000" />
+          <motion.div
+            className="bg-amber-100/50 rounded-xl p-6 mb-6"
             variants={slideIn('up')} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }}
           >
-            <p className="text-amber-800 font-semibold">Note: Implementing ISO 22000 Certification involves several key steps to meet the standard's requirements:</p>
+            <p className="text-amber-800 font-semibold text-center">Note: Implementing ISO 22000 Certification involves several key steps to meet the standard's requirements:</p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
@@ -243,9 +175,9 @@ const ISO22000Certification = () => {
               { title: "Conduct Internal Audits", desc: "Perform regular internal audits to evaluate the effectiveness of your FSMS and identify any non-conformities before the main audit." },
               { title: "Certification Audit", desc: "Select an accredited body to conduct the certification audit. Upon successful compliance, you will receive ISO 22000 Certification." },
             ].map((step, index) => (
-              <motion.div 
-                key={index} 
-                className="bg-white border border-yellow-300 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
+              <motion.div
+                key={index}
+                className="bg-white border border-yellow-200 rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
                 variants={slideIn('up', index * 0.1)}
                 initial="hidden"
                 whileInView="visible"
@@ -258,37 +190,35 @@ const ISO22000Certification = () => {
                   </div>
                   <h3 className="text-lg font-semibold text-amber-900">{step.title}</h3>
                 </div>
-                <p className="text-gray-700 leading-relaxed">{step.desc}</p>
+                <p className="text-gray-700 leading-relaxed text-justify">{step.desc}</p>
               </motion.div>
             ))}
           </div>
         </div>
 
-        <VideoPlayer 
-            title="What is ISO 22000?" 
-            src="https://www.youtube.com/watch?v=urED3XEGOuc"
-        />
 
         <div className="mb-8">
-          <AnimatedHeader title="Conclusion" width="35%" />
-          <motion.div 
-            className="bg-white border border-yellow-300 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
+          <AnimatedHeader title="Conclusion" width="15%" />
+          <motion.div
+            className="bg-white border border-yellow-200 rounded-xl
+             shadow-md p-6 hover:shadow-lg transition-shadow duration-300"
             variants={slideIn('up')}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
           >
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-gray-700 leading-relaxed text-justify">
               ISO 22000 Certification provides a comprehensive framework for managing food safety risks and ensuring compliance with global food safety regulations. Achieving certification demonstrates a strong commitment to safety and quality, enhancing your organization's reputation and competitiveness in the food industry.
             </p>
           </motion.div>
         </div>
+        <VideoPlayer
+          title="What is ISO 22000?"
+          src="https://www.youtube.com/watch?v=urED3XEGOuc"
+        />
       </div>
     </div>
   );
 };
-export default ISO22000Certification;
 
-// warning: branch.main.remote has multiple values
-// warning: branch.main.merge has multiple values
-// branch 'main' set up to track 'origin/main'.  
+export default ISO22000Certification;

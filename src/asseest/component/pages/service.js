@@ -10,6 +10,7 @@ import {
   FaHandsHelping,
   FaAward
 } from "react-icons/fa";
+import BusinessQuoteForm from "./form";
 
 const Services = () => {
   // Services data
@@ -210,6 +211,7 @@ const Services = () => {
           </div>
         </div>
       </div>
+       <BusinessQuoteForm />
     </section>
   );
 };

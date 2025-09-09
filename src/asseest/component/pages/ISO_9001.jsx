@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-
+import Image from '../utilities/image';
+import VideoPlayer from '../utilities/Video';
 // This is a self-contained component with Framer Motion animations.
 // All necessary SVG icons are included inline.
 
@@ -71,7 +72,7 @@ export default function ISO9001Certification() {
     };
 
     return (
-        <div className="bg-gradient-to-br from-amber-50 to-orange-100 py-16 px-4 sm:px-6 lg:px-8 font-sans text-gray-800 overflow-x-hidden">
+        <div className="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8 font-sans text-amber-800 overflow-x-hidden">
             <div className="max-w-7xl mx-auto">
 
                 {/* --- Header Section --- */}
@@ -82,7 +83,7 @@ export default function ISO9001Certification() {
                         variants={heroVariants.slideInRight}
                         className="text-4xl md:text-5xl font-extrabold text-amber-900 tracking-tight mb-4 relative pb-4"
                     >
-                        ISO 9001 Certification
+                        ISO 9001:2015(QMS)
                         {/* NOTE: A motion.div is used for the animated underline, a powerful pattern in Framer Motion for dynamic "pseudo-elements". */}
                         <motion.div
                             initial="hidden"
@@ -106,18 +107,8 @@ export default function ISO9001Certification() {
                 </header>
 
                 {/* --- Top Banner Image --- */}
-                <motion.div 
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
-                    className="max-w-5xl mx-auto mb-20 shadow-2xl rounded-2xl overflow-hidden">
-                    <img
-                        src="https://placehold.co/1200x500/FFF7ED/B45309?text=Excellence+in+Quality+Management"
-                        alt="A banner representing ISO 9001 quality standards and certification"
-                        className="w-full h-auto object-cover"
-                    />
-                </motion.div>
-                
+              
+                <Image src={require('../../img/14.jpg')} alt={require('../../img/14.jpg')} caption=""/>
                 {/* --- Introduction Text --- */}
                 <motion.div
                     ref={introRef}
@@ -260,47 +251,7 @@ export default function ISO9001Certification() {
                 </motion.div>
                 
                 {/* --- Video Section --- */}
-                <div className="max-w-4xl mx-auto mt-24 text-center">
-                    <div ref={videoHeaderRef}>
-                         <motion.h2 
-                            initial="hidden"
-                            animate={isVideoHeaderInView ? "visible" : "hidden"}
-                            variants={sectionHeaderVariants}
-                            className="text-3xl font-bold text-amber-900 mb-4 relative pb-4">
-                            Learn More in 2 Minutes
-                             <motion.div
-                                initial="hidden"
-                                animate={isVideoHeaderInView ? "visible" : "hidden"}
-                                variants={underlineVariant}
-                                style={{ originX: 0.5 }}
-                                className="absolute bottom-0 left-1/2 -translate-x-1/2 h-1 bg-amber-500 rounded-full"
-                            />
-                        </motion.h2>
-                         <motion.p 
-                            initial="hidden"
-                            animate={isVideoHeaderInView ? "visible" : "hidden"}
-                            variants={paragraphVariant}
-                            className="text-lg text-amber-800 mb-8">
-                            Watch this short video for a quick overview of what ISO 9001 is all about.
-                         </motion.p>
-                    </div>
-                     <motion.div 
-                        ref={videoRef}
-                        initial="hidden"
-                        animate={isVideoInView ? "visible" : "hidden"}
-                        variants={videoVariant}
-                        className="aspect-w-16 aspect-h-9 overflow-hidden rounded-2xl shadow-xl border-4 border-white">
-                        <iframe 
-                            className="w-full h-full"
-                            style={{aspectRatio: '16 / 9'}}
-                            src="https://www.youtube.com/embed/kiDe9QhUpDM" 
-                            title="YouTube video player: What is ISO 9001?" 
-                            frameBorder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowFullScreen
-                        ></iframe>
-                     </motion.div>
-                </div>
+               {/* <VideoPlayer url="https://www.youtube.com/watch?v=kiDe9QhUpDM&t=1s" /> */}
 
             </div>
         </div>

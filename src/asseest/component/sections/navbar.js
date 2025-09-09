@@ -245,16 +245,15 @@ const Navbar = () => {
         }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-center h-16">
-          {isMobile && (
-            <div className="flex-shrink-0 flex items-center">
-              <img
-                className="h-10 w-auto"
-                src="https://placehold.co/100x40/ffffff/a855f7?text=Logo"
-                alt="Logo"
-              />
-            </div>
-          )}
+        <div className="flex items-center justify-between h-16">
+          {/* Logo - visible on mobile and desktop */}
+          <div className="flex-shrink-0 flex items-center">
+            <img
+              className="h-10 w-auto"
+              src="https://placehold.co/100x40/ffffff/a855f7?text=Logo"
+              alt="Logo"
+            />
+          </div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
@@ -287,6 +286,7 @@ const Navbar = () => {
             ))}
           </div>
 
+          {/* Mobile menu button - positioned to the right */}
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -299,7 +299,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer - full height */}
       <div
         className={`fixed inset-y-0 right-0 w-64 bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"
           } md:hidden`}
@@ -314,7 +314,7 @@ const Navbar = () => {
           </button>
         </div>
 
-        <div className="px-2 pt-2 pb-3 space-y-1 overflow-y-auto h-[12rem]">
+        <div className="px-2 pt-2 pb-3 space-y-1 overflow-y-auto h-full">
           {menuitems.map((item, idx) => {
             const key = `m-${idx}`;
             const hasChildren = item.children && item.children.length > 0;

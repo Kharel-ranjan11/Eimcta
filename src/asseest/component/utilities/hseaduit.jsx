@@ -211,7 +211,7 @@ const HSEAudits = () => {
                 -moz-osx-font-smoothing: grayscale;
               }
             `}</style>
-            <div className="bg-amber-50 text-amber-900">
+            <div className="bg-gray-50 text-amber-900">
                 <main>
                     {/* Hero Section */}
                     <header className="relative h-[500px] w-full flex items-center justify-center text-center text-white px-4 overflow-hidden">
