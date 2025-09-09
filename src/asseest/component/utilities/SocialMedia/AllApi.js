@@ -101,49 +101,7 @@ const useEmailAPI = () => {
 
     setStatus("Sending...");
 
-    // try {
-    //   const res = await fetch("https://api.brevo.com/v3/smtp/email", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       sender: { email: "968aec001@smtp-brevo.com" },
-    //       to: [
-    //         { email: "eimcta.isodoc@gmail.com" }, // ✅ your company inbox
-    //         { email: email },                         // Client email (confirmation copy)
-    //       ],
-    //       subject: `Client Inquiry from ${name} on ${new Date().toLocaleDateString()}`,
-    //       htmlContent: `
-    //         <h2>Client Inquiry Form</h2>
-    //         <p><strong>Name:</strong> ${name}</p>
-    //         <p><strong>Contact/Phone:</strong> ${phone}</p>
-    //         <p><strong>Company/Institute:</strong> ${organization}</p>
-    //         <p><strong>Email:</strong> ${email}</p>
-    //         <p><strong>Country:</strong> ${country}</p>
-    //         <p><strong>Address:</strong> ${address}</p>
-    //         <p><strong>Service:</strong> ${customService || Object.keys(servicesObj).join(", ")}</p>
-    //         <p><strong>Description:</strong> ${message}</p>
-    //       `,
-    //     }),
-    //   });
 
-    //   const result = await res.json();
-
-    //   if (res.ok) {
-    //     setStatus("✅ Email sent successfully!");
-    //     console.log(res.ok)
-    //     return { success: true, ...result };
-    //   } else {
-    //     setStatus("❌ Failed to send email.");
-    //     return { success: false, ...result };
-    //   }
-    // } catch (error) {
-    //   console.error("Email send error:", error);
-    //   setStatus("❌ Failed to send email.");
-    //   console.log(error)
-    //   return { success: false, error };
-    // }
   };
 
   return { status, sendEmail };
