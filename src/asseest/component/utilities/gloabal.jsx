@@ -460,7 +460,7 @@ const ISOCertificationForm = () => {
 
     return (
         <motion.div
-            className="min-h-screen bg-gradient-to-br from-amber-50 to-amber-100 py-12 px-4 sm:px-6 lg:px-8 font-sans"
+            className="min-h-screen bg-gray-50  py-12 px-4 sm:px-6 lg:px-8 font-sans"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -485,7 +485,7 @@ const ISOCertificationForm = () => {
                                 <FiUser className="text-yellow-400" />
                             </div>
                             Application Details
-                            <motion.div className="absolute w-12 h-1 bg-yellow-400 left-0 bottom-2 rounded-lg" variants={underlineVariant} whileInView="animate" viewport={{ once: true }}></motion.div>
+                            <motion.div className="absolute w-12 h-1 bg-yellow-400 left-[50%] -bottom-2 rounded-lg" variants={underlineVariant} whileInView="animate" viewport={{ once: true }}></motion.div>
                         </motion.h2>
                         <motion.button
                             type="button"

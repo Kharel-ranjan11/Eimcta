@@ -1,5 +1,6 @@
 import axios from "axios";
-import { use, useState } from "react";
+import {  useState } from "react";
+import emailjs from "@emailjs/browser";
 
 
 const API = "https://graph.facebook.com/v23.0";
@@ -101,13 +102,111 @@ const useEmailAPI = () => {
 
     setStatus("Sending...");
 
+    try {
+      const result = await emailjs.send(
+        "service_dv1m7ty",  // from EmailJS dashboard
+        "template_zu4cn9o",// from EmailJS dashboard
+        {
+          name,
+          phone,
+          organization,
+          email,
+          country,
+          address,
+          service: customService || Object.keys(servicesObj).join(", "),
+          message,
+          today: new Date().toLocaleDateString(),
+        },
+        "eGprami_KJ8WxKCnu"     // public key from EmailJS
+      );
 
+      if (result.status === 200) {
+        setStatus("✅ Email sent successfully!");
+        return { success: true, result };
+      } else {
+        setStatus("❌ Failed to send email.");
+        return { success: false, result };
+      }
+    } catch (error) {
+      console.error("EmailJS send error:", error);
+      setStatus("❌ Failed to send email.");
+      return { success: false, error };
+    }
   };
 
   return { status, sendEmail };
 };
 
+
+
 export default useEmailAPI;
 
 
 // EmailAPI.js
+
+
+// const useEmailAPI = () => {
+//   const [status, setStatus] = useState("");
+
+//   const sendEmail = async (formData) => {
+//     const {
+//       name,
+//       organization,
+//       email,
+//       phone,
+//       address,
+//       country,
+//       message,
+//       selectedServices,
+//       customService,
+//     } = formData;
+
+//     console.log("Extracted formData:", name, selectedServices);
+
+//     // Build services object once
+//     const servicesObj = {};
+//     if (Array.isArray(selectedServices)) {
+//       selectedServices.forEach((s) => {
+//         servicesObj[s] = true;
+//       });
+//     }
+
+//     setStatus("Sending...");
+
+//     try {
+//       const result = await emailjs.send(
+//         "service_dv1m7ty", // Service ID (EmailJS dashboard)
+//         "template_ayhcopf", // Template ID (EmailJS dashboard)
+//         {
+//           name,
+//           phone,
+//           organization,
+//           email,
+//           country,
+//           address,
+//           service: customService || Object.keys(servicesObj).join(", "),
+//           message,
+//           today: new Date().toLocaleDateString(),
+//         },
+//         "eGprami_KJ8WxKCnu" // Public Key (EmailJS account)
+//       );
+
+//       // With @emailjs/browser, result.text is usually "OK"
+//       if (result.text === "OK") {
+//         setStatus("✅ Email sent successfully!");
+//         return { success: true, result };
+//       } else {
+//         setStatus("❌ Failed to send email.");
+//         return { success: false, result };
+//       }
+//     } catch (error) {
+//       console.error("EmailJS send error:", error);
+//       setStatus("❌ Failed to send email.");
+//       return { success: false, error };
+//     }
+//   };
+
+//   return { status, sendEmail };
+// };
+
+// export default useEmailAPI;

@@ -3,9 +3,9 @@ import { Facebook, Youtube, Linkedin } from 'lucide-react';
 
 // --- Data for Social Links ---
 const socialLinks = [
-  { href: "https://facebook.com", label: "Facebook", icon: Facebook },
-  { href: "https://youtube.com", label: "YouTube", icon: Youtube },
-  { href: "https://linkedin.com", label: "LinkedIn", icon: Linkedin },
+  { href: "https://www.facebook.com/eimctanepal", label: "Facebook", icon: Facebook },
+  { href: "https://www.youtube.com/@ISO.EIMCTA", label: "YouTube", icon: Youtube },
+  { href: "https://www.instagram.com/everest_consultrain/", label: "LinkedIn", icon: Linkedin },
 ];
 
 // --- TopHeader Component ---

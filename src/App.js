@@ -44,6 +44,7 @@ function App() {
         <TopHeader />
         <TopContactBar />
         <Navbar />
+        
         <Routes>
           <Route path="/" element={
             <PageTransitionWrapper> <Home /></PageTransitionWrapper>} />
@@ -114,8 +115,6 @@ function App() {
           {/* <Route path="/neboshDiplomaUk" element={<Permit_to_Work_System_PTW />} />  */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-
-        <Quote />
 
         <Chat />
         <ScrollToTopButton />

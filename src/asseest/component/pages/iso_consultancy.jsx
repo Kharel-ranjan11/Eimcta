@@ -3,6 +3,7 @@ import { motion, useAnimation, useInView } from "framer-motion";
 import consultationProcess from '../../img/ISO Consultation Process_ - visual selection (1).png'
 import Image from '../utilities/image';
 import BusinessQuoteForm from './form';
+import VideoPlayer from '../utilities/Video';
 
 const Icon = ({ name, className }) => {
   const icons = {
@@ -79,22 +80,6 @@ const Icon = ({ name, className }) => {
 };
 
 
-
-const VideoPlayer = () => (
-  <div className="my-20 p-8 bg-white rounded-3xl shadow-md border border-amber-200">
-    <h2 className="text-3xl font-bold text-center mb-8 text-amber-900">
-      Our Process Explained
-    </h2>
-    <div className="aspect-w-16 aspect-h-9 bg-amber-100 rounded-2xl flex items-center justify-center">
-      <div className="text-center text-amber-700">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20 mx-auto" viewBox="0 0 20 20" fill="currentColor">
-          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-        </svg>
-        <p className="mt-2 font-semibold">Video Placeholder</p>
-      </div>
-    </div>
-  </div>
-);
 
 // --- ANIMATION VARIANTS & COMPONENTS ---
 const heroTitleVariant = {

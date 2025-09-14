@@ -1,208 +1,146 @@
 import React, { useState, useRef, useEffect } from 'react';
-import ReactPlayer from 'react-player';
+import { useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 
-const VideoPlayer = ({ src, title }) => {
+// This is the component the user provided, with minor adjustments for self-containment.
+const VideoPlayer = ({
+  src = "https://www.youtube.com/watch?v=zWLykaz3YYM&t=14s",
+  title,
+  autoPlay = true,
+  showTitle = true,
+  showSourceInfo = true,
+  containerWidth = "80%",
+  borderColor = "amber-700",
+  bgColor = "amber-200",
+  iconColor = "text-amber-800",
+  textColor = "text-amber-900"
+}) => {
   const [hasError, setHasError] = useState(false);
-  const [isReady, setIsReady] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(0.8);
-  const [played, setPlayed] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const playerRef = useRef(null);
+  const [playVideo, setPlayVideo] = useState(false);
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { margin: '-20%' });
 
-  const handleError = (error) => {
-    console.error('Video player error:', error);
+  // Auto-play when in view (for autoplay mode)
+  useEffect(() => {
+    if (autoPlay) {
+      if (isInView) {
+        setPlayVideo(true);
+      } else if (!isInView) {
+        setPlayVideo(false);
+      }
+    }
+  }, [isInView, autoPlay]);
+
+  const handleError = () => {
+    console.error('Video player error');
     setHasError(true);
   };
 
-  const handleReady = () => {
-    setIsReady(true);
-    setHasError(false);
+  const handlePlayClick = () => {
+    setPlayVideo(true);
   };
 
-  const handlePlay = () => setIsPlaying(true);
-  const handlePause = () => setIsPlaying(false);
-  const handleVolumeChange = (e) => setVolume(parseFloat(e.target.value));
-  const handleProgress = (state) => {
-    setPlayed(state.played);
+  // Extract YouTube video ID for thumbnail
+  const getYouTubeId = (url) => {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
   };
 
-  const handleDuration = (duration) => {
-    setDuration(duration);
-  };
-
-  const formatTime = (seconds) => {
-    const date = new Date(seconds * 1000);
-    const hh = date.getUTCHours();
-    const mm = date.getUTCMinutes();
-    const ss = date.getUTCSeconds().toString().padStart(2, '0');
-    
-    if (hh > 0) {
-      return `${hh}:${mm.toString().padStart(2, '0')}:${ss}`;
-    }
-    return `${mm}:${ss}`;
-  };
-
-  // Reset states when src changes
-  useEffect(() => {
-    setHasError(false);
-    setIsReady(false);
-    setIsPlaying(false);
-    setPlayed(0); 
-  }, [src]);
+  const ytVideoId = getYouTubeId(src);
+  const ytThumbnail = ytVideoId ? `https://img.youtube.com/vi/${ytVideoId}/hqdefault.jpg` : null;
 
   return (
-    <div className="w-[80%] mx-auto mb-8">
+    <motion.div
+      ref={containerRef}
+      className="mx-auto mb-8 p-4"
+      style={{ width: containerWidth }}
+    >
       {/* Header with title */}
-      {title && (
-        <div className="mb-4">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
+      {showTitle && title && (
+        <div className="mb-4 text-center">
+          <h2 className="text-2xl text-amber-800 dark:text-white font-bold">
             {title}
           </h2>
         </div>
       )}
 
       {/* Video Player Container */}
-      <div className="relative bg-black rounded-xl overflow-hidden shadow-2xl">
-        {/* Loading State */}
-        {!isReady && !hasError && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-900 z-10">
-            <div className="text-center">
-              <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-white text-lg">Loading video...</p>
-            </div>
+      <motion.div className="space-y-6">
+        <div className="space-y-4">
+          <div className="flex items-center justify-center md:justify-start">
+            <h3 className={`text-lg font-bold ${textColor}`}>Our Videos</h3>
           </div>
-        )}
 
-        {/* Error State */}
-        {hasError && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-900 z-10">
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </div>
-              <h3 className="text-white text-xl font-semibold mb-2">Video Loading Failed</h3>
-              <p className="text-gray-300 mb-4">Unable to load the video. Please check the URL or try another video.</p>
-              <button
-                onClick={() => window.location.reload()}
-                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-              >
-                Try Again
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* React Player */}
-        <ReactPlayer
-          ref={playerRef}
-          url={src}
-          width="100%"
-          height="100%"
-          playing={isPlaying}
-          volume={volume}
-          controls={false}
-          onReady={handleReady}
-          onError={handleError}
-          onPlay={handlePlay}
-          onPause={handlePause}
-          onProgress={handleProgress}
-          onDuration={handleDuration}
-          style={{
-            aspectRatio: '16/9',
-            opacity: isReady ? 1 : 0
-          }}
-          config={{
-            file: {
-              attributes: {
-                crossOrigin: 'anonymous',
-              },
-              forceVideo: true,
-            },
-          }}
-        />
-
-        {/* Custom Controls */}
-        {isReady && (
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-            {/* Progress Bar */}
-            <div className="mb-3">
-              <div className="w-full bg-gray-600 h-1 rounded-full cursor-pointer">
-                <div
-                  className="bg-blue-500 h-1 rounded-full transition-all"
-                  style={{ width: `${played * 100}%` }}
-                />
-              </div>
-              <div className="flex justify-between text-xs text-gray-300 mt-1">
-                <span>{formatTime(played * duration)}</span>
-                <span>{formatTime(duration)}</span>
-              </div>
-            </div>
-
-            {/* Control Buttons */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                {/* Play/Pause Button */}
-                <button
-                  onClick={() => setIsPlaying(!isPlaying)}
-                  className="text-white hover:text-blue-400 transition-colors"
-                >
-                  {isPlaying ? (
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-                    </svg>
-                  ) : (
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <motion.div
+            className={`relative overflow-hidden rounded-lg border-2 border-${borderColor} shadow-md cursor-pointer flex items-center justify-center ${bgColor}`}
+            style={{ aspectRatio: '16 / 9' }}
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+          >
+            {playVideo ? (
+              <iframe
+                className="w-full h-full"
+                src={`https://www.youtube.com/embed/${ytVideoId}?autoplay=1&rel=0`}
+                title="YouTube video"
+                frameBorder="0"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+                onError={handleError}
+              />
+            ) : (
+              <>
+                <img src={ytThumbnail} alt="YouTube Video Thumbnail" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40" onClick={handlePlayClick}>
+                  <div className="w-16 h-16 flex items-center justify-center rounded-full bg-red-600 bg-opacity-80">
+                    <svg viewBox="0 0 24 24" className="w-8 h-8 fill-white ml-1">
                       <path d="M8 5v14l11-7z" />
                     </svg>
-                  )}
-                </button>
-
-                {/* Volume Control */}
-                <div className="flex items-center space-x-2">
-                  <svg className="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
-                  </svg>
-                  <input
-                    type="range"
-                    min="0"
-                    max="1"
-                    step="0.1"
-                    value={volume}
-                    onChange={handleVolumeChange}
-                    className="w-20 h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white"
-                  />
+                  </div>
                 </div>
-              </div>
+              </>
+            )}
+          </motion.div>
+        </div>
+      </motion.div>
 
-              {/* Fullscreen Button (optional) */}
-              <button
-                onClick={() => {
-                  if (playerRef.current && playerRef.current.wrapper) {
-                    playerRef.current.wrapper.requestFullscreen();
-                  }
-                }}
-                className="text-white hover:text-blue-400 transition-colors"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" />
-                </svg>
-              </button>
-            </div>
+      {/* Video URL info with link to original source */}
+      {showSourceInfo && (
+        <div className="mt-3 p-3 bg-amber-100 dark:bg-amber-800 rounded-lg">
+          <p className="text-sm text-gray-600 dark:text-gray-400 break-all font-bold">
+            <span className="font-semibold">Source:</span>{' '}
+            <a
+              href={src}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-amber-600 dark:text-amber-300 hover:underline"
+            >
+              {src}
+            </a>
+          </p>
+          {autoPlay && (
+            <p className="text-sm text-amber-600 dark:text-amber-300 mt-1 font-bold">
+              <span className="font-semibold">Auto-play:</span> Enabled (plays when 80% in view)
+            </p>
+          )}
+
+          {/* Link to original page */}
+          <div className="mt-2">
+            <a
+              href={src}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-amber-600 dark:text-amber-300 hover:underline text-sm font-bold"
+            >
+              <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
+              </svg>
+              Watch on original site
+            </a>
           </div>
-        )}
-      </div>
-
-      {/* Video URL info */}
-      <div className="mt-3 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
-        <p className="text-sm text-gray-600 dark:text-gray-400 break-all">
-          <span className="font-semibold">Source:</span> {src}
-        </p>
-      </div>
-    </div>
+        </div>
+      )}
+    </motion.div>
   );
 };
-
 export default VideoPlayer;

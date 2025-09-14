@@ -73,9 +73,8 @@ export default function BusinessQuoteForm() {
 
       setFormData((prev) => ({
         ...prev,
-        address: `${data.city || ""}, ${
-          admin.find((a) => a.adminLevel === 6)?.name || ""
-        }, ${admin.find((a) => a.adminLevel === 4)?.name || ""}`
+        address: `${data.city || ""}, ${admin.find((a) => a.adminLevel === 6)?.name || ""
+          }, ${admin.find((a) => a.adminLevel === 4)?.name || ""}`
           .trim()
           .replace(/^,\s*|,\s*$/g, ""),
         country: data.countryName || prev.country,
@@ -137,8 +136,8 @@ export default function BusinessQuoteForm() {
       newErrors.selectedServices = "Please select at least one service";
     return newErrors;
   };
-  const { status, sendEmail } = useEmailAPI();
 
+  const { status, sendEmail } = useEmailAPI();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -154,10 +153,13 @@ export default function BusinessQuoteForm() {
 
     const result = await sendEmail(formData);
     setIsSubmitting(false);
-    setSubmitStatus(result);
-    
-console.log(status)
-    if (result.success) {
+
+    // ✅ Handle EmailJS result (success or error)
+    if (result?.success) {
+      setSubmitStatus({
+        success: true,
+        message: result.message || "Inquiry submitted successfully!",
+      });
       setFormData({
         name: "",
         organization: "",
@@ -169,6 +171,15 @@ console.log(status)
         selectedServices: [],
         customService: "",
       });
+    } else {
+      // Handle result.error as string, array, or object
+      let errorMsg = "Failed to submit inquiry.";
+      if (result?.error) {
+        if (typeof result.error === "string") errorMsg = result.error;
+        else if (Array.isArray(result.error)) errorMsg = result.error.join(", ");
+        else if (typeof result.error === "object" && result.error.text) errorMsg = result.error.text;
+      }
+      setSubmitStatus({ success: false, message: errorMsg });
     }
   };
 
@@ -330,9 +341,8 @@ const InputField = ({ label, icon, error, ...props }) => (
       </div>
       <input
         {...props}
-        className={`pl-12 w-full border ${
-          error ? "border-red-400" : "border-gray-300"
-        } rounded-lg px-4 py-3 focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 outline-none transition hover:border-amber-300`}
+        className={`pl-12 w-full border ${error ? "border-red-400" : "border-gray-300"
+          } rounded-lg px-4 py-3 focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 outline-none transition hover:border-amber-300`}
       />
     </div>
     {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
@@ -357,11 +367,10 @@ const ServicesDropdown = ({
       Services Interested *
     </label>
     <div
-      className={`flex flex-wrap gap-2 p-2 border rounded-lg min-h-[50px] transition ${
-        errors.selectedServices
-          ? "border-red-400"
-          : "border-gray-300 hover:border-amber-300"
-      }`}
+      className={`flex flex-wrap gap-2 p-2 border rounded-lg min-h-[50px] transition ${errors.selectedServices
+        ? "border-red-400"
+        : "border-gray-300 hover:border-amber-300"
+        }`}
     >
       {formData.selectedServices.length > 0 ? (
         formData.selectedServices.map((service) => (

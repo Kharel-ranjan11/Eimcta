@@ -5,6 +5,7 @@ import Image from '../utilities/image';
 import ISOCertificationForm from '../utilities/gloabal';
 import certificateProcess from '../../img/certificateprocess.png'
 import BusinessQuoteForm from './form';
+import ISOShowcase from './Glob_rec';
 
 const ISO_certification = () => {
   const containerVariants = {
@@ -107,8 +108,9 @@ const ISO_certification = () => {
               A Step-by-Step Guide to Achieving ISO Certification
             </motion.p>
           </header>
-          <Image src={certificateProcess} alt={certificateProcess} caption="Certification Process " />
+          <Image src={certificateProcess} alt={certificateProcess} caption=" " />
           <ISOCertificationForm/>
+          <ISOShowcase />
           {/* Introduction */}
           <section className="p-8 border-b border-gray-100">
             <motion.p

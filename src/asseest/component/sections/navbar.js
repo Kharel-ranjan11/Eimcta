@@ -193,7 +193,7 @@ const Navbar = () => {
       const hasChildren = item.children && item.children.length > 0;
 
       return (
-        <div key={key} className="relative group">
+        <div key={key} className="relative group p-2">
           <div className="flex items-center justify-between">
             <NavLink
               to={item.path}
@@ -204,7 +204,7 @@ const Navbar = () => {
               }}
               className={({ isActive }) =>
                 `flex items-center flex-grow px-4 py-2 text-sm rounded-md transition-all duration-300 ${isActive && !hasChildren
-                  ? "bg-amber-700 text-white"
+                  ? "bg-amber-400 text-white"
                   : "text-gray-700 hover:bg-amber-50 hover:text-amber-700"
                 }`
               }
@@ -241,16 +241,17 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`sticky top-0 z-50 transition-all duration-300 font-['Arial_Narrow'] font-bold ${scrolled ? "bg-amber-600 shadow-lg py-0" : "bg-amber-600 shadow-md py-2"
+      className={`sticky top-0 z-50 transition-all 
+         duration-300 font-['Arial_Narrow'] font-bold ${scrolled ? "bg-amber-600 shadow-lg py-0" : "bg-amber-600 shadow-md py-2"
         }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-evenly h-16">
           {/* Logo - visible on mobile and desktop */}
           <div className="flex-shrink-0 lg:hidden md:hidden sm:block  items-center">
             <img
-              className="h-10 w-auto"
-              src="https://placehold.co/100x40/ffffff/a855f7?text=Logo"
+              className="h-auto w-28"
+              src={logo}
               alt="Logo"
             />
           </div>
@@ -355,7 +356,7 @@ const Navbar = () => {
                 {hasChildren && (
                   <div
                     className="overflow-hidden transition-all duration-500 ease-in-out"
-                    style={{ maxHeight: expandedItems[key] ? `${item.children.length * 90}px` : "0px" }}
+                    style={{ maxHeight: expandedItems[key] ? `${item.children.length * 18}rem` : "0px" }}
                   >
                     <div className="mt-1 ml-4 pl-2 space-y-1 border-l-2 border-amber-200">
                       {renderMobileDropdownItems(item.children, 1, key)}

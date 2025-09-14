@@ -78,7 +78,7 @@ const TopContactBar = () => {
   }, [inView]);
 
   return (
-    <motion.header 
+    <motion.header
       ref={ref}
       initial={{ opacity: 0 }}
       animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
@@ -88,10 +88,10 @@ const TopContactBar = () => {
       <style>
         {`
           @keyframes pulse {
-            50% { opacity: .5; }
+            50% { opacity: .2; }
           }
           .animate-pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            animation: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
           }
         `}
       </style>
@@ -122,8 +122,8 @@ const TopContactBar = () => {
           <AnimatedContactItem
             icon={<Mail size={44} strokeWidth={1.5} />}
             title="Email Us"
-            subtitle="info@example.com"
-            href="mailto:info@example.com"
+            subtitle="info@everestconsultrain.com"
+            href="mailto:info@everestconsultrain.com"
             hideIconOnMobile={true}
             index={1}
           />
@@ -131,8 +131,8 @@ const TopContactBar = () => {
           <AnimatedContactItem
             icon={<Phone size={44} strokeWidth={1.5} />}
             title="Contact Us"
-            subtitle="+1234567890"
-            href="tel:+1234567890"
+            subtitle="+977-01-5903211"
+            href="+977-01-5903211"
             hideIconOnMobile={true}
             index={2}
           />

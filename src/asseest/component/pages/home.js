@@ -78,9 +78,7 @@ const Home = () => {
 
       <AboutCard />
       {/* ===== BRANDING ===== */}
-
-
-
+      
       {/* ===== MODAL ===== */}
       <ModalPage />
       <Branding />
