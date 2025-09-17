@@ -251,7 +251,7 @@ export default function ISO9001Certification() {
                 </motion.div>
                 
                 {/* --- Video Section --- */}
-               {/* <VideoPlayer url="https://www.youtube.com/watch?v=kiDe9QhUpDM&t=1s" /> */}
+               <VideoPlayer url="https://www.youtube.com/watch?v=kiDe9QhUpDM&t=1s" title="ISO 9001:20" />
 
             </div>
         </div>

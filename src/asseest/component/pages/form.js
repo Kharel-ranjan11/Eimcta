@@ -12,7 +12,8 @@ import {
   ChevronDown,
   X,
 } from "lucide-react";
-import useEmailAPI from "../utilities/SocialMedia/AllApi"; // ✅ updated import
+import useEmailAPI from "../utilities/SocialMedia/AllApi"; 
+import ConfettiEffect from "../utilities/confeetie.jsx";
 
 export default function BusinessQuoteForm() {
   const form = useRef();
@@ -50,8 +51,7 @@ export default function BusinessQuoteForm() {
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null); // null | { success, message }
-
+  const [submitStatus, setSubmitStatus] = useState(null); // { success, message }
   const [showDropdown, setShowDropdown] = useState(false);
   const [showCustomInput, setShowCustomInput] = useState(false);
 
@@ -143,6 +143,7 @@ export default function BusinessQuoteForm() {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus(null);
+    
 
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
@@ -154,7 +155,6 @@ export default function BusinessQuoteForm() {
     const result = await sendEmail(formData);
     setIsSubmitting(false);
 
-    // ✅ Handle EmailJS result (success or error)
     if (result?.success) {
       setSubmitStatus({
         success: true,
@@ -172,7 +172,6 @@ export default function BusinessQuoteForm() {
         customService: "",
       });
     } else {
-      // Handle result.error as string, array, or object
       let errorMsg = "Failed to submit inquiry.";
       if (result?.error) {
         if (typeof result.error === "string") errorMsg = result.error;
@@ -194,7 +193,8 @@ export default function BusinessQuoteForm() {
         </p>
 
         <form ref={form} onSubmit={handleSubmit} className="grid grid-cols-1 gap-6">
-          {/* Name + Organization */}
+          {/* Inputs */}
+           {/* <ConfettiEffect /> */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <InputField
               label="Name *"
@@ -216,7 +216,6 @@ export default function BusinessQuoteForm() {
             />
           </div>
 
-          {/* Email + Phone */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <InputField
               label="Email *"
@@ -240,7 +239,6 @@ export default function BusinessQuoteForm() {
             />
           </div>
 
-          {/* Address + Country */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <InputField
               label="Address *"
@@ -262,7 +260,6 @@ export default function BusinessQuoteForm() {
             />
           </div>
 
-          {/* Services */}
           <ServicesDropdown
             servicesInterested={servicesInterested}
             formData={formData}
@@ -276,7 +273,6 @@ export default function BusinessQuoteForm() {
             addCustomService={addCustomService}
           />
 
-          {/* Message */}
           <div className="group">
             <label className="block text-sm font-bold text-gray-700 mb-1">
               Message
@@ -296,7 +292,6 @@ export default function BusinessQuoteForm() {
             </div>
           </div>
 
-          {/* Submit */}
           <div className="text-center">
             <button
               type="submit"
@@ -313,7 +308,6 @@ export default function BusinessQuoteForm() {
             </button>
           </div>
 
-          {/* Status */}
           {submitStatus && (
             <div
               className={`mt-4 p-4 rounded-lg text-center transition-all ${
@@ -325,13 +319,16 @@ export default function BusinessQuoteForm() {
               {submitStatus.message}
             </div>
           )}
+
+          {/* 🎉 Confetti shown only when success */}
+          {submitStatus?.success && <ConfettiEffect />}
         </form>
       </div>
     </main>
   );
 }
 
-// 🔹 Reusable InputField
+// 🔹 InputField
 const InputField = ({ label, icon, error, ...props }) => (
   <div className="group">
     <label className="block text-sm font-bold text-gray-700 mb-1">{label}</label>
@@ -349,7 +346,7 @@ const InputField = ({ label, icon, error, ...props }) => (
   </div>
 );
 
-// 🔹 Services Dropdown
+// 🔹 ServicesDropdown
 const ServicesDropdown = ({
   servicesInterested,
   formData,

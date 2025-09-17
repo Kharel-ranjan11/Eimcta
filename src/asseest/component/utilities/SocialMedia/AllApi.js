@@ -105,7 +105,7 @@ const useEmailAPI = () => {
     try {
       const result = await emailjs.send(
         "service_dv1m7ty",  // from EmailJS dashboard
-        "template_zu4cn9o",// from EmailJS dashboard
+        "template_58axzzh",// from template id  dashboard
         {
           name,
           phone,
@@ -122,6 +122,7 @@ const useEmailAPI = () => {
 
       if (result.status === 200) {
         setStatus("✅ Email sent successfully!");
+        console.log(result)
         return { success: true, result };
       } else {
         setStatus("❌ Failed to send email.");

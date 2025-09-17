@@ -44,7 +44,7 @@ function App() {
         <TopHeader />
         <TopContactBar />
         <Navbar />
-        
+
         <Routes>
           <Route path="/" element={
             <PageTransitionWrapper> <Home /></PageTransitionWrapper>} />
